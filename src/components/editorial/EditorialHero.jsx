@@ -10,7 +10,7 @@ const HERO_SLIDES = [
     subtitle: 'Heavyweight French Terry Cotton. Combed loopback interior with dropped-shoulder loose drape.',
     ctaPrimary: { label: 'SHOP T-SHIRTS', category: 'T-Shirts' },
     ctaSecondary: { label: 'EXPLORE ALL 52 PIECES', category: 'all' },
-    image: '/images/hero_campaign_1.jpg'
+    image: '/images/hero_campaign_1.webp'
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const HERO_SLIDES = [
     subtitle: 'Air-cooled 60/40 French linen blend shirts with natural drape and relaxed comfort.',
     ctaPrimary: { label: 'EXPLORE LINEN SHIRTS', category: 'Shirts' },
     ctaSecondary: { label: 'VIEW ALL SHIRTS', category: 'Shirts' },
-    image: '/images/hero_campaign_2.jpg'
+    image: '/images/hero_campaign_2.webp'
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const HERO_SLIDES = [
     subtitle: 'Substantial weight, shape-retaining micro-rib collar, and dropped-shoulder boxy fit.',
     ctaPrimary: { label: 'SHOP BEST SELLERS', category: 'best-sellers' },
     ctaSecondary: { label: 'EXPLORE ALL', category: 'all' },
-    image: '/images/hero_campaign_3.jpg'
+    image: '/images/hero_campaign_3.webp'
   }
 ];
 
