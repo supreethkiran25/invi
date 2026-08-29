@@ -348,6 +348,80 @@
   color: #FFFFFF;
 }
 
+@media (max-width: 768px) {
+  .product-card {
+    border-radius: var(--radius-xs);
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .product-card-media {
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    background-color: #FFFFFF;
+  }
+
+  .product-card-img {
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  .card-wishlist-btn {
+    top: 5px;
+    right: 5px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .product-card-info {
+    padding: 6px 6px 8px 6px;
+  }
+
+  .product-card-fabric {
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+  }
+
+  .product-card-title {
+    font-size: 0.74rem;
+    line-height: 1.2;
+    min-height: auto;
+    margin-bottom: 2px;
+  }
+
+  .product-card-price-row {
+    gap: 4px;
+    margin-top: 2px;
+  }
+
+  .price-current {
+    font-size: 0.82rem;
+  }
+
+  .price-compare {
+    font-size: 0.68rem;
+  }
+
+  .price-discount {
+    font-size: 0.58rem;
+    padding: 1px 3px;
+  }
+
+  .card-action-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin-top: 6px;
+  }
+
+  .card-quick-btn {
+    height: 28px;
+    font-size: 0.6rem;
+    letter-spacing: 0.02em;
+    padding: 0 2px;
+  }
+}
+
 /* ==========================================================================
    3. PRODUCT GRID & RHYTHMS
    ========================================================================== */
@@ -385,7 +459,7 @@
   .products-grid-4,
   .product-grid-4 {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px 8px !important;
+    gap: 8px !important;
   }
 }
 
@@ -1548,41 +1622,91 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  margin-bottom: 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .collection-toolbar {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
 }
 
 .filter-toggle-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 9px 16px;
+  padding: 8px 14px;
   background-color: #0A0A0A;
   color: #FFFFFF;
   border: 1px solid #0A0A0A;
   border-radius: var(--radius-xs);
   font-family: var(--font-sans);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .filter-toggle-btn:hover {
   background-color: #262626;
 }
 
-.active-filter-tags {
+.toolbar-sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sort-label {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sort-select {
+  padding: 7px 10px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0A0A0A;
+  outline: none;
+  cursor: pointer;
+  max-width: 170px;
+}
+
+@media (max-width: 480px) {
+  .sort-select {
+    max-width: 140px;
+    padding: 6px 8px;
+    font-size: 0.62rem;
+  }
+}
+
+.active-filter-tags-row {
   display: flex;
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 .filter-badge {
   font-family: var(--font-sans);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   background-color: var(--bg-subtle);
   color: #0A0A0A;
@@ -1599,7 +1723,7 @@
 
 .clear-filters-btn {
   font-family: var(--font-sans);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: #DC2626;
   text-decoration: underline;

@@ -173,58 +173,17 @@ export default function ShopPage({ routeParams, navigate }) {
 
       {/* Collection Control Toolbar */}
       <div className="collection-toolbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <button
-            className="filter-toggle-btn"
-            onClick={() => setIsMobileFilterOpen(true)}
-            aria-label="Filter products"
-          >
-            <span>FILTERS {activeFilterCount > 0 && `(${activeFilterCount})`}</span>
-          </button>
-
-          {/* Active Filter Tags */}
-          <div className="active-filter-tags">
-            {selectedSizes.map((size) => (
-              <span
-                key={size}
-                className="filter-badge"
-                onClick={() => toggleSize(size)}
-                title="Remove size filter"
-              >
-                SIZE: {size} ✕
-              </span>
-            ))}
-            {selectedColors.map((color) => (
-              <span
-                key={color}
-                className="filter-badge"
-                onClick={() => toggleColor(color)}
-                title="Remove color filter"
-              >
-                COLOR: {color.toUpperCase()} ✕
-              </span>
-            ))}
-            {selectedPriceRange && (
-              <span
-                key="price"
-                className="filter-badge"
-                onClick={() => setSelectedPriceRange(null)}
-                title="Remove price filter"
-              >
-                {selectedPriceRange.label.toUpperCase()} ✕
-              </span>
-            )}
-            {activeFilterCount > 0 && (
-              <button onClick={clearAllFilters} className="clear-filters-btn">
-                CLEAR ALL
-              </button>
-            )}
-          </div>
-        </div>
+        <button
+          className="filter-toggle-btn"
+          onClick={() => setIsMobileFilterOpen(true)}
+          aria-label="Filter products"
+        >
+          <span>FILTERS {activeFilterCount > 0 && `(${activeFilterCount})`}</span>
+        </button>
 
         {/* Sort Select */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+        <div className="toolbar-sort-wrapper">
+          <span className="sort-label">
             SORT:
           </span>
           <select
@@ -233,13 +192,52 @@ export default function ShopPage({ routeParams, navigate }) {
             className="sort-select"
             aria-label="Sort products by"
           >
-            <option value="featured">FEATURED / CURATED</option>
+            <option value="featured">FEATURED</option>
             <option value="price-asc">PRICE: LOW TO HIGH</option>
             <option value="price-desc">PRICE: HIGH TO LOW</option>
-            <option value="newest">NEWEST RELEASES FIRST</option>
+            <option value="newest">NEWEST FIRST</option>
           </select>
         </div>
       </div>
+
+      {/* Active Filter Tags */}
+      {activeFilterCount > 0 && (
+        <div className="active-filter-tags-row">
+          {selectedSizes.map((size) => (
+            <span
+              key={size}
+              className="filter-badge"
+              onClick={() => toggleSize(size)}
+              title="Remove size filter"
+            >
+              SIZE: {size} ✕
+            </span>
+          ))}
+          {selectedColors.map((color) => (
+            <span
+              key={color}
+              className="filter-badge"
+              onClick={() => toggleColor(color)}
+              title="Remove color filter"
+            >
+              COLOR: {color.toUpperCase()} ✕
+            </span>
+          ))}
+          {selectedPriceRange && (
+            <span
+              key="price"
+              className="filter-badge"
+              onClick={() => setSelectedPriceRange(null)}
+              title="Remove price filter"
+            >
+              {selectedPriceRange.label.toUpperCase()} ✕
+            </span>
+          )}
+          <button onClick={clearAllFilters} className="clear-filters-btn">
+            CLEAR ALL
+          </button>
+        </div>
+      )}
 
       {/* Multi-Column Side-by-Side Product Grid */}
       <ProductGrid products={filteredProducts} navigate={navigate} columns={4} />

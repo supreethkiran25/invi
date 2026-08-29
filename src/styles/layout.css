@@ -1348,18 +1348,47 @@
   }
 }
 
-@media (max-width: 480px) {
-  .invi-container {
+@media (max-width: 768px) {
+  .site-header .header-inner {
     padding-left: 12px !important;
     padding-right: 12px !important;
   }
 
+  .header-left-cluster {
+    gap: 8px !important;
+  }
+
   .header-actions {
-    gap: 2px;
+    gap: 2px !important;
   }
 
   .header-action-btn {
-    width: 34px;
-    height: 34px;
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .invi-container {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .site-header .header-inner {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .header-left-cluster {
+    gap: 6px !important;
+  }
+
+  .header-actions {
+    gap: 1px !important;
+  }
+
+  .header-action-btn {
+    width: 30px !important;
+    height: 30px !important;
   }
 }
