@@ -64,7 +64,7 @@ export default function Header({ currentRoute, navigate }) {
             onClick={openMobileNav}
             aria-label="Open navigation menu"
           >
-            <Menu size={20} strokeWidth={1.8} />
+            <Menu size={24} strokeWidth={2} />
           </button>
 
           <a
@@ -76,7 +76,7 @@ export default function Header({ currentRoute, navigate }) {
             className="header-logo-link"
             aria-label="INVI - Indian Versatile Individual"
           >
-            <InviLogo variant={isTransparent ? 'light' : 'dark'} height={22} />
+            <InviLogo variant={isTransparent ? 'light' : 'dark'} height={28} />
           </a>
         </div>
 
@@ -96,7 +96,8 @@ export default function Header({ currentRoute, navigate }) {
             >
               <span>COLLECTIONS</span>
               <ChevronDown
-                size={13}
+                size={15}
+                strokeWidth={2.2}
                 className={`dropdown-chevron ${activeDropdown === 'collections' ? 'rotate' : ''}`}
               />
             </button>
@@ -210,7 +211,8 @@ export default function Header({ currentRoute, navigate }) {
             >
               <span>ATELIER & CARE</span>
               <ChevronDown
-                size={13}
+                size={15}
+                strokeWidth={2.2}
                 className={`dropdown-chevron ${activeDropdown === 'atelier' ? 'rotate' : ''}`}
               />
             </button>
@@ -266,7 +268,7 @@ export default function Header({ currentRoute, navigate }) {
             aria-label="Search collection"
             title="Search"
           >
-            <Search size={18} strokeWidth={1.8} />
+            <Search size={21} strokeWidth={2} />
           </button>
 
           {/* Account / VIP Hub */}
@@ -276,7 +278,7 @@ export default function Header({ currentRoute, navigate }) {
             aria-label="VIP Account"
             title="Account & Orders"
           >
-            <User size={18} strokeWidth={1.8} />
+            <User size={21} strokeWidth={2} />
           </button>
 
           {/* Wishlist */}
@@ -286,7 +288,7 @@ export default function Header({ currentRoute, navigate }) {
             aria-label={`Wishlist (${wishlistCount} items)`}
             title="Saved Items"
           >
-            <Heart size={18} strokeWidth={1.8} />
+            <Heart size={21} strokeWidth={2} />
             {wishlistCount > 0 && (
               <span className="wishlist-count-badge">{wishlistCount}</span>
             )}
@@ -299,7 +301,7 @@ export default function Header({ currentRoute, navigate }) {
             aria-label={`Shopping bag (${cartCount} items)`}
             title="Shopping Bag"
           >
-            <ShoppingBag size={18} strokeWidth={1.8} />
+            <ShoppingBag size={21} strokeWidth={2} />
             {cartCount > 0 && (
               <span className="cart-count-badge">{cartCount}</span>
             )}

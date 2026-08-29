@@ -73,8 +73,8 @@
 
   /* Header & Navigation Heights */
   --announcement-height: 0px;
-  --header-height: 64px;
-  --total-header-height: 64px;
+  --header-height: 72px;
+  --total-header-height: 72px;
 
   /* Explicit Layering Tokens */
   --z-base: 1;
