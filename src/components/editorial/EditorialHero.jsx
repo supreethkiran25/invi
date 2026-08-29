@@ -52,7 +52,7 @@ export default function EditorialHero({ navigate }) {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPaused, currentIndex]);
+  }, [isPaused]);
 
   const activeSlide = HERO_SLIDES[currentIndex];
 

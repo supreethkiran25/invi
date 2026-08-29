@@ -1,11 +1,11 @@
 // src/components/product/ProductCard.jsx
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Heart } from 'lucide-react';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCart } from '../../context/CartContext';
 import { useUI } from '../../context/UIContext';
 
-export default function ProductCard({ product, navigate }) {
+function ProductCard({ product, navigate }) {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [showSizePicker, setShowSizePicker] = useState(false);
   const [pickerAction, setPickerAction] = useState('buynow'); // 'buynow' | 'cart'
@@ -57,7 +57,7 @@ export default function ProductCard({ product, navigate }) {
 
   return (
     <div
-      className="product-card"
+      className="product-card is-revealed"
       onClick={handleCardClick}
       onMouseEnter={() => hasSecondary && setCurrentImgIndex(1)}
       onMouseLeave={() => setCurrentImgIndex(0)}
@@ -69,6 +69,7 @@ export default function ProductCard({ product, navigate }) {
           alt={product.name}
           className="product-card-img"
           loading="lazy"
+          decoding="async"
         />
 
         {/* Typographic Badges */}
@@ -181,3 +182,5 @@ export default function ProductCard({ product, navigate }) {
     </div>
   );
 }
+
+export default memo(ProductCard);

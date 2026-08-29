@@ -187,14 +187,31 @@ export default function Hero3DCanvas({ scrollProgress = 0 }) {
         leftPlane.position.z = -2.8 + p * 3.5;
         leftPlane.position.y = -0.4 + idleFloat * 0.8 + p * 0.5;
 
-        rightPlane.position.x = 3.5 + p * 2.2 + currentX * 0.15;
-        rightPlane.position.z = -2.8 + p * 3.5;
-        rightPlane.position.y = 0.4 + idleFloat * 0.8 + p * 0.5;
-      }
+      camera.position.x = currentX * 0.45;
+      camera.position.y = currentY * 0.35;
+      camera.lookAt(0, 0, 0);
 
-      // Fade out smoothly as scroll approaches 75% -> 100% to blend into New Arrivals
-      const fadeOut = Math.max(0, 1 - (p - 0.75) * 4);
-      if (p > 0.75) {
+      // Hero Mesh floating dynamics
+      heroMesh.rotation.y = currentX * 0.3 + Math.sin(elapsedTime * 0.6) * 0.04;
+      heroMesh.rotation.x = -currentY * 0.2 + Math.cos(elapsedTime * 0.8) * 0.03;
+      heroMesh.position.y = Math.sin(elapsedTime * 1.2) * 0.08 - p * 0.5;
+
+      // Flanking meshes parallax drift
+      leftMesh.position.x = (isPortrait ? -2.2 : -3.6) + Math.cos(elapsedTime * 0.7) * 0.06 + currentX * 0.2;
+      leftMesh.position.y = (isPortrait ? -1.2 : 0.4) + Math.sin(elapsedTime * 0.9) * 0.06 - p * 0.8;
+      leftMesh.rotation.y = 0.3 + currentX * 0.2;
+
+      rightMesh.position.x = (isPortrait ? 2.2 : 3.6) + Math.sin(elapsedTime * 0.8) * 0.06 + currentX * 0.2;
+      rightMesh.position.y = (isPortrait ? -1.8 : -0.3) + Math.cos(elapsedTime * 0.7) * 0.06 - p * 0.8;
+      rightMesh.rotation.y = -0.3 + currentX * 0.2;
+
+      // Background atmospheric plane drift
+      bgMesh.position.x = currentX * 0.15;
+      bgMesh.position.y = currentY * 0.15;
+
+      // Fade out on deep scroll to seamlessly transition into editorial catalogue
+      if (p > 0.6) {
+        const fadeOut = Math.max(0, 1 - (p - 0.6) / 0.4);
         heroMaterial.opacity = 0.98 * fadeOut;
         leftMaterial.opacity = 0.85 * fadeOut;
         rightMaterial.opacity = 0.85 * fadeOut;
@@ -209,7 +226,19 @@ export default function Hero3DCanvas({ scrollProgress = 0 }) {
       renderer.render(scene, camera);
     };
 
-    animate();
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !wasVisible) {
+          animId = requestAnimationFrame(animate);
+        }
+      },
+      { rootMargin: '100px' }
+    );
+    visibilityObserver.observe(container);
+
+    animId = requestAnimationFrame(animate);
 
     const handleResize = () => {
       if (!container) return;
@@ -226,6 +255,7 @@ export default function Hero3DCanvas({ scrollProgress = 0 }) {
     window.addEventListener('resize', handleResize);
 
     return () => {
+      visibilityObserver.disconnect();
       window.removeEventListener('mousemove', handlePointerMove);
       window.removeEventListener('touchmove', handlePointerMove);
       window.removeEventListener('resize', handleResize);
