@@ -1067,9 +1067,9 @@ export default function AccountPage({ navigate }) {
               {/* Order Card Header */}
               <div
                 style={{
-                  padding: '16px 20px',
-                  backgroundColor: 'var(--bg-subtle)',
-                  borderBottom: '1px solid var(--border-light)',
+                  padding: '18px 22px',
+                  backgroundColor: '#F3F0E8',
+                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
@@ -1079,15 +1079,15 @@ export default function AccountPage({ navigate }) {
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '0.92rem' }}>{order.id}</strong>
+                    <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '0.96rem', color: '#0A0A0A' }}>{order.id}</strong>
                     <span
                       style={{
-                        backgroundColor: order.status === 'In Transit' ? '#0A0A0A' : '#16A34A',
+                        backgroundColor: order.status === 'In Transit' ? '#0A0A0A' : '#15803D',
                         color: '#FFFFFF',
-                        fontSize: '0.65rem',
+                        fontSize: '0.68rem',
                         fontWeight: 800,
-                        letterSpacing: '0.06em',
-                        padding: '3px 8px',
+                        letterSpacing: '0.08em',
+                        padding: '4px 9px',
                         borderRadius: 'var(--radius-xs)',
                         textTransform: 'uppercase'
                       }}
@@ -1095,41 +1095,41 @@ export default function AccountPage({ navigate }) {
                       {order.status}
                     </span>
                   </div>
-                  <p style={{ fontSize: '0.75rem', color: '#666666', marginTop: '2px' }}>
+                  <p style={{ fontSize: '0.78rem', color: '#333333', marginTop: '4px', fontWeight: 600 }}>
                     Placed on {order.date} • {order.paymentMethod}
                   </p>
                 </div>
 
                 <div style={{ textAlign: 'right' }}>
-                  <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0A0A0A' }}>
+                  <span style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0A0A0A' }}>
                     ₹{order.total.toLocaleString('en-IN')}
                   </span>
-                  <p style={{ fontSize: '0.72rem', color: '#666666' }}>
+                  <p style={{ fontSize: '0.75rem', color: '#333333', fontWeight: 600 }}>
                     {order.items.length} {order.items.length === 1 ? 'Garment' : 'Garments'}
                   </p>
                 </div>
               </div>
 
               {/* Order Items List */}
-              <div style={{ padding: '20px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '20px' }}>
+              <div style={{ padding: '22px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '22px' }}>
                   {order.items.map((item, idx) => (
-                    <div key={idx} style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+                    <div key={idx} style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                       <img
                         src={item.image}
                         alt={item.name}
-                        style={{ width: '60px', height: '75px', objectFit: 'cover', borderRadius: '2px', backgroundColor: 'var(--bg-subtle)' }}
+                        style={{ width: '64px', height: '80px', objectFit: 'cover', borderRadius: '2px', backgroundColor: '#F0EFE9' }}
                       />
                       <div style={{ flex: 1 }}>
-                        <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#666666', textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#222222', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                           {item.fabric}
                         </span>
-                        <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0A0A0A' }}>{item.name}</h4>
-                        <p style={{ fontSize: '0.75rem', color: '#444444', marginTop: '2px' }}>
+                        <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0A0A0A', marginTop: '2px' }}>{item.name}</h4>
+                        <p style={{ fontSize: '0.8rem', color: '#1A1A1A', marginTop: '3px' }}>
                           Size: <strong>{item.size}</strong> • Color: <strong>{item.color}</strong>
                         </p>
                       </div>
-                      <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0A0A0A' }}>
+                      <span style={{ fontSize: '1rem', fontWeight: 800, color: '#0A0A0A' }}>
                         ₹{item.price.toLocaleString('en-IN')}
                       </span>
                     </div>
@@ -1139,50 +1139,50 @@ export default function AccountPage({ navigate }) {
                 {/* Live Courier Tracking Timeline */}
                 <div
                   style={{
-                    backgroundColor: 'var(--bg-subtle)',
+                    backgroundColor: '#F5F3ED',
                     borderRadius: 'var(--radius-xs)',
-                    padding: '18px',
-                    border: '1px solid var(--border-light)'
+                    padding: '20px',
+                    border: '1px solid rgba(0, 0, 0, 0.12)'
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
                     <div>
-                      <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#555555', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0A0A0A', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                         LIVE DISPATCH LOGISTICS
                       </span>
-                      <p style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A0A0A' }}>
-                        {order.courier} • Tracking: <code style={{ fontFamily: 'var(--font-mono)' }}>{order.trackingNumber}</code>
+                      <p style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0A0A0A', marginTop: '2px' }}>
+                        {order.courier} • Tracking: <code style={{ fontFamily: 'var(--font-mono)', backgroundColor: '#FFFFFF', padding: '2px 6px', borderRadius: '2px', border: '1px solid rgba(0,0,0,0.1)' }}>{order.trackingNumber}</code>
                       </p>
                     </div>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0A0A0A' }}>
-                      Estimated Delivery: <strong>{order.estimatedDelivery}</strong>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0A0A0A' }}>
+                      Estimated Delivery: <strong style={{ color: '#0A0A0A' }}>{order.estimatedDelivery}</strong>
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {order.timeline.map((step, sIdx) => (
                       <div key={sIdx} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div
                           style={{
-                            width: '18px',
-                            height: '18px',
+                            width: '20px',
+                            height: '20px',
                             borderRadius: 'var(--radius-full)',
-                            backgroundColor: step.done ? '#0A0A0A' : 'var(--border-medium)',
+                            backgroundColor: step.done ? '#0A0A0A' : 'rgba(0, 0, 0, 0.2)',
                             color: '#FFFFFF',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '0.65rem',
+                            fontSize: '0.68rem',
                             flexShrink: 0
                           }}
                         >
-                          {step.done ? <Check size={11} strokeWidth={3} /> : '•'}
+                          {step.done ? <Check size={12} strokeWidth={3} /> : '•'}
                         </div>
-                        <div style={{ flex: 1, display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem' }}>
-                          <span style={{ fontWeight: step.done ? 700 : 500, color: step.done ? '#0A0A0A' : '#737373' }}>
+                        <div style={{ flex: 1, display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
+                          <span style={{ fontWeight: step.done ? 800 : 600, color: step.done ? '#0A0A0A' : '#4B5563' }}>
                             {step.step}
                           </span>
-                          <span style={{ color: '#888888', fontSize: '0.72rem' }}>{step.time}</span>
+                          <span style={{ color: '#1F2937', fontSize: '0.78rem', fontWeight: 700 }}>{step.time}</span>
                         </div>
                       </div>
                     ))}
@@ -1190,18 +1190,21 @@ export default function AccountPage({ navigate }) {
                 </div>
 
                 {/* Order Action Buttons */}
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '18px', flexWrap: 'wrap' }}>
                   <button
                     onClick={() => handleInitiateReturn(order.id)}
                     style={{
-                      padding: '8px 14px',
-                      backgroundColor: 'transparent',
-                      border: '1px solid var(--border-medium)',
+                      padding: '10px 18px',
+                      backgroundColor: '#FFFFFF',
+                      border: '1.5px solid #0A0A0A',
                       borderRadius: 'var(--radius-xs)',
                       fontFamily: 'var(--font-sans)',
-                      fontSize: '0.72rem',
-                      fontWeight: 700,
-                      cursor: 'pointer'
+                      fontSize: '0.75rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.06em',
+                      color: '#0A0A0A',
+                      cursor: 'pointer',
+                      transition: 'all var(--transition-fast)'
                     }}
                   >
                     RETURN / EXCHANGE (7 DAYS)
@@ -1211,17 +1214,23 @@ export default function AccountPage({ navigate }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      padding: '8px 14px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '10px 18px',
                       backgroundColor: '#0A0A0A',
-                      color: '#FFFFFF',
+                      color: '#FFFFFF !important',
+                      border: '1.5px solid #0A0A0A',
                       borderRadius: 'var(--radius-xs)',
                       fontFamily: 'var(--font-sans)',
-                      fontSize: '0.72rem',
-                      fontWeight: 700,
-                      textDecoration: 'none'
+                      fontSize: '0.75rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.06em',
+                      textDecoration: 'none',
+                      cursor: 'pointer'
                     }}
                   >
-                    CONCIERGE SUPPORT →
+                    <span style={{ color: '#FFFFFF', fontWeight: 800, letterSpacing: '0.06em' }}>CONCIERGE SUPPORT →</span>
                   </a>
                 </div>
               </div>
