@@ -51,44 +51,25 @@ export default function HomePage({ navigate }) {
       {/* 1. Cinematic 3D Fashion Hero */}
       <EditorialHero navigate={navigate} />
 
-      {/* 2. Clean Typographic Assurance Strip (High-Contrast Monochrome) */}
-      <div
-        style={{
-          backgroundColor: '#FFFFFF',
-          borderBottom: '1px solid var(--border-medium)',
-          padding: '16px 0'
-        }}
-      >
+      {/* 2. Clean Typographic Assurance Strip (Strictly Responsive) */}
+      <div className="home-trust-strip">
         <div className="invi-container">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              gap: '12px',
-              textAlign: 'center',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.75rem',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              fontWeight: 700,
-              color: '#0A0A0A'
-            }}
-          >
-            <div>
+          <div className="home-trust-bar-grid">
+            <div className="home-trust-item">
               <span>COMPLIMENTARY SHIPPING OVER ₹999</span>
             </div>
-            <div>
+            <div className="home-trust-item">
               <span>PAN-INDIA CASH ON DELIVERY</span>
             </div>
-            <div>
+            <div className="home-trust-item">
               <span>7-DAY RETURNS & EXCHANGE</span>
             </div>
-            <div>
+            <div className="home-trust-item">
               <a
                 href={`https://wa.me/${BRAND.whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: '#0A0A0A', textDecoration: 'underline', fontWeight: 800 }}
+                className="home-trust-link"
               >
                 WHATSAPP CONCIERGE →
               </a>

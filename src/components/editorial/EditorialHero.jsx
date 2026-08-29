@@ -35,17 +35,11 @@ const HERO_SLIDES = [
 export default function EditorialHero({ navigate }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
   const timerRef = useRef(null);
 
-  // Parallax scroll listener
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const minSwipeDistance = 50;
 
   // Automatic slide rotation every 5.5 seconds
   useEffect(() => {
@@ -63,13 +57,38 @@ export default function EditorialHero({ navigate }) {
   const activeSlide = HERO_SLIDES[currentIndex];
 
   const handlePrev = (e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
     setCurrentIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
   };
 
   const handleNext = (e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
     setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+  };
+
+  // Mobile Touch Swipe Handlers
+  const handleTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+    setIsPaused(true);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    setIsPaused(false);
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrev();
+    }
   };
 
   return (
@@ -79,6 +98,9 @@ export default function EditorialHero({ navigate }) {
       aria-label="INVI Campaign Slideshow"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Background Campaign Images with Crossfade */}
       <div className="hero-media-wrapper">
@@ -96,7 +118,7 @@ export default function EditorialHero({ navigate }) {
               objectFit: 'cover',
               objectPosition: 'center 25%',
               opacity: idx === currentIndex ? 1 : 0,
-              transform: `scale(${idx === currentIndex ? 1.03 : 1}) translateY(${scrollY * 0.12}px)`,
+              transform: `scale(${idx === currentIndex ? 1.03 : 1})`,
               transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 6s ease-out',
               willChange: 'opacity, transform'
             }}
@@ -104,23 +126,27 @@ export default function EditorialHero({ navigate }) {
           />
         ))}
 
-        {/* Mobile Background Fallback */}
-        <div
-          className="hero-media-img hero-img-mobile"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${activeSlide.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 20%',
-            transform: `translateY(${scrollY * 0.08}px)`
-          }}
-        />
+        {/* Mobile Background Image with high top anchor */}
+        {HERO_SLIDES.map((slide, idx) => (
+          <div
+            key={`mobile-${slide.id}`}
+            className="hero-media-img hero-img-mobile"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `url(${slide.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center 4%',
+              opacity: idx === currentIndex ? 1 : 0,
+              transition: 'opacity 0.8s ease-in-out'
+            }}
+          />
+        ))}
 
         <div className="hero-ambient-overlay" />
       </div>
 
-      {/* Slide Navigation Arrows */}
+      {/* Desktop Only Slide Navigation Arrows (Hidden on Mobile) */}
       <button
         onClick={handlePrev}
         className="hero-nav-arrow hero-nav-prev"
@@ -138,13 +164,7 @@ export default function EditorialHero({ navigate }) {
       </button>
 
       {/* Confident Fashion Editorial Typography */}
-      <div
-        className="invi-container hero-inner-content"
-        style={{
-          opacity: Math.max(0, 1 - scrollY * 0.002),
-          transform: `translateY(${scrollY * 0.08}px)`
-        }}
-      >
+      <div className="invi-container hero-inner-content">
         <div className="hero-content-box" key={activeSlide.id}>
           <span className="hero-season-tag">
             {activeSlide.tag}
@@ -176,7 +196,7 @@ export default function EditorialHero({ navigate }) {
         </div>
       </div>
 
-      {/* Slide Progress Indicators */}
+      {/* Slide Progress Indicators (Pills) */}
       <div className="hero-slide-indicators" aria-label="Campaign Slide Selector">
         {HERO_SLIDES.map((slide, idx) => (
           <button
@@ -197,19 +217,6 @@ export default function EditorialHero({ navigate }) {
             </div>
           </button>
         ))}
-      </div>
-
-      {/* Subtle Scroll Cue */}
-      <div
-        className="hero-scroll-cue"
-        style={{ opacity: Math.max(0, 1 - scrollY * 0.004) }}
-        onClick={() => {
-          const el = document.getElementById('craft-story-section') || document.getElementById('new-arrivals-section');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
-      >
-        <span className="scroll-cue-text">SCROLL TO DISCOVER</span>
-        <div className="scroll-cue-line" />
       </div>
     </section>
   );

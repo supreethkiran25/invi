@@ -357,16 +357,26 @@
 .product-grid-4 {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
-  gap: 18px 14px !important;
+  gap: 24px 18px !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 1750px) {
+  .product-grid,
+  .products-grid-4,
+  .product-grid-4 {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 28px 20px !important;
+  }
+}
+
+@media (max-width: 1100px) {
   .product-grid,
   .products-grid-4,
   .product-grid-4 {
     grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px 12px !important;
   }
 }
 
@@ -1487,4 +1497,180 @@
   margin-top: var(--space-12);
   border-top: 1px solid var(--border-light);
   padding-top: var(--space-8);
+}
+
+/* ==========================================================================
+   6. SHOP CATALOG TOOLBAR & MOBILE FILTER MODAL
+   ========================================================================== */
+
+.category-scroll-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+}
+
+.category-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-pill {
+  padding: 8px 14px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0A0A0A;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+}
+
+.filter-pill:hover {
+  border-color: #0A0A0A;
+}
+
+.filter-pill.active {
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  border-color: #0A0A0A;
+}
+
+.collection-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  border: 1px solid #0A0A0A;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.filter-toggle-btn:hover {
+  background-color: #262626;
+}
+
+.active-filter-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-badge {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  background-color: var(--bg-subtle);
+  color: #0A0A0A;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  border: 1px solid var(--border-light);
+}
+
+.filter-badge:hover {
+  border-color: #DC2626;
+  color: #DC2626;
+}
+
+.clear-filters-btn {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #DC2626;
+  text-decoration: underline;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-filter-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.mobile-filter-drawer {
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  background-color: #FFFFFF;
+  border-radius: 14px 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideDrawerUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes slideDrawerUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.mobile-filter-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.mobile-filter-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filter-group-title {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555555;
+  margin-bottom: 8px;
+}
+
+.mobile-filter-footer {
+  padding: 14px 20px max(14px, env(safe-area-inset-bottom)) 20px;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  gap: 10px;
+  background-color: #FFFFFF;
+  flex-shrink: 0;
 }

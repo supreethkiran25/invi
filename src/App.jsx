@@ -25,6 +25,7 @@ import ContactPage from './pages/ContactPage';
 import AccountPage from './pages/AccountPage';
 import PolicyPage from './pages/PolicyPage';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/index.css';
 import './styles/components.css';
 import './styles/layout.css';
