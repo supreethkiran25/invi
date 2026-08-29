@@ -116,7 +116,7 @@ export default function EditorialHero({ navigate }) {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center 25%',
+              objectPosition: 'center 15%',
               opacity: idx === currentIndex ? 1 : 0,
               transform: `scale(${idx === currentIndex ? 1.03 : 1})`,
               transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 6s ease-out',

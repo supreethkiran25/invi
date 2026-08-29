@@ -14,9 +14,12 @@ export default function Header({ currentRoute, navigate }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownTimeoutRef = useRef(null);
 
+  const isHome = !currentRoute || currentRoute.page === 'home';
+  const isTransparent = isHome && !isScrolled;
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -40,7 +43,7 @@ export default function Header({ currentRoute, navigate }) {
 
   return (
     <header
-      className={`site-header ${isScrolled ? 'scrolled' : ''}`}
+      className={`site-header ${isScrolled ? 'scrolled' : ''} ${isTransparent ? 'transparent-hero-blend' : ''}`}
       role="banner"
     >
       <div className="invi-container header-inner">
@@ -63,7 +66,7 @@ export default function Header({ currentRoute, navigate }) {
             className="header-logo-link"
             aria-label="INVI - Indian Versatile Individual"
           >
-            <InviLogo variant="dark" height={22} />
+            <InviLogo variant={isTransparent ? 'light' : 'dark'} height={22} />
           </a>
         </div>
 
