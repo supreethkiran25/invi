@@ -144,7 +144,7 @@ export default function App() {
               <Header currentRoute={currentRoute} navigate={navigate} />
 
               {/* Main Content Area */}
-              <main id="MainContent" tabIndex={-1}>
+              <main id="MainContent" tabIndex={-1} style={{ paddingTop: page === 'home' ? 0 : 'var(--header-height)' }}>
                 {page === 'home' && <HomePage navigate={navigate} />}
                 {page === 'shop' && (
                   <ShopPage routeParams={currentRoute} navigate={navigate} />
