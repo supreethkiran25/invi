@@ -1,29 +1,30 @@
 // src/App.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { UIProvider } from './context/UIContext';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import ErrorBoundary from './components/ui/ErrorBoundary';
 
-import AnnouncementBar from './components/layout/AnnouncementBar';
 import Header from './components/layout/Header';
-import MobileNav from './components/layout/MobileNav';
 import Footer from './components/layout/Footer';
-import CartDrawer from './components/cart/CartDrawer';
-import SearchOverlay from './components/search/SearchOverlay';
-import SizeGuideModal from './components/product/SizeGuideModal';
 import ToastContainer from './components/ui/ToastContainer';
-
 import HomePage from './pages/HomePage';
-import ShopPage from './pages/ShopPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import CartPage from './pages/CartPage';
-import WishlistPage from './pages/WishlistPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import AccountPage from './pages/AccountPage';
-import PolicyPage from './pages/PolicyPage';
+
+// Code-split all non-homepage views and modals to slash initial JS payload & eliminate TBT
+const ShopPage = lazy(() => import('./pages/ShopPage'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
+const CartPage = lazy(() => import('./pages/CartPage'));
+const WishlistPage = lazy(() => import('./pages/WishlistPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const AccountPage = lazy(() => import('./pages/AccountPage'));
+const PolicyPage = lazy(() => import('./pages/PolicyPage'));
+
+const CartDrawer = lazy(() => import('./components/cart/CartDrawer'));
+const SearchOverlay = lazy(() => import('./components/search/SearchOverlay'));
+const MobileNav = lazy(() => import('./components/layout/MobileNav'));
+const SizeGuideModal = lazy(() => import('./components/product/SizeGuideModal'));
 
 import './styles/index.css';
 import './styles/components.css';
@@ -132,37 +133,40 @@ export default function App() {
         <CartProvider>
           <WishlistProvider>
             <div className="invi-app-root">
-              {/* Modals and Overlays (Guarded internally) */}
-              <CartDrawer navigate={navigate} />
-              <SearchOverlay navigate={navigate} />
-              <MobileNav currentRoute={currentRoute} navigate={navigate} />
-              <SizeGuideModal />
+              {/* Lazy Modals and Overlays */}
+              <Suspense fallback={null}>
+                <CartDrawer navigate={navigate} />
+                <SearchOverlay navigate={navigate} />
+                <MobileNav currentRoute={currentRoute} navigate={navigate} />
+                <SizeGuideModal />
+              </Suspense>
               <ToastContainer />
 
-              {/* Persistent Header Chrome */}
+              {/* Persistent Header */}
               <Header currentRoute={currentRoute} navigate={navigate} />
 
               {/* Main Content Area */}
               <main id="MainContent" tabIndex={-1} style={{ paddingTop: page === 'home' ? 0 : 'var(--header-height)' }}>
                 {page === 'home' && <HomePage navigate={navigate} />}
-                {page === 'shop' && (
-                  <ShopPage routeParams={currentRoute} navigate={navigate} />
-                )}
-                {page === 'product' && (
-                  <ProductDetailPage routeParams={currentRoute} navigate={navigate} />
-                )}
-                {page === 'cart' && (
-                  <CartPage routeParams={currentRoute} navigate={navigate} />
-                )}
-                {page === 'wishlist' && <WishlistPage navigate={navigate} />}
-                {page === 'about' && <AboutPage navigate={navigate} />}
-                {page === 'contact' && <ContactPage navigate={navigate} />}
-                {page === 'account' && <AccountPage navigate={navigate} />}
-                {page === 'policy' && (
-                  <PolicyPage routeParams={currentRoute} navigate={navigate} />
-                )}
-                {!['home', 'shop', 'product', 'cart', 'wishlist', 'about', 'contact', 'account', 'policy'].includes(page) && (
-                  <HomePage navigate={navigate} />
+                {page !== 'home' && (
+                  <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
+                    {page === 'shop' && (
+                      <ShopPage routeParams={currentRoute} navigate={navigate} />
+                    )}
+                    {page === 'product' && (
+                      <ProductDetailPage routeParams={currentRoute} navigate={navigate} />
+                    )}
+                    {page === 'cart' && (
+                      <CartPage routeParams={currentRoute} navigate={navigate} />
+                    )}
+                    {page === 'wishlist' && <WishlistPage navigate={navigate} />}
+                    {page === 'about' && <AboutPage navigate={navigate} />}
+                    {page === 'contact' && <ContactPage navigate={navigate} />}
+                    {page === 'account' && <AccountPage navigate={navigate} />}
+                    {page === 'policy' && (
+                      <PolicyPage routeParams={currentRoute} navigate={navigate} />
+                    )}
+                  </Suspense>
                 )}
               </main>
 
