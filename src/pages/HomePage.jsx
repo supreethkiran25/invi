@@ -1,5 +1,5 @@
 // src/pages/HomePage.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import EditorialHero from '../components/editorial/EditorialHero';
 import CraftStory from '../components/editorial/CraftStory';
 import ProductCard from '../components/product/ProductCard';
@@ -16,35 +16,18 @@ const CATEGORY_TABS = [
 export default function HomePage({ navigate }) {
   const [activeCategory, setActiveCategory] = useState('all');
 
-  // Filter products for the showcase section
-  const filteredProducts = productsData
-    .filter((p) => {
-      if (activeCategory === 'all') return (p.isNewArrival || p.isBestSeller) && !p.isOneOfOne;
-      if (activeCategory === 'tshirts') return p.category === 'tshirts';
-      if (activeCategory === 'shirts') return p.category === 'shirts';
-      if (activeCategory === 'one-of-1') return p.isOneOfOne;
-      return true;
-    })
-    .slice(0, 8);
-
-  // Scroll reveal animation observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('reveal-active');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const elements = document.querySelectorAll('.scroll-reveal');
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
+  // Memoized product filtering for the showcase section
+  const filteredProducts = useMemo(() => {
+    return productsData
+      .filter((p) => {
+        if (activeCategory === 'all') return (p.isNewArrival || p.isBestSeller) && !p.isOneOfOne;
+        if (activeCategory === 'tshirts') return p.category === 'tshirts';
+        if (activeCategory === 'shirts') return p.category === 'shirts';
+        if (activeCategory === 'one-of-1') return p.isOneOfOne;
+        return true;
+      })
+      .slice(0, 8);
+  }, [activeCategory]);
 
   return (
     <div className="home-page">
