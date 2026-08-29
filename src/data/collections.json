@@ -1,0 +1,102 @@
+[
+  {
+    "id": 298485350462,
+    "title": "1NE OF ONE",
+    "handle": "one-of-1",
+    "description": "",
+    "published_at": "2026-05-26T15:29:27+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 5
+  },
+  {
+    "id": 298169532478,
+    "title": "BEST SELLERS",
+    "handle": "best-sellers",
+    "description": "",
+    "published_at": "2026-05-16T13:57:42+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 15
+  },
+  {
+    "id": 301187891262,
+    "title": "BEST SELLERS",
+    "handle": "best-sellers-1",
+    "description": null,
+    "published_at": "2026-08-25T16:27:26+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 7
+  },
+  {
+    "id": 300656099390,
+    "title": "CLEARANCE",
+    "handle": "clearance",
+    "description": null,
+    "published_at": "2026-08-06T18:48:38+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 18
+  },
+  {
+    "id": 294807863358,
+    "title": "HOME PAGE",
+    "handle": "home-page",
+    "description": "",
+    "published_at": "2026-01-29T14:58:28+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 13
+  },
+  {
+    "id": 289740030014,
+    "title": "POLOS",
+    "handle": "polos",
+    "description": "<p><span>For the days when a tee’s too casual and a shirt’s too much.</span></p>",
+    "published_at": "2025-08-05T17:57:06+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 7
+  },
+  {
+    "id": 296582152254,
+    "title": "SHACKET",
+    "handle": "shacket",
+    "description": null,
+    "published_at": "2026-03-30T11:41:57+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 1
+  },
+  {
+    "id": 289568981054,
+    "title": "SHIRTS",
+    "handle": "statement-shirts",
+    "description": "<p><span>Main character shirt.</span></p>\n<p><span>Made with 4in Attention seeking Pointed collars and Straight bottom hem for that clean look.</span></p>",
+    "published_at": "2025-07-30T12:47:42+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 13
+  },
+  {
+    "id": 289568948286,
+    "title": "T-SHIRTS",
+    "handle": "t-shirts",
+    "description": "",
+    "published_at": "2025-07-30T12:46:58+05:30",
+    "updated_at": "2026-08-28T00:18:16+05:30",
+    "image": null,
+    "products_count": 5
+  },
+  {
+    "id": 295883702334,
+    "title": "TOPS",
+    "handle": "baby-tee",
+    "description": "",
+    "published_at": "2026-03-05T21:15:46+05:30",
+    "updated_at": "2026-08-28T00:18:17+05:30",
+    "image": null,
+    "products_count": 2
+  }
+]

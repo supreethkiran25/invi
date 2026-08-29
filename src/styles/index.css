@@ -1,0 +1,268 @@
+/* src/styles/index.css */
+
+:root {
+  /* Timeless Monochrome Luxury Fashion Palette */
+  --bg-primary: #FAF9F6;      /* Clean Warm Ecru */
+  --bg-surface: #FFFFFF;      /* Pure White Surface */
+  --bg-subtle: #F2EFE9;       /* Studio Greige */
+  --bg-dark: #0A0A0A;         /* Rich Obsidian Black */
+  --bg-dark-surface: #141414; /* Elevated Dark */
+
+  --text-primary: #0A0A0A;    /* Sharp Obsidian Text (100% Readable) */
+  --text-secondary: #404040;  /* Neutral Charcoal */
+  --text-tertiary: #666666;   /* Subtle Metadata */
+  --text-muted: #8E8E8E;      /* Muted Placeholder */
+  --text-inverse: #FAF9F6;    /* Ecru on Dark */
+
+  /* Minimalist Accents */
+  --accent-sale: #DC2626;     /* Clean Sale / Discount Accent */
+  --accent-success: #16A34A;  /* Subtle Success Green */
+
+  /* Clean Borders & Dividers */
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.16);
+  --border-dark: rgba(255, 255, 255, 0.12);
+  --border-focus: #0A0A0A;
+
+  /* World-Class Modern Fashion Typography */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --text-2xs: 0.6875rem; /* 11px */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.08em;
+  --tracking-widest: 0.14em;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Container Max Widths */
+  --container-2xl: 1440px;
+
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Header & Navigation Heights */
+  --announcement-height: 0px;
+  --header-height: 64px;
+  --total-header-height: 64px;
+
+  /* Explicit Layering Tokens */
+  --z-base: 1;
+  --z-content: 5;
+  --z-sticky: 30;
+  --z-header: 100;
+  --z-announcement: 110;
+  --z-drawer: 900;
+  --z-modal: 1000;
+  --z-toast: 1100;
+}
+
+/* Reset & Optimal Text Contrast */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+input, select, textarea {
+  font: inherit;
+}
+
+.invi-container {
+  width: 100%;
+  max-width: var(--container-2xl);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .invi-container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+/* Crisp Monochrome Luxury Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  padding: 13px 28px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid #0A0A0A;
+  border-radius: var(--radius-xs);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #262626;
+  border-color: #262626;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--text-primary);
+  padding: 13px 28px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xs);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-primary);
+  background-color: var(--bg-subtle);
+}
+
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: #FFFFFF;
+  padding: 13px 28px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-xs);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btn-outline-white:hover {
+  border-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-pill:hover {
+  border-color: var(--text-primary);
+}
+
+.filter-pill.active {
+  background-color: var(--bg-dark);
+  color: var(--text-inverse);
+  border-color: var(--bg-dark);
+}
+
+.label-badge {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
