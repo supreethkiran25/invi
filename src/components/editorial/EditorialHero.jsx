@@ -38,6 +38,15 @@ export default function EditorialHero({ navigate }) {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const timerRef = useRef(null);
+  const [loadedSlideIndices, setLoadedSlideIndices] = useState([0]);
+
+  // Defer non-critical slide images until after critical LCP has painted
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoadedSlideIndices([0, 1, 2]);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const minSwipeDistance = 50;
 
@@ -46,7 +55,11 @@ export default function EditorialHero({ navigate }) {
     if (isPaused) return;
 
     timerRef.current = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+      setCurrentIndex((prev) => {
+        const next = (prev + 1) % HERO_SLIDES.length;
+        setLoadedSlideIndices((loaded) => (loaded.includes(next) ? loaded : [...loaded, next]));
+        return next;
+      });
     }, 5500);
 
     return () => {
@@ -58,19 +71,26 @@ export default function EditorialHero({ navigate }) {
 
   const handlePrev = (e) => {
     e?.stopPropagation();
-    setCurrentIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
+    setCurrentIndex((prev) => {
+      const next = prev === 0 ? HERO_SLIDES.length - 1 : prev - 1;
+      setLoadedSlideIndices((loaded) => (loaded.includes(next) ? loaded : [...loaded, next]));
+      return next;
+    });
   };
 
   const handleNext = (e) => {
     e?.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    setCurrentIndex((prev) => {
+      const next = (prev + 1) % HERO_SLIDES.length;
+      setLoadedSlideIndices((loaded) => (loaded.includes(next) ? loaded : [...loaded, next]));
+      return next;
+    });
   };
 
   // Mobile Touch Swipe Handlers
   const handleTouchStart = (e) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
-    setIsPaused(true);
   };
 
   const handleTouchMove = (e) => {
@@ -78,7 +98,6 @@ export default function EditorialHero({ navigate }) {
   };
 
   const handleTouchEnd = () => {
-    setIsPaused(false);
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
@@ -95,7 +114,7 @@ export default function EditorialHero({ navigate }) {
     <section
       className="editorial-hero-section"
       role="region"
-      aria-label="INVI Campaign Slideshow"
+      aria-label="Editorial Hero Campaign"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -104,44 +123,52 @@ export default function EditorialHero({ navigate }) {
     >
       {/* Background Campaign Images with Crossfade */}
       <div className="hero-media-wrapper">
-        {HERO_SLIDES.map((slide, idx) => (
-          <img
-            key={slide.id}
-            src={slide.image}
-            alt={slide.title}
-            className={`hero-media-img hero-img-desktop ${idx === currentIndex ? 'active' : ''}`}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center 15%',
-              opacity: idx === currentIndex ? 1 : 0,
-              transform: `scale(${idx === currentIndex ? 1.03 : 1})`,
-              transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 6s ease-out',
-              willChange: 'opacity, transform'
-            }}
-            loading={idx === 0 ? 'eager' : 'lazy'}
-          />
-        ))}
+        {HERO_SLIDES.map((slide, idx) => {
+          if (!loadedSlideIndices.includes(idx) && idx !== currentIndex) return null;
+          return (
+            <img
+              key={slide.id}
+              src={slide.image}
+              alt={slide.title}
+              className={`hero-media-img hero-img-desktop ${idx === currentIndex ? 'active' : ''}`}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 15%',
+                opacity: idx === currentIndex ? 1 : 0,
+                transform: `scale(${idx === currentIndex ? 1.03 : 1})`,
+                transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 6s ease-out',
+                willChange: 'opacity, transform'
+              }}
+              loading={idx === 0 ? 'eager' : 'lazy'}
+              fetchPriority={idx === 0 ? 'high' : 'auto'}
+              decoding="async"
+            />
+          );
+        })}
 
         {/* Mobile Background Image with high top anchor */}
-        {HERO_SLIDES.map((slide, idx) => (
-          <div
-            key={`mobile-${slide.id}`}
-            className="hero-media-img hero-img-mobile"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: `url(${slide.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center 4%',
-              opacity: idx === currentIndex ? 1 : 0,
-              transition: 'opacity 0.8s ease-in-out'
-            }}
-          />
-        ))}
+        {HERO_SLIDES.map((slide, idx) => {
+          if (!loadedSlideIndices.includes(idx) && idx !== currentIndex) return null;
+          return (
+            <div
+              key={`mobile-${slide.id}`}
+              className="hero-media-img hero-img-mobile"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                backgroundImage: `url(${slide.image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center 4%',
+                opacity: idx === currentIndex ? 1 : 0,
+                transition: 'opacity 0.8s ease-in-out'
+              }}
+            />
+          );
+        })}
 
         <div className="hero-ambient-overlay" />
       </div>
