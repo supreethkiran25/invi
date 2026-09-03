@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import InviLogo from '../ui/InviLogo';
 import { useUI } from '../../context/UIContext';
+import { useAuth } from '../../context/AuthContext';
 import { BRAND } from '../../data/siteContent';
-import { X, ChevronDown, ChevronRight, MessageSquare } from 'lucide-react';
+import { X, ChevronDown, ChevronRight, MessageSquare, User, LogOut, Package } from 'lucide-react';
 
 export default function MobileNav({ navigate }) {
   const { isMobileNavOpen, closeMobileNav } = useUI();
+  const { user, isLoggedIn, logout } = useAuth();
   const [openSection, setOpenSection] = useState('shop');
 
   if (!isMobileNavOpen) return null;
@@ -41,6 +43,39 @@ export default function MobileNav({ navigate }) {
           >
             <X size={20} />
           </button>
+        </div>
+
+        {/* Client Authentication & Orders Quick Bar */}
+        <div style={{ padding: '14px 20px', backgroundColor: '#F5F4F0', borderBottom: '1px solid #EBEBEB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            onClick={() => handleNavClick('account')}
+            style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', flex: 1 }}
+          >
+            <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#0A0A0A', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.72rem', fontWeight: 800 }}>
+              {isLoggedIn ? (user?.name?.slice(0, 2)?.toUpperCase() || 'IN') : <User size={15} />}
+            </div>
+            <div>
+              <strong style={{ display: 'block', fontSize: '0.78rem', color: '#0A0A0A', textTransform: 'uppercase' }}>
+                {isLoggedIn ? user?.name : 'SIGN IN / REGISTER'}
+              </strong>
+              <span style={{ fontSize: '0.68rem', color: '#737373' }}>
+                {isLoggedIn ? 'Orders & Shipping Profile' : 'Access your INVI account'}
+              </span>
+            </div>
+          </div>
+
+          {isLoggedIn && (
+            <button
+              onClick={() => {
+                logout();
+                closeMobileNav();
+              }}
+              title="Sign Out"
+              style={{ background: 'none', border: 'none', color: '#DC2626', cursor: 'pointer', padding: '6px' }}
+            >
+              <LogOut size={16} />
+            </button>
+          )}
         </div>
 
         {/* Accordion Navigation Groups */}
@@ -244,19 +279,23 @@ export default function MobileNav({ navigate }) {
                 </a>
 
                 <a
-                  href="https://shopify.com/60094251070/account/orders"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/account"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('account');
+                  }}
                   className="mobile-sub-link"
                 >
-                  <span>TRACK YOUR ORDER →</span>
+                  <span>TRACK YOUR ORDER & ORDERS →</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
 
                 <a
-                  href="https://invi.co.in/apps/yanet-return"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/account"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('account');
+                  }}
                   className="mobile-sub-link"
                 >
                   <span>RETURN / EXCHANGE PORTAL →</span>

@@ -3,6 +3,7 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { UIProvider } from './context/UIContext';
+import { AuthProvider } from './context/AuthContext';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import ErrorBoundary from './components/ui/ErrorBoundary';
 
@@ -147,53 +148,55 @@ export default function App() {
   return (
     <ErrorBoundary>
       <UIProvider>
-        <CartProvider>
-          <WishlistProvider>
-            <div className="invi-app-root">
-              {/* Lazy Modals and Overlays */}
-              <Suspense fallback={null}>
-                <CartDrawer navigate={navigate} />
-                <SearchOverlay navigate={navigate} />
-                <MobileNav currentRoute={currentRoute} navigate={navigate} />
-                <SizeGuideModal />
-              </Suspense>
-              <ToastContainer />
-              <FlyingCartAnimation />
+        <AuthProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <div className="invi-app-root">
+                {/* Lazy Modals and Overlays */}
+                <Suspense fallback={null}>
+                  <CartDrawer navigate={navigate} />
+                  <SearchOverlay navigate={navigate} />
+                  <MobileNav currentRoute={currentRoute} navigate={navigate} />
+                  <SizeGuideModal />
+                </Suspense>
+                <ToastContainer />
+                <FlyingCartAnimation />
 
-              {/* Persistent Header */}
-              <Header currentRoute={currentRoute} navigate={navigate} />
+                {/* Persistent Header */}
+                <Header currentRoute={currentRoute} navigate={navigate} />
 
-              {/* Main Content Area */}
-              <main id="MainContent" tabIndex={-1} style={{ paddingTop: page === 'home' ? 0 : 'var(--header-height)' }}>
-                {page === 'home' && <HomePage navigate={navigate} />}
-                {page !== 'home' && (
-                  <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
-                    {page === 'shop' && (
-                      <ShopPage routeParams={currentRoute} navigate={navigate} />
-                    )}
-                    {page === 'product' && (
-                      <ProductDetailPage routeParams={currentRoute} navigate={navigate} />
-                    )}
-                    {page === 'cart' && (
-                      <CartPage routeParams={currentRoute} navigate={navigate} />
-                    )}
-                    {page === 'wishlist' && <WishlistPage navigate={navigate} />}
-                    {page === 'about' && <AboutPage navigate={navigate} />}
-                    {page === 'contact' && <ContactPage navigate={navigate} />}
-                    {page === 'account' && <AccountPage navigate={navigate} />}
-                    {page === 'policy' && (
-                      <PolicyPage routeParams={currentRoute} navigate={navigate} />
-                    )}
-                    {page === '404' && <NotFoundPage navigate={navigate} />}
-                  </Suspense>
-                )}
-              </main>
+                {/* Main Content Area */}
+                <main id="MainContent" tabIndex={-1} style={{ paddingTop: page === 'home' ? 0 : 'var(--header-height)' }}>
+                  {page === 'home' && <HomePage navigate={navigate} />}
+                  {page !== 'home' && (
+                    <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
+                      {page === 'shop' && (
+                        <ShopPage routeParams={currentRoute} navigate={navigate} />
+                      )}
+                      {page === 'product' && (
+                        <ProductDetailPage routeParams={currentRoute} navigate={navigate} />
+                      )}
+                      {page === 'cart' && (
+                        <CartPage routeParams={currentRoute} navigate={navigate} />
+                      )}
+                      {page === 'wishlist' && <WishlistPage navigate={navigate} />}
+                      {page === 'about' && <AboutPage navigate={navigate} />}
+                      {page === 'contact' && <ContactPage navigate={navigate} />}
+                      {page === 'account' && <AccountPage navigate={navigate} />}
+                      {page === 'policy' && (
+                        <PolicyPage routeParams={currentRoute} navigate={navigate} />
+                      )}
+                      {page === '404' && <NotFoundPage navigate={navigate} />}
+                    </Suspense>
+                  )}
+                </main>
 
-              {/* Persistent Footer */}
-              <Footer navigate={navigate} />
-            </div>
-          </WishlistProvider>
-        </CartProvider>
+                {/* Persistent Footer */}
+                <Footer navigate={navigate} />
+              </div>
+            </WishlistProvider>
+          </CartProvider>
+        </AuthProvider>
       </UIProvider>
     </ErrorBoundary>
   );

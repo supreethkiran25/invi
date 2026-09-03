@@ -4,6 +4,7 @@ import InviLogo from '../ui/InviLogo';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useUI } from '../../context/UIContext';
+import { useAuth } from '../../context/AuthContext';
 import { Search, Heart, ShoppingBag, Menu, User, ChevronDown, Sparkles, ArrowRight } from 'lucide-react';
 
 const MEGA_CATEGORY_PREVIEWS = {
@@ -61,6 +62,7 @@ export default function Header({ currentRoute, navigate }) {
   const { cartCount, openCart } = useCart();
   const { wishlistCount } = useWishlist();
   const { openSearch, openMobileNav, cartBump } = useUI();
+  const { user, isLoggedIn } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState('tshirts');
@@ -393,10 +395,25 @@ export default function Header({ currentRoute, navigate }) {
           <button
             className={`header-action-btn ${currentRoute.page === 'account' ? 'active-icon' : ''}`}
             onClick={() => navigate('account')}
-            aria-label="VIP Account"
-            title="Account & Orders"
+            aria-label={isLoggedIn ? `Account (${user?.name || 'Client'})` : 'Sign in to account'}
+            title={isLoggedIn ? `${user?.name || 'Client'} (Signed In)` : 'Sign In / Account'}
+            style={{ position: 'relative' }}
           >
             <User size={21} strokeWidth={2} />
+            {isLoggedIn && (
+              <span
+                style={{
+                  position: 'absolute',
+                  bottom: '8px',
+                  right: '8px',
+                  width: '6px',
+                  height: '6px',
+                  backgroundColor: '#22C55E',
+                  borderRadius: '50%',
+                  border: '1px solid #0A0A0A'
+                }}
+              />
+            )}
           </button>
 
           {/* Wishlist */}
