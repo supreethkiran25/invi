@@ -25,26 +25,61 @@ export function UIProvider({ children }) {
   const closeQuickView = () => setQuickViewProduct(null);
 
   const flyToCart = (eventOrCoords, imageUrl) => {
-    // Pure React coordinate extraction — ZERO DOM queries!
-    const clientX =
-      eventOrCoords?.clientX ??
-      (typeof eventOrCoords?.x === 'number' ? eventOrCoords.x : window.innerWidth / 2);
-    const clientY =
-      eventOrCoords?.clientY ??
-      (typeof eventOrCoords?.y === 'number' ? eventOrCoords.y : window.innerHeight / 2);
+    // Robust start position extraction
+    let startX = window.innerWidth / 2;
+    let startY = window.innerHeight * 0.7;
 
-    const startX = clientX;
-    const startY = clientY;
+    if (eventOrCoords?.currentTarget?.getBoundingClientRect) {
+      const rect = eventOrCoords.currentTarget.getBoundingClientRect();
+      startX = rect.left + rect.width / 2;
+      startY = rect.top + rect.height / 2;
+    } else if (typeof eventOrCoords?.clientX === 'number' && eventOrCoords.clientX > 0) {
+      startX = eventOrCoords.clientX;
+      startY = eventOrCoords.clientY;
+    } else if (typeof eventOrCoords?.nativeEvent?.clientX === 'number' && eventOrCoords.nativeEvent.clientX > 0) {
+      startX = eventOrCoords.nativeEvent.clientX;
+      startY = eventOrCoords.nativeEvent.clientY;
+    } else if (typeof eventOrCoords?.x === 'number') {
+      startX = eventOrCoords.x;
+      startY = eventOrCoords.y;
+    }
 
-    // Fixed header bag target in top-right viewport — ZERO DOM queries!
-    const endX = window.innerWidth - 52;
-    const endY = 32;
+    // Precise shopping bag target calculation
+    let endX = window.innerWidth - 50;
+    let endY = 32;
 
-    // High parabolic trajectory calculation
+    try {
+      const cartEl =
+        document.querySelector('[data-cart-btn="true"]') ||
+        document.querySelector('.header-cart-btn') ||
+        document.getElementById('header-cart-btn');
+
+      if (cartEl) {
+        const rect = cartEl.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          endX = rect.left + rect.width / 2;
+          endY = rect.top + rect.height / 2;
+        }
+      } else {
+        const containerWidth = Math.min(window.innerWidth, 1440);
+        const pad = window.innerWidth <= 768 ? 16 : 24;
+        const rightEdge = (window.innerWidth + containerWidth) / 2 - pad;
+        endX = rightEdge - 20;
+        endY = 32;
+      }
+    } catch {
+      endX = window.innerWidth - 50;
+      endY = 32;
+    }
+
+    // Smooth, fully visible arc trajectory that NEVER leaves the viewport
+    // Midpoint: gently arches upwards without going offscreen
     const midX = startX + (endX - startX) * 0.45;
-    const midY = Math.min(startY, endY) - 75;
+    const midY = Math.max(48, Math.min(startY * 0.5 + endY * 0.5, startY - 120));
+
+    // Late midpoint: smoothly aligns directly toward bag opening
     const lateX = startX + (endX - startX) * 0.82;
-    const lateY = Math.min(startY, endY) - 20;
+    const lateY = Math.max(38, Math.min(startY * 0.2 + endY * 0.8, endY + 30));
 
     const id = Date.now() + Math.random();
     const newItem = {
@@ -62,12 +97,16 @@ export function UIProvider({ children }) {
 
     setFlyingItems((prev) => [...prev, newItem]);
 
-    // When the item arrives at the shopping bag:
+    // Trigger bag suction impact bounce right as card reaches bag:
     setTimeout(() => {
       setCartBump(true);
-      setTimeout(() => setCartBump(false), 600);
+      setTimeout(() => setCartBump(false), 650);
+    }, 1000);
+
+    // Clean up finished item:
+    setTimeout(() => {
       setFlyingItems((prev) => prev.filter((item) => item.id !== id));
-    }, 850);
+    }, 1150);
   };
 
   const addToast = (message, type = 'info', duration = 3500) => {
