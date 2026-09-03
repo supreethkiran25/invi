@@ -126,43 +126,23 @@ export default function EditorialHero({ navigate }) {
             <img
               key={slide.id}
               src={slide.image}
-              alt={slide.title}
-              className={`hero-media-img hero-img-desktop ${idx === currentIndex ? 'active' : ''}`}
+              alt={`INVI Campaign — ${slide.title}`}
+              className={`hero-media-img ${idx === currentIndex ? 'active' : ''}`}
               style={{
                 position: 'absolute',
                 inset: 0,
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                objectPosition: 'center 15%',
+                objectPosition: 'center 12%',
                 opacity: idx === currentIndex ? 1 : 0,
-                transform: `scale(${idx === currentIndex ? 1.03 : 1})`,
-                transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 6s ease-out',
-                willChange: 'opacity, transform'
+                transform: `scale(${idx === currentIndex ? 1.02 : 1})`,
+                transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                willChange: 'opacity'
               }}
               loading={idx === 0 ? 'eager' : 'lazy'}
               fetchPriority={idx === 0 ? 'high' : 'auto'}
               decoding="async"
-            />
-          );
-        })}
-
-        {/* Mobile Background Image with high top anchor */}
-        {HERO_SLIDES.map((slide, idx) => {
-          if (!loadedSlideIndices.includes(idx) && idx !== currentIndex) return null;
-          return (
-            <div
-              key={`mobile-${slide.id}`}
-              className="hero-media-img hero-img-mobile"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundImage: `url(${slide.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center 4%',
-                opacity: idx === currentIndex ? 1 : 0,
-                transition: 'opacity 0.8s ease-in-out'
-              }}
             />
           );
         })}

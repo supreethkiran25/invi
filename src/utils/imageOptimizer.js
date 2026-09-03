@@ -3,7 +3,7 @@
  * Optimizes Shopify CDN images by requesting responsive dimensions and webp format.
  * Prevents loading 5-10MB raw uncompressed PNGs that cause timeouts or empty images.
  */
-export function getOptimizedImageUrl(url, width = 600) {
+export function getOptimizedImageUrl(url, width = 500) {
   if (!url || typeof url !== 'string') {
     return '/images/hero_campaign_1.webp';
   }
@@ -13,20 +13,16 @@ export function getOptimizedImageUrl(url, width = 600) {
     return url;
   }
 
-  // If it's a Shopify CDN URL, leverage Shopify's on-the-fly image transformation engine
+  // If it's a Shopify CDN URL, guarantee optimal responsive width and modern WebP format
   if (url.includes('cdn.shopify.com')) {
     try {
       const parsed = new URL(url);
-      if (!parsed.searchParams.has('width')) {
-        parsed.searchParams.set('width', String(width));
-      }
-      if (!parsed.searchParams.has('format')) {
-        parsed.searchParams.set('format', 'webp');
-      }
+      parsed.searchParams.set('width', String(width));
+      parsed.searchParams.set('format', 'webp');
       return parsed.toString();
     } catch {
-      const sep = url.includes('?') ? '&' : '?';
-      return `${url}${sep}width=${width}&format=webp`;
+      const cleanUrl = url.split('?')[0];
+      return `${cleanUrl}?width=${width}&format=webp`;
     }
   }
 
