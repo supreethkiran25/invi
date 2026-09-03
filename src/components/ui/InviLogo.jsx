@@ -15,34 +15,35 @@ export default function InviLogo({ variant = 'dark', height = 24, className = ''
         display: 'inline-flex',
         alignItems: 'center',
         height: `${height}px`,
-        lineHeight: 1
+        lineHeight: 1,
+        color: fillColor
       }}
       aria-label="INVI Brand Logo"
     >
       <svg
         viewBox="0 0 160 48"
         height={height}
-        fill="none"
+        fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
         style={{ height: '100%', width: 'auto', display: 'block' }}
       >
         {/* Letter 'I' */}
-        <rect x="0" y="2" width="16.5" height="44" fill={fillColor} />
+        <rect x="0" y="2" width="16.5" height="44" fill="currentColor" />
 
         {/* Letter 'N' */}
         <path
           d="M28 2H42.5L59 34.5V2H73.5V46H59L42.5 13.5V46H28V2Z"
-          fill={fillColor}
+          fill="currentColor"
         />
 
         {/* Letter 'V' */}
         <path
           d="M82 2H98.5L108.5 32.5L118.5 2H135L118 46H99L82 2Z"
-          fill={fillColor}
+          fill="currentColor"
         />
 
         {/* Letter 'I' */}
-        <rect x="143.5" y="2" width="16.5" height="44" fill={fillColor} />
+        <rect x="143.5" y="2" width="16.5" height="44" fill="currentColor" />
       </svg>
     </div>
   );

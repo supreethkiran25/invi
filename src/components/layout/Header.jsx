@@ -18,19 +18,26 @@ export default function Header({ currentRoute, navigate }) {
   const isTransparent = isHome && !isScrolled;
 
   useEffect(() => {
-    let ticking = false;
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 20);
-          ticking = false;
-        });
-        ticking = true;
-      }
+      const top =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        window.scrollY ||
+        0;
+      setIsScrolled(top > 25);
     };
+
+    handleScroll();
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    document.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [currentRoute]);
 
   const handleMouseEnter = (menuName) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
