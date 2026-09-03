@@ -70,7 +70,7 @@ export function CartProvider({ children }) {
       ];
     });
 
-    setIsCartOpen(true);
+    // Do NOT immediately open cart drawer so the user can enjoy the flying animation!
   };
 
   /**

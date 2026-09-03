@@ -53,7 +53,7 @@ const MEGA_CATEGORY_PREVIEWS = {
     category: 'clearance',
     tag: 'FINAL CHANCE',
     title: 'SEASONAL ARCHIVE (UP TO 50% OFF)',
-    image: '/images/hero_campaign_4.webp'
+    image: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/IMG-1714.jpg?v=1769147548&width=800&format=webp'
   }
 };
 

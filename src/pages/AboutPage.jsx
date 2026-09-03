@@ -1,6 +1,6 @@
 // src/pages/AboutPage.jsx
 import React, { useState } from 'react';
-import { ABOUT_STORY, FAQS } from '../data/siteContent';
+import { BRAND, ABOUT_STORY, FAQS } from '../data/siteContent';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 
 export default function AboutPage({ navigate }) {

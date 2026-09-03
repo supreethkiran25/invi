@@ -63,8 +63,8 @@ const CATEGORIES = [
     name: 'CLEARANCE',
     sub: 'Seasonal Archive Vault (Up to 50% Off)',
     count: 'FINAL CHANCE',
-    image: '/images/hero_campaign_4.webp',
-    fallback: '/images/hero_campaign_4.webp',
+    image: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/IMG-1714.jpg?v=1769147548',
+    fallback: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/IMG-1057.jpg?v=1769147159',
     gridSpan: 'wide'
   }
 ];

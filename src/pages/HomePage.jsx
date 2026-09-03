@@ -26,7 +26,7 @@ export default function HomePage({ navigate }) {
           SECTION 01 — EDITORIAL CAMPAIGN HERO
           ========================================================================= */}
       <EditorialHero navigate={navigate} />
-      <div id="hero-sentinel" style={{ height: '1px', width: '100%', pointerEvents: 'none' }} />
+      <div id="hero-sentinel" style={{ position: 'absolute', top: '100vh', left: 0, height: 0, width: 0, pointerEvents: 'none', visibility: 'hidden' }} />
 
       {/* =========================================================================
           SECTION 02 — NEW ARRIVALS (IMMEDIATE FASHION SHOPPING TRANSITION)
