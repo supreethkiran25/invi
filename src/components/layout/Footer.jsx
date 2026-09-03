@@ -28,7 +28,7 @@ export default function Footer({ navigate }) {
               <InviLogo variant="light" height={26} />
             </div>
             <p className="footer-brand-desc">
-              Indian Versatile Individual. Heavyweight 240 GSM French Terry cotton streetwear, tailored linen blends, and bespoke 1-of-1 creations engineered in Bangalore, India.
+              Indian Versatile Individual. Heavyweight 240 GSM French Terry cotton streetwear, tailored linen blends, and bespoke 1-of-1 creations engineered in India.
             </p>
             <div className="footer-concierge-badge">
               <a

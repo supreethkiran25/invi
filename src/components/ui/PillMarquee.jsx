@@ -4,7 +4,7 @@ import React from 'react';
 const MARQUEE_PILLS = [
   { tag: '240 GSM', label: 'French Terry Cotton' },
   { tag: '60% LINEN', label: 'Breathable Tailored Fits' },
-  { tag: 'BANGALORE', label: 'Atelier & Direct Fulfillment' },
+  { tag: 'PAN-INDIA', label: 'Direct Priority Dispatch' },
   { tag: '1 OF 1', label: 'Hand-Finished Archive Editions' },
   { tag: '₹999+', label: 'Complimentary Express Shipping' },
   { tag: 'PAN-INDIA', label: 'Cash on Delivery Available' },

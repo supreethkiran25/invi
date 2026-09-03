@@ -1,180 +1,103 @@
 // src/pages/HomePage.jsx
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import EditorialHero from '../components/editorial/EditorialHero';
-import CraftStory from '../components/editorial/CraftStory';
 import ProductCard from '../components/product/ProductCard';
+import EditorialBrandMoment from '../components/home/EditorialBrandMoment';
+import ShopByCategory from '../components/home/ShopByCategory';
+import CuratedSpotlight from '../components/home/CuratedSpotlight';
+import BrandPhilosophy from '../components/home/BrandPhilosophy';
+import BrandAssuranceStrip from '../components/home/BrandAssuranceStrip';
+import FinalCampaignCta from '../components/home/FinalCampaignCta';
 import { getConsolidatedProducts } from '../data/productFamilies';
-import { BRAND } from '../data/siteContent';
-
-const CATEGORY_TABS = [
-  { id: 'all', label: 'ALL ESSENTIALS' },
-  { id: 'tshirts', label: 'T-SHIRTS' },
-  { id: 'shirts', label: 'LINEN SHIRTS' },
-  { id: 'one-of-1', label: '1NE OF ONE' }
-];
+import { ArrowRight } from 'lucide-react';
 
 export default function HomePage({ navigate }) {
-  const [activeCategory, setActiveCategory] = useState('all');
+  // Fetch real consolidated catalog families
   const consolidated = useMemo(() => getConsolidatedProducts(), []);
 
-  // Memoized product filtering for the showcase section
-  const filteredProducts = useMemo(() => {
-    return consolidated
-      .filter((p) => {
-        const cat = p.category?.toLowerCase();
-        if (activeCategory === 'all') return !p.isOneOfOne;
-        if (activeCategory === 'tshirts') return cat === 't-shirts' || cat === 'tshirts';
-        if (activeCategory === 'shirts') return cat === 'shirts' || cat === 'linen-shirts';
-        if (activeCategory === 'one-of-1') return p.isOneOfOne;
-        return true;
-      })
-      .slice(0, 8);
-  }, [consolidated, activeCategory]);
+  // Top 8 real new arrivals (excluding bespoke 1NE OF ONE which is featured in Spotlight)
+  const newArrivals = useMemo(() => {
+    return consolidated.filter((p) => !p.isOneOfOne).slice(0, 8);
+  }, [consolidated]);
 
   return (
-    <div className="home-page">
-      {/* 1. Cinematic 3D Fashion Hero */}
+    <div className="home-page-redesign">
+      {/* =========================================================================
+          SECTION 01 — EDITORIAL CAMPAIGN HERO
+          ========================================================================= */}
       <EditorialHero navigate={navigate} />
       <div id="hero-sentinel" style={{ height: '1px', width: '100%', pointerEvents: 'none' }} />
 
-      {/* 2. Clean Typographic Assurance Strip (Strictly Responsive) */}
-      <div className="home-trust-strip">
+      {/* =========================================================================
+          SECTION 02 — NEW ARRIVALS (IMMEDIATE FASHION SHOPPING TRANSITION)
+          ========================================================================= */}
+      <section className="new-arrivals-editorial-section">
         <div className="invi-container">
-          <div className="home-trust-bar-grid">
-            <div className="home-trust-item">
-              <span>FREE SHIPPING ON PREPAID ORDERS</span>
-            </div>
-            <div className="home-trust-item">
-              <span>CASH ON DELIVERY PAN-INDIA (₹100)</span>
-            </div>
-            <div className="home-trust-item">
-              <span>7-DAY EASY RETURNS & EXCHANGES</span>
-            </div>
-            <div className="home-trust-item">
-              <a
-                href={`https://wa.me/${BRAND.whatsappNumber}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="home-trust-link"
-              >
-                WHATSAPP CONCIERGE (11AM–6PM) →
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Fabric Architecture & Craft Story */}
-      <CraftStory navigate={navigate} />
-
-      {/* 4. Curated Showcase & Product Discovery */}
-      <section id="new-arrivals-section" className="editorial-section scroll-reveal" style={{ padding: 'var(--space-12) 0' }}>
-        <div className="invi-container">
-          {/* Header Row with Filter Tabs */}
-          <div className="section-header-row" style={{ alignItems: 'center' }}>
+          <div className="new-arrivals-header-row">
             <div>
-              <span className="label-badge" style={{ color: '#555555', display: 'block', marginBottom: '4px', fontSize: '0.72rem' }}>
-                INDIAN VERSATILE INDIVIDUAL
-              </span>
-              <h2 className="section-title">CURATED ESSENTIALS</h2>
+              <span className="editorial-eyebrow">RECENT DROPS</span>
+              <h2 className="editorial-section-title">NEW ARRIVALS</h2>
             </div>
 
-            {/* Category Filter Pills */}
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {CATEGORY_TABS.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveCategory(tab.id)}
-                  className={`filter-pill ${activeCategory === tab.id ? 'active' : ''}`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            <button
+              type="button"
+              className="editorial-inline-view-all"
+              onClick={() => navigate('shop', { category: 'all' })}
+            >
+              <span>VIEW ALL PIECES</span>
+              <ArrowRight size={16} />
+            </button>
           </div>
 
-          {/* Side-by-Side 4-Column Product Grid */}
-          <div className="product-grid product-grid-4" style={{ marginTop: '20px' }}>
-            {filteredProducts.map((product) => (
+          {/* 4-Column Desktop / 3-Column Tablet / 2-Column Mobile Product Grid */}
+          <div className="editorial-arrivals-grid">
+            {newArrivals.map((product) => (
               <ProductCard key={product.id} product={product} navigate={navigate} />
             ))}
           </div>
 
-          {/* View All Collection CTA */}
-          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+          <div className="new-arrivals-footer-cta">
             <button
-              className="btn-secondary"
-              onClick={() => navigate('shop', { category: activeCategory })}
-              style={{ minWidth: '220px' }}
+              type="button"
+              className="btn-primary arrivals-more-btn"
+              onClick={() => navigate('shop', { category: 'all' })}
             >
-              EXPLORE FULL COLLECTION →
+              <span>EXPLORE ALL 52 PIECES</span>
+              <ArrowRight size={15} />
             </button>
           </div>
         </div>
       </section>
 
-      {/* 5. 1NE OF ONE Bespoke Spotlight */}
-      <section
-        className="scroll-reveal"
-        style={{
-          position: 'relative',
-          padding: 'var(--space-16) 0',
-          backgroundColor: '#0A0A0A',
-          color: '#FAF9F6',
-          textAlign: 'center'
-        }}
-      >
-        <div className="invi-container" style={{ maxWidth: '720px' }}>
-          <span
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              letterSpacing: '0.2em',
-              color: '#A3A3A3',
-              textTransform: 'uppercase',
-              marginBottom: '12px',
-              display: 'block'
-            }}
-          >
-            EXCLUSIVE SINGLE-PIECE ARCHIVE
-          </span>
+      {/* =========================================================================
+          SECTION 03 — EDITORIAL BRAND MOMENT (ASYMMETRIC CAMPAIGN SPREAD)
+          ========================================================================= */}
+      <EditorialBrandMoment navigate={navigate} />
 
-          <h2
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'clamp(2rem, 4.5vw, 3.2rem)',
-              fontWeight: 800,
-              color: '#fff',
-              textTransform: 'uppercase',
-              marginBottom: '14px',
-              letterSpacing: '-0.02em'
-            }}
-          >
-            1NE OF ONE BESPOKE
-          </h2>
+      {/* =========================================================================
+          SECTION 04 — SHOP BY CATEGORY (VISUAL EDITORIAL MASONRY)
+          ========================================================================= */}
+      <ShopByCategory navigate={navigate} />
 
-          <p
-            style={{
-              fontSize: '0.92rem',
-              color: '#D4D4D4',
-              lineHeight: 1.6,
-              marginBottom: '28px',
-              fontFamily: 'var(--font-sans)'
-            }}
-          >
-            Every piece in the 1NE OF ONE series exists as a single unique garment with distinctive artwork. Once acquired, the design is permanently retired.
-          </p>
+      {/* =========================================================================
+          SECTION 05 — CURATED SPOTLIGHT (1NE OF ONE + SIGNATURE STORYTELLING)
+          ========================================================================= */}
+      <CuratedSpotlight navigate={navigate} />
 
-          <button
-            className="btn-primary"
-            onClick={() => navigate('shop', { category: 'one-of-1' })}
-            style={{ backgroundColor: '#FAF9F6', color: '#0A0A0A', borderColor: '#FAF9F6' }}
-          >
-            EXPLORE 1NE OF ONE DROPS →
-          </button>
-        </div>
-      </section>
+      {/* =========================================================================
+          SECTION 06 — THE INVI PHILOSOPHY & MANIFESTO
+          ========================================================================= */}
+      <BrandPhilosophy navigate={navigate} />
+
+      {/* =========================================================================
+          SECTION 07 — SOCIAL PROOF & CLIENT SERVICE ASSURANCE
+          ========================================================================= */}
+      <BrandAssuranceStrip />
+
+      {/* =========================================================================
+          SECTION 08 — FINAL CAMPAIGN CLOSER (ALWAYS BE MORE)
+          ========================================================================= */}
+      <FinalCampaignCta navigate={navigate} />
     </div>
   );
 }

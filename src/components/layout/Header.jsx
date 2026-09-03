@@ -109,7 +109,7 @@ export default function Header({ currentRoute, navigate }) {
 
         {/* Center: Clean, Minimalist Desktop Navigation with Dropdowns */}
         <nav className="desktop-nav" aria-label="Main Navigation">
-          {/* Item 1: SHOP with Hover Dropdown */}
+          {/* Item 1: SHOP with Luxury Mega Menu */}
           <div
             className="nav-dropdown-item"
             onMouseEnter={() => handleMouseEnter('shop')}
@@ -123,24 +123,140 @@ export default function Header({ currentRoute, navigate }) {
             >
               <span>SHOP</span>
               <ChevronDown
-                size={14}
+                size={13}
                 strokeWidth={2.2}
                 className={`dropdown-chevron ${activeDropdown === 'shop' ? 'rotate' : ''}`}
               />
             </button>
 
             {activeDropdown === 'shop' && (
-              <div className="nav-dropdown-menu" role="menu">
+              <div className="nav-dropdown-menu nav-mega-menu" role="menu">
+                <div className="mega-menu-inner">
+                  {/* Left Column: Categories List */}
+                  <div className="mega-col-categories">
+                    <span className="mega-header-label">ALL CATEGORIES</span>
+                    <button
+                      className="mega-category-item"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'all' }))}
+                      role="menuitem"
+                    >
+                      <span>VIEW ALL SILHOUETTES</span>
+                      <small>Complete 52-Piece Catalogue</small>
+                    </button>
+                    <button
+                      className="mega-category-item"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tshirts' }))}
+                      role="menuitem"
+                    >
+                      <span>T-SHIRTS</span>
+                      <small>240 GSM Combed French Terry</small>
+                    </button>
+                    <button
+                      className="mega-category-item"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'shirts' }))}
+                      role="menuitem"
+                    >
+                      <span>SHIRTS</span>
+                      <small>60/40 French Linen Blends</small>
+                    </button>
+                    <button
+                      className="mega-category-item"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'polos' }))}
+                      role="menuitem"
+                    >
+                      <span>POLOS</span>
+                      <small>Timeless & Monogram Knits</small>
+                    </button>
+                    <button
+                      className="mega-category-item"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tops' }))}
+                      role="menuitem"
+                    >
+                      <span>TOPS</span>
+                      <small>Contemporary Ribbed Silhouettes</small>
+                    </button>
+                    <button
+                      className="mega-category-item"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'shackets' }))}
+                      role="menuitem"
+                    >
+                      <span>SHACKETS</span>
+                      <small>Structured Architectural Layering</small>
+                    </button>
+                    <button
+                      className="mega-category-item highlight-oneofone"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'one-of-1' }))}
+                      role="menuitem"
+                    >
+                      <span>1NE OF ONE</span>
+                      <small>Singular 1*1 Bespoke Archive</small>
+                    </button>
+                    <button
+                      className="mega-category-item highlight-sale"
+                      onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'clearance' }))}
+                      role="menuitem"
+                    >
+                      <span>CLEARANCE</span>
+                      <small>Seasonal Vault Up to 50% Off</small>
+                    </button>
+                  </div>
+
+                  {/* Right Column: Editorial Featured Card */}
+                  <div
+                    className="mega-col-featured"
+                    onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tshirts' }))}
+                  >
+                    <div className="mega-featured-img-box">
+                      <img
+                        src="/images/hero_campaign_2.webp"
+                        alt="INVI French Linen & Heavyweight Streetwear"
+                        className="mega-featured-img"
+                        loading="lazy"
+                      />
+                      <div className="mega-featured-scrim">
+                        <span className="mega-featured-tag">ATELIER SPOTLIGHT</span>
+                        <h4 className="mega-featured-title">240 GSM FRENCH TERRY</h4>
+                        <span className="mega-featured-sub">EXPLORE LOOKBOOK →</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Item 2: COLLECTIONS Dropdown */}
+          <div
+            className="nav-dropdown-item"
+            onMouseEnter={() => handleMouseEnter('collections')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button
+              className={`nav-link dropdown-toggle-link ${currentRoute.page === 'shop' && currentRoute.category ? 'active' : ''}`}
+              onClick={() => navigate('shop', { category: 'all' })}
+              aria-expanded={activeDropdown === 'collections'}
+              aria-haspopup="true"
+            >
+              <span>COLLECTIONS</span>
+              <ChevronDown
+                size={13}
+                strokeWidth={2.2}
+                className={`dropdown-chevron ${activeDropdown === 'collections' ? 'rotate' : ''}`}
+              />
+            </button>
+
+            {activeDropdown === 'collections' && (
+              <div className="nav-dropdown-menu nav-dropdown-compact" role="menu">
                 <div className="dropdown-menu-inner single-col">
-                  <span className="dropdown-header">GARMENT CATEGORIES</span>
+                  <span className="dropdown-header">CURATED ARCHIVES</span>
                   <button
                     className="dropdown-link"
                     onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tshirts' }))}
                     role="menuitem"
                   >
                     <div className="dropdown-link-text">
-                      <strong>T-SHIRTS</strong>
-                      <small>240 GSM French Terry Cotton</small>
+                      <strong>FRENCH TERRY COLLECTION</strong>
+                      <small>240 GSM Heavyweight Streetwear</small>
                     </div>
                   </button>
 
@@ -150,65 +266,30 @@ export default function Header({ currentRoute, navigate }) {
                     role="menuitem"
                   >
                     <div className="dropdown-link-text">
-                      <strong>SHIRTS</strong>
-                      <small>Linen Blend & Tailored Contemporary</small>
+                      <strong>FRENCH LINEN SERIES</strong>
+                      <small>Air-Cooled 60/40 Blends</small>
                     </div>
                   </button>
 
                   <button
                     className="dropdown-link"
-                    onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'polos' }))}
-                    role="menuitem"
-                  >
-                    <div className="dropdown-link-text">
-                      <strong>POLOS</strong>
-                      <small>Pique Knit Classic Silhouettes</small>
-                    </div>
-                  </button>
-
-                  <button
-                    className="dropdown-link"
-                    onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tops' }))}
-                    role="menuitem"
-                  >
-                    <div className="dropdown-link-text">
-                      <strong>TOPS</strong>
-                      <small>Ribbed Baby Tees & Crop Editions</small>
-                    </div>
-                  </button>
-
-                  <button
-                    className="dropdown-link"
-                    onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'shackets' }))}
-                    role="menuitem"
-                  >
-                    <div className="dropdown-link-text">
-                      <strong>SHACKETS</strong>
-                      <small>Versatile Layering Outerwear</small>
-                    </div>
-                  </button>
-
-                  <div className="dropdown-divider" style={{ margin: '6px 0' }} />
-
-                  <button
-                    className="dropdown-link highlight-gold"
                     onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'one-of-1' }))}
                     role="menuitem"
                   >
                     <div className="dropdown-link-text">
-                      <strong>1NE OF ONE</strong>
-                      <small>Bespoke 1*1 Singular Archive</small>
+                      <strong style={{ color: '#0A0A0A' }}>1NE OF ONE BESPOKE</strong>
+                      <small>One-of-a-Kind Collector Garments</small>
                     </div>
                   </button>
 
                   <button
-                    className="dropdown-link highlight-red"
+                    className="dropdown-link"
                     onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'clearance' }))}
                     role="menuitem"
                   >
                     <div className="dropdown-link-text">
-                      <strong>CLEARANCE</strong>
-                      <small>Special Limited Value Archive</small>
+                      <strong style={{ color: '#B35436' }}>ARCHIVE CLEARANCE</strong>
+                      <small>Final Inventory Reductions</small>
                     </div>
                   </button>
                 </div>
@@ -216,66 +297,13 @@ export default function Header({ currentRoute, navigate }) {
             )}
           </div>
 
-          {/* Item 2: DISCOVER with Hover Dropdown */}
-          <div
-            className="nav-dropdown-item"
-            onMouseEnter={() => handleMouseEnter('discover')}
-            onMouseLeave={handleMouseLeave}
+          {/* Item 3: ABOUT (Direct Route) */}
+          <button
+            className={`nav-link ${currentRoute.page === 'about' ? 'active' : ''}`}
+            onClick={() => navigate('about')}
           >
-            <button
-              className={`nav-link dropdown-toggle-link ${['about', 'contact'].includes(currentRoute.page) ? 'active' : ''}`}
-              onClick={() => navigate('shop', { sortBy: 'newest' })}
-              aria-expanded={activeDropdown === 'discover'}
-              aria-haspopup="true"
-            >
-              <span>DISCOVER</span>
-              <ChevronDown
-                size={14}
-                strokeWidth={2.2}
-                className={`dropdown-chevron ${activeDropdown === 'discover' ? 'rotate' : ''}`}
-              />
-            </button>
-
-            {activeDropdown === 'discover' && (
-              <div className="nav-dropdown-menu nav-dropdown-compact" role="menu">
-                <div className="dropdown-menu-inner single-col">
-                  <span className="dropdown-header">EXPLORE INVI</span>
-                  <button
-                    className="dropdown-link"
-                    onClick={() => handleDropdownItemClick(() => navigate('shop', { sortBy: 'newest' }))}
-                    role="menuitem"
-                  >
-                    <div className="dropdown-link-text">
-                      <strong>NEW ARRIVALS</strong>
-                      <small>Freshly dropped silhouettes</small>
-                    </div>
-                  </button>
-
-                  <button
-                    className="dropdown-link"
-                    onClick={() => handleDropdownItemClick(() => navigate('shop', { filter: 'bestseller' }))}
-                    role="menuitem"
-                  >
-                    <div className="dropdown-link-text">
-                      <strong>BEST SELLERS</strong>
-                      <small>Most popular versatile essentials</small>
-                    </div>
-                  </button>
-
-                  <button
-                    className="dropdown-link"
-                    onClick={() => handleDropdownItemClick(() => navigate('about'))}
-                    role="menuitem"
-                  >
-                    <div className="dropdown-link-text">
-                      <strong>ABOUT INVI</strong>
-                      <small>Indian Versatile Individual story</small>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+            <span>ABOUT</span>
+          </button>
         </nav>
 
         {/* Right: Action Icons */}

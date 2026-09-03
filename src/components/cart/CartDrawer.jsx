@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useUI } from '../../context/UIContext';
 import productsData from '../../data/products.json';
 import { X, Trash2 } from 'lucide-react';
+import { getOptimizedImageUrl, FALLBACK_PRODUCT_IMAGE } from '../../utils/imageOptimizer';
 
 export default function CartDrawer({ navigate }) {
   const {
@@ -127,10 +128,13 @@ export default function CartDrawer({ navigate }) {
                 {cart.map((item) => (
                   <div key={item.cartItemId} className="cart-item-card">
                     <img
-                      src={item.image}
+                      src={getOptimizedImageUrl(item.image, 300)}
                       alt={item.name}
                       className="cart-item-img"
-                      style={{ width: '68px', height: '84px', objectFit: 'cover', flexShrink: 0, borderRadius: '2px' }}
+                      style={{ width: '72px', height: '96px', objectFit: 'cover', flexShrink: 0, borderRadius: '0' }}
+                      onError={(e) => {
+                        e.target.src = FALLBACK_PRODUCT_IMAGE;
+                      }}
                     />
 
                     <div className="cart-item-info">
@@ -199,10 +203,13 @@ export default function CartDrawer({ navigate }) {
                     {upsellProducts.map((up) => (
                       <div key={up.id} className="cart-upsell-card">
                         <img
-                          src={up.images[0]}
+                          src={getOptimizedImageUrl(up.images[0], 200)}
                           alt={up.name}
                           className="cart-upsell-img"
-                          style={{ width: '44px', height: '56px', minWidth: '44px', minHeight: '56px', maxWidth: '44px', maxHeight: '56px', objectFit: 'cover', flexShrink: 0, borderRadius: '2px' }}
+                          style={{ width: '48px', height: '60px', minWidth: '48px', minHeight: '60px', maxWidth: '48px', maxHeight: '60px', objectFit: 'cover', flexShrink: 0, borderRadius: '0' }}
+                          onError={(e) => {
+                            e.target.src = FALLBACK_PRODUCT_IMAGE;
+                          }}
                         />
                         <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
                           <p className="cart-upsell-name">{up.name}</p>

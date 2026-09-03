@@ -8,8 +8,8 @@ const HERO_SLIDES = [
     tag: 'INDIAN VERSATILE INDIVIDUAL',
     title: 'ALWAYS BE MORE.',
     subtitle: 'Be versatile. Be More. Be INVI. Heavyweight 240 GSM French Terry and breathable everyday essentials.',
-    ctaPrimary: { label: 'SHOP T-SHIRTS', category: 'tshirts' },
-    ctaSecondary: { label: 'EXPLORE COLLECTION', category: 'all' },
+    ctaPrimary: { label: 'SHOP THE COLLECTION', category: 'all' },
+    ctaSecondary: { label: 'EXPLORE INVI', page: 'about' },
     image: '/images/hero_campaign_1.webp'
   },
   {
@@ -18,7 +18,7 @@ const HERO_SLIDES = [
     title: 'FRENCH LINEN BLEND.',
     subtitle: 'Air-cooled 60/40 French linen blend shirts with natural drape and relaxed comfort.',
     ctaPrimary: { label: 'SHOP SHIRTS', category: 'shirts' },
-    ctaSecondary: { label: 'VIEW ALL SHIRTS', category: 'shirts' },
+    ctaSecondary: { label: 'EXPLORE ALL', category: 'all' },
     image: '/images/hero_campaign_2.webp'
   },
   {
@@ -208,14 +208,20 @@ export default function EditorialHero({ navigate }) {
           <div className="hero-cta-group">
             <button
               className="btn-primary hero-btn-main"
-              onClick={() => navigate('shop', { category: activeSlide.ctaPrimary.category })}
+              onClick={() => {
+                if (activeSlide.ctaPrimary.page) navigate(activeSlide.ctaPrimary.page);
+                else navigate('shop', { category: activeSlide.ctaPrimary.category });
+              }}
             >
               {activeSlide.ctaPrimary.label}
             </button>
 
             <button
               className="btn-outline-white hero-btn-sub"
-              onClick={() => navigate('shop', { category: activeSlide.ctaSecondary.category })}
+              onClick={() => {
+                if (activeSlide.ctaSecondary.page) navigate(activeSlide.ctaSecondary.page);
+                else navigate('shop', { category: activeSlide.ctaSecondary.category });
+              }}
             >
               {activeSlide.ctaSecondary.label}
             </button>

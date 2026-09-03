@@ -140,7 +140,7 @@ export default function ScrollStoryHero({ navigate }) {
           {currentScene === 1 && (
             <div style={{ animation: 'fadeIn 0.5s ease' }}>
               <span className="hero-eyebrow" style={{ color: '#E5E5E5' }}>
-                Autumn / Winter 2026 Collection
+                Indian Versatile Individual Archive
               </span>
               <h1
                 style={{
@@ -166,7 +166,7 @@ export default function ScrollStoryHero({ navigate }) {
                   fontWeight: 300
                 }}
               >
-                Engineered 240 GSM French Terry cotton and breathable linen blends tailored in Bangalore.
+                Engineered 240 GSM French Terry cotton and breathable linen blends crafted in India.
               </p>
             </div>
           )}

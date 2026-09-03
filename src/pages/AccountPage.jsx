@@ -4,23 +4,20 @@ import { BRAND, BUSINESS_CONFIG } from '../data/siteContent';
 import { useUI } from '../context/UIContext';
 import {
   Package,
-  User,
-  ArrowRight,
   RotateCcw,
   MessageSquare,
   Mail,
-  ShieldCheck,
-  Truck,
-  Clock,
   Search,
   CheckCircle,
-  HelpCircle,
-  FileText
+  Clock,
+  ShieldCheck,
+  ChevronRight,
+  ArrowRight
 } from 'lucide-react';
 
 export default function AccountPage({ navigate }) {
   const { addToast } = useUI();
-  const [activeTab, setActiveTab] = useState('track'); // 'track' | 'return' | 'account'
+  const [activeTab, setActiveTab] = useState('track'); // 'track' | 'return' | 'support'
 
   // Order Tracking State
   const [orderQuery, setOrderQuery] = useState('');
@@ -46,26 +43,26 @@ export default function AccountPage({ navigate }) {
       id: orderQuery.trim().toUpperCase(),
       status: 'Dispatched & In Transit',
       carrier: 'Bluedart / Delhivery Pan-India Express',
-      timeline: '8–10 Working Days Delivery Window',
+      timeline: '8–10 Working Days Pan-India Window',
       dispatchDate: '1–2 working days from placement',
       trackingAvailable: true
     });
-    addToast(`Retrieved tracking status for order #${orderQuery.trim()}`, 'info');
+    addToast(`Retrieved status for order #${orderQuery.trim()}`, 'info');
   };
 
   const handleReturnSubmit = (e) => {
     e.preventDefault();
     if (!returnForm.orderId || !returnForm.customerName || !returnForm.phone) {
-      addToast('Please provide your Order ID, Name, and Phone number.', 'error');
+      addToast('Please enter your Order ID, Name, and Phone number.', 'error');
       return;
     }
 
     setReturnSubmitted(true);
     addToast(`Your ${returnType === 'exchange' ? 'exchange' : 'return'} request has been registered.`, 'cart');
 
-    // Also open direct WhatsApp with the pre-formatted request so INVI team receives it instantly
+    // Pre-format message for instant concierge handoff
     const requestText = encodeURIComponent(
-      `Hi INVI Team, I would like to initiate a ${returnType === 'exchange' ? 'SIZE EXCHANGE' : 'RETURN'} for:\n` +
+      `Hi INVI Team, I would like to initiate a ${returnType === 'exchange' ? 'SIZE EXCHANGE (FREE)' : 'RETURN'} for:\n` +
       `Order ID: ${returnForm.orderId}\n` +
       `Name: ${returnForm.customerName}\n` +
       `Phone: ${returnForm.phone}\n` +
@@ -78,272 +75,303 @@ export default function AccountPage({ navigate }) {
   };
 
   return (
-    <div className="account-page invi-container" style={{ padding: 'var(--space-12) var(--space-4) var(--space-20) var(--space-4)', maxWidth: '920px', margin: '0 auto' }}>
-      {/* Top Header */}
-      <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
-        <span className="label-badge" style={{ color: '#555555', display: 'block', marginBottom: '8px' }}>
-          ORDERS & SERVICES
+    <div className="account-page-redesign invi-container" style={{ padding: '60px 20px 100px 20px', maxWidth: '880px', margin: '0 auto' }}>
+      {/* Editorial Header */}
+      <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+        <span className="editorial-eyebrow" style={{ color: '#767676', marginBottom: '6px' }}>
+          INDIAN VERSATILE INDIVIDUAL / CLIENT CARE
         </span>
-        <h1 style={{ fontSize: '2.4rem', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
-          CUSTOMER PORTAL
+        <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em', margin: '0 0 12px 0', color: '#0A0A0A' }}>
+          CLIENT SUITE & ORDERS
         </h1>
-        <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', maxWidth: '560px', margin: '0 auto', lineHeight: 1.6 }}>
-          Track recent purchases, initiate size exchanges free of charge, or manage your account right here.
+        <p style={{ fontSize: '0.92rem', color: '#555555', maxWidth: '520px', margin: '0 auto', lineHeight: 1.6 }}>
+          Live pan-India order tracking, complimentary 7-day size exchanges, and direct concierge service.
         </p>
       </div>
 
-      {/* Tabs Switcher */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '32px', borderBottom: '1px solid var(--border-medium)', paddingBottom: '16px', flexWrap: 'wrap' }}>
+      {/* Minimal Underline Tab Switcher */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginBottom: '44px', borderBottom: '1px solid rgba(0, 0, 0, 0.08)', paddingBottom: '2px', flexWrap: 'wrap' }}>
         <button
           onClick={() => setActiveTab('track')}
-          className={`btn-secondary ${activeTab === 'track' ? 'active-tab-btn' : ''}`}
           style={{
-            padding: '10px 22px',
-            fontSize: '0.78rem',
+            background: 'none',
+            border: 'none',
+            padding: '12px 4px',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '0.82rem',
             fontWeight: 800,
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            letterSpacing: '0.04em',
-            backgroundColor: activeTab === 'track' ? '#0A0A0A' : '#FFFFFF',
-            color: activeTab === 'track' ? '#FFFFFF' : '#0A0A0A',
-            borderColor: activeTab === 'track' ? '#0A0A0A' : 'var(--border-medium)',
+            color: activeTab === 'track' ? '#0A0A0A' : '#767676',
+            borderBottom: activeTab === 'track' ? '2px solid #0A0A0A' : '2px solid transparent',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px'
           }}
         >
           <Package size={15} />
-          <span>TRACK YOUR ORDER</span>
+          <span>ORDER TRACKING</span>
         </button>
 
         <button
           onClick={() => setActiveTab('return')}
-          className={`btn-secondary ${activeTab === 'return' ? 'active-tab-btn' : ''}`}
           style={{
-            padding: '10px 22px',
-            fontSize: '0.78rem',
+            background: 'none',
+            border: 'none',
+            padding: '12px 4px',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '0.82rem',
             fontWeight: 800,
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            letterSpacing: '0.04em',
-            backgroundColor: activeTab === 'return' ? '#0A0A0A' : '#FFFFFF',
-            color: activeTab === 'return' ? '#FFFFFF' : '#0A0A0A',
-            borderColor: activeTab === 'return' ? '#0A0A0A' : 'var(--border-medium)',
+            color: activeTab === 'return' ? '#0A0A0A' : '#767676',
+            borderBottom: activeTab === 'return' ? '2px solid #0A0A0A' : '2px solid transparent',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px'
           }}
         >
           <RotateCcw size={15} />
-          <span>RETURNS & EXCHANGES</span>
+          <span>7-DAY RETURNS & EXCHANGES</span>
         </button>
 
         <button
-          onClick={() => setActiveTab('account')}
-          className={`btn-secondary ${activeTab === 'account' ? 'active-tab-btn' : ''}`}
+          onClick={() => setActiveTab('support')}
           style={{
-            padding: '10px 22px',
-            fontSize: '0.78rem',
+            background: 'none',
+            border: 'none',
+            padding: '12px 4px',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '0.82rem',
             fontWeight: 800,
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            letterSpacing: '0.04em',
-            backgroundColor: activeTab === 'account' ? '#0A0A0A' : '#FFFFFF',
-            color: activeTab === 'account' ? '#FFFFFF' : '#0A0A0A',
-            borderColor: activeTab === 'account' ? '#0A0A0A' : 'var(--border-medium)',
+            color: activeTab === 'support' ? '#0A0A0A' : '#767676',
+            borderBottom: activeTab === 'support' ? '2px solid #0A0A0A' : '2px solid transparent',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px'
           }}
         >
-          <User size={15} />
-          <span>ACCOUNT & HELP</span>
+          <MessageSquare size={15} />
+          <span>CONCIERGE DESK</span>
         </button>
       </div>
 
-      {/* TAB 1: ORDER TRACKER */}
+      {/* =========================================================================
+          TAB 1: LIVE ORDER TRACKING
+          ========================================================================= */}
       {activeTab === 'track' && (
-        <div style={{ backgroundColor: '#FFFFFF', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', padding: '32px', marginBottom: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(0, 0, 0, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Package size={22} color="#0A0A0A" />
-            </div>
-            <div>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>
-                PAN-INDIA ORDER TRACKING
-              </h2>
-              <p style={{ fontSize: '0.8rem', color: '#666666', margin: 0 }}>
-                Enter your Order Number from your confirmation SMS/Email (e.g. INVI-10492 or 10492)
-              </p>
-            </div>
+        <div style={{ animation: 'fadeIn 0.25s ease' }}>
+          <div style={{ marginBottom: '28px' }}>
+            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.25rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.01em', margin: '0 0 6px 0', color: '#0A0A0A' }}>
+              LOOKUP DISPATCH STATUS
+            </h2>
+            <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>
+              Enter your Order Number from your confirmation SMS or email (e.g. 10492 or INVI-10492).
+            </p>
           </div>
 
-          <form onSubmit={handleTrackSubmit} style={{ display: 'flex', gap: '10px', marginTop: '20px', flexWrap: 'wrap' }}>
+          <form onSubmit={handleTrackSubmit} style={{ display: 'flex', gap: '12px', marginBottom: '36px', flexWrap: 'wrap' }}>
             <input
               type="text"
               required
-              placeholder="Enter Order ID (e.g. 10492)"
+              placeholder="ENTER ORDER NUMBER (e.g. 10492)"
               value={orderQuery}
               onChange={(e) => setOrderQuery(e.target.value)}
               style={{
                 flex: 1,
-                minWidth: '240px',
-                padding: '12px 16px',
-                border: '1px solid var(--border-medium)',
-                borderRadius: 'var(--radius-xs)',
-                fontSize: '0.9rem',
-                fontFamily: 'var(--font-sans)'
+                minWidth: '260px',
+                padding: '14px 18px',
+                border: '1.5px solid #0A0A0A',
+                borderRadius: 0,
+                fontSize: '0.88rem',
+                fontFamily: 'var(--font-mono)',
+                textTransform: 'uppercase',
+                backgroundColor: '#FFFFFF',
+                outline: 'none'
               }}
             />
             <button
               type="submit"
               className="btn-primary"
-              style={{ padding: '0 28px', fontSize: '0.82rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+              style={{ padding: '0 32px', height: '50px', fontSize: '0.78rem', letterSpacing: '0.08em', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
             >
-              <Search size={16} />
+              <Search size={15} />
               <span>SEARCH ORDER</span>
             </button>
           </form>
 
           {searchedOrder && (
-            <div style={{ marginTop: '28px', padding: '24px', backgroundColor: '#FAF9F6', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-light)', paddingBottom: '12px' }}>
+            <div style={{ border: '1px solid rgba(0, 0, 0, 0.1)', padding: '32px', backgroundColor: '#FFFFFF', marginBottom: '36px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(0, 0, 0, 0.08)', paddingBottom: '18px', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
-                  <span style={{ fontSize: '0.72rem', color: '#666666', textTransform: 'uppercase', display: 'block' }}>Order Reference</span>
-                  <strong style={{ fontSize: '1.1rem', color: '#0A0A0A' }}>#{searchedOrder.id}</strong>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#767676', textTransform: 'uppercase', display: 'block', letterSpacing: '0.08em' }}>
+                    CONFIRMED PARCEL REFERENCE
+                  </span>
+                  <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', color: '#0A0A0A', letterSpacing: '0.04em' }}>
+                    #{searchedOrder.id}
+                  </strong>
                 </div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#DCFCE7', color: '#15803D', padding: '4px 10px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 700 }}>
+
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#DCFCE7', color: '#15803D', padding: '6px 12px', fontSize: '0.74rem', fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                   <CheckCircle size={14} />
                   <span>{searchedOrder.status}</span>
                 </div>
               </div>
 
-              {/* Progress Milestones */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px', margin: '20px 0' }}>
-                <div style={{ padding: '12px', backgroundColor: '#FFFFFF', borderRadius: '4px', border: '1px solid var(--border-light)' }}>
-                  <span style={{ fontSize: '0.7rem', color: '#777777', textTransform: 'uppercase', display: 'block' }}>Step 1: Dispatch</span>
-                  <strong style={{ fontSize: '0.8rem', color: '#0A0A0A' }}>1–2 Working Days</strong>
+              {/* Minimal Milestone Sequence */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '28px' }}>
+                <div style={{ borderLeft: '2px solid #0A0A0A', paddingLeft: '14px' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#767676', textTransform: 'uppercase', display: 'block' }}>STAGE 01</span>
+                  <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#0A0A0A' }}>DISPATCHED (1–2 DAYS)</strong>
                 </div>
-                <div style={{ padding: '12px', backgroundColor: '#FFFFFF', borderRadius: '4px', border: '1px solid var(--border-light)' }}>
-                  <span style={{ fontSize: '0.7rem', color: '#777777', textTransform: 'uppercase', display: 'block' }}>Step 2: Courier</span>
-                  <strong style={{ fontSize: '0.8rem', color: '#0A0A0A' }}>Bluedart / Delhivery</strong>
+                <div style={{ borderLeft: '2px solid #0A0A0A', paddingLeft: '14px' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#767676', textTransform: 'uppercase', display: 'block' }}>STAGE 02</span>
+                  <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#0A0A0A' }}>BLUEDART / DELHIVERY</strong>
                 </div>
-                <div style={{ padding: '12px', backgroundColor: '#FFFFFF', borderRadius: '4px', border: '1px solid var(--border-light)' }}>
-                  <span style={{ fontSize: '0.7rem', color: '#777777', textTransform: 'uppercase', display: 'block' }}>Step 3: Delivery</span>
-                  <strong style={{ fontSize: '0.8rem', color: '#0A0A0A' }}>8–10 Working Days</strong>
+                <div style={{ borderLeft: '2px solid #16A34A', paddingLeft: '14px' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#16A34A', textTransform: 'uppercase', display: 'block' }}>STAGE 03</span>
+                  <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#16A34A' }}>IN PAN-INDIA TRANSIT</strong>
                 </div>
               </div>
 
-              <p style={{ fontSize: '0.82rem', color: '#555555', lineHeight: 1.5, marginBottom: '16px' }}>
-                Your parcel is fulfilled directly from our facility. For real-time GPS live tracking or specific delivery instructions, connect directly with our dispatch team:
-              </p>
-
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', borderTop: '1px solid rgba(0, 0, 0, 0.08)', paddingTop: '20px' }}>
                 <a
-                  href={`https://wa.me/${BRAND.whatsappNumber}?text=Hi%20INVI%20Team,%20please%20share%20live%20AWB%20courier%20status%20for%20order%20%23${encodeURIComponent(searchedOrder.id)}`}
+                  href={`https://wa.me/${BRAND.whatsappNumber}?text=Hi%20INVI,%20please%20share%20live%20AWB%20tracking%20link%20for%20order%20%23${encodeURIComponent(searchedOrder.id)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary"
-                  style={{ backgroundColor: '#128C7E', borderColor: '#128C7E', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.78rem' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.76rem', padding: '12px 22px' }}
                 >
                   <MessageSquare size={14} />
-                  <span>GET LIVE AWB ON WHATSAPP</span>
+                  <span>GET LIVE AWB ON WHATSAPP →</span>
                 </a>
 
-                <a
-                  href={`mailto:${BRAND.email}?subject=AWB%20Tracking%20Inquiry%20Order%20%23${encodeURIComponent(searchedOrder.id)}`}
+                <button
+                  type="button"
                   className="btn-secondary"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.78rem' }}
+                  onClick={() => setActiveTab('return')}
+                  style={{ fontSize: '0.76rem', padding: '12px 22px' }}
                 >
-                  <Mail size={14} />
-                  <span>EMAIL CONCIERGE</span>
-                </a>
+                  <span>NEED TO EXCHANGE SIZE?</span>
+                </button>
               </div>
             </div>
           )}
-        </div>
-      )}
 
-      {/* TAB 2: IN-APP RETURNS & EXCHANGES */}
-      {activeTab === 'return' && (
-        <div style={{ backgroundColor: '#FFFFFF', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', padding: '32px', marginBottom: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(0, 0, 0, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <RotateCcw size={22} color="#0A0A0A" />
+          {/* Trust Guarantees */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', borderTop: '1px solid rgba(0, 0, 0, 0.08)', paddingTop: '32px' }}>
+            <div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#767676', textTransform: 'uppercase' }}>FULFILLMENT</span>
+              <h4 style={{ fontSize: '0.85rem', fontWeight: 800, margin: '4px 0', textTransform: 'uppercase' }}>1–2 DAYS DISPATCH</h4>
+              <p style={{ fontSize: '0.78rem', color: '#666666', margin: 0, lineHeight: 1.5 }}>
+                Orders packaged in tamper-proof mailers and handed directly to express couriers.
+              </p>
             </div>
             <div>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>
-                7-DAY RETURN & SIZE EXCHANGE REQUEST
-              </h2>
-              <p style={{ fontSize: '0.8rem', color: '#666666', margin: 0 }}>
-                Size exchanges are 100% complimentary. Returns carry a ₹150 reverse handling fee.
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#767676', textTransform: 'uppercase' }}>DELIVERY WINDOW</span>
+              <h4 style={{ fontSize: '0.85rem', fontWeight: 800, margin: '4px 0', textTransform: 'uppercase' }}>8–10 WORKING DAYS</h4>
+              <p style={{ fontSize: '0.78rem', color: '#666666', margin: 0, lineHeight: 1.5 }}>
+                Pan-India surface & air transit covering 27,000+ pin codes.
+              </p>
+            </div>
+            <div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#767676', textTransform: 'uppercase' }}>AUTHENTICITY</span>
+              <h4 style={{ fontSize: '0.85rem', fontWeight: 800, margin: '4px 0', textTransform: 'uppercase' }}>100% INVI VERIFIED</h4>
+              <p style={{ fontSize: '0.78rem', color: '#666666', margin: 0, lineHeight: 1.5 }}>
+                Genuine garments engineered for the Indian Versatile Individual.
               </p>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          TAB 2: 7-DAY RETURNS & EXCHANGES PORTAL
+          ========================================================================= */}
+      {activeTab === 'return' && (
+        <div style={{ animation: 'fadeIn 0.25s ease' }}>
+          <div style={{ marginBottom: '28px' }}>
+            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.25rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.01em', margin: '0 0 6px 0', color: '#0A0A0A' }}>
+              7-DAY RETURN & EXCHANGE PROTOCOL
+            </h2>
+            <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>
+              Size exchanges are 100% complimentary. Return refunds carry a transparent ₹150 reverse handling fee.
+            </p>
+          </div>
 
           {returnSubmitted ? (
-            <div style={{ padding: '32px', backgroundColor: '#FAF9F6', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', textAlign: 'center' }}>
-              <CheckCircle size={44} color="#16A34A" style={{ margin: '0 auto 16px auto' }} />
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '8px', textTransform: 'uppercase' }}>
-                REQUEST REGISTERED SUCCESSFULLY
+            <div style={{ border: '1px solid rgba(0, 0, 0, 0.1)', padding: '40px 24px', backgroundColor: '#FFFFFF', textAlign: 'center', marginBottom: '32px' }}>
+              <CheckCircle size={40} color="#15803D" style={{ margin: '0 auto 16px auto' }} />
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.3rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '8px' }}>
+                REQUEST LOGGED SUCCESSFULLY
               </h3>
-              <p style={{ fontSize: '0.85rem', color: '#555555', maxWidth: '520px', margin: '0 auto 20px auto', lineHeight: 1.6 }}>
-                Thank you, {returnForm.customerName}. Your {returnType === 'exchange' ? 'size exchange' : 'return'} request for Order #{returnForm.orderId} has been sent to our customer care desk. We will reach out via WhatsApp/Phone within 4–6 business hours to arrange reverse pickup.
+              <p style={{ fontSize: '0.9rem', color: '#555555', maxWidth: '500px', margin: '0 auto 24px auto', lineHeight: 1.6 }}>
+                Your {returnType === 'exchange' ? 'complimentary size exchange' : 'return'} for Order #{returnForm.orderId} has been transmitted to our care team. We will coordinate reverse pickup within 24 hours.
               </p>
               <button
+                type="button"
                 className="btn-secondary"
                 onClick={() => {
                   setReturnSubmitted(false);
                   setReturnForm({ orderId: '', customerName: '', phone: '', itemDetails: '', requestedSize: '', reason: '' });
                 }}
               >
-                Submit Another Request
+                SUBMIT ANOTHER INQUIRY
               </button>
             </div>
           ) : (
-            <form onSubmit={handleReturnSubmit} style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              {/* Type Toggle */}
+            <form onSubmit={handleReturnSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+              {/* Type Switcher */}
               <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
-                  Select Request Type *
+                <label style={{ fontFamily: 'var(--font-sans)', fontSize: '0.74rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '10px' }}>
+                  REQUEST TYPE *
                 </label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                   <button
                     type="button"
                     onClick={() => setReturnType('exchange')}
                     style={{
-                      padding: '12px',
-                      border: returnType === 'exchange' ? '2px solid #0A0A0A' : '1px solid var(--border-medium)',
+                      padding: '16px',
+                      border: returnType === 'exchange' ? '2px solid #0A0A0A' : '1px solid rgba(0, 0, 0, 0.12)',
                       backgroundColor: returnType === 'exchange' ? '#FAF9F6' : '#FFFFFF',
-                      borderRadius: 'var(--radius-xs)',
                       textAlign: 'left',
                       cursor: 'pointer'
                     }}
                   >
-                    <strong style={{ fontSize: '0.85rem', display: 'block' }}>SIZE EXCHANGE (FREE)</strong>
-                    <span style={{ fontSize: '0.72rem', color: '#16A34A', fontWeight: 600 }}>Zero extra charges for size swaps</span>
+                    <strong style={{ fontSize: '0.85rem', display: 'block', textTransform: 'uppercase' }}>SIZE EXCHANGE (FREE)</strong>
+                    <span style={{ fontSize: '0.74rem', color: '#15803D', fontWeight: 700 }}>100% complimentary courier swap</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setReturnType('return')}
                     style={{
-                      padding: '12px',
-                      border: returnType === 'return' ? '2px solid #0A0A0A' : '1px solid var(--border-medium)',
+                      padding: '16px',
+                      border: returnType === 'return' ? '2px solid #0A0A0A' : '1px solid rgba(0, 0, 0, 0.12)',
                       backgroundColor: returnType === 'return' ? '#FAF9F6' : '#FFFFFF',
-                      borderRadius: 'var(--radius-xs)',
                       textAlign: 'left',
                       cursor: 'pointer'
                     }}
                   >
-                    <strong style={{ fontSize: '0.85rem', display: 'block' }}>RETURN & REFUND</strong>
-                    <span style={{ fontSize: '0.72rem', color: '#666666' }}>₹150 handling fee deducted from refund</span>
+                    <strong style={{ fontSize: '0.85rem', display: 'block', textTransform: 'uppercase' }}>RETURN & REFUND</strong>
+                    <span style={{ fontSize: '0.74rem', color: '#767676' }}>₹150 handling fee deducted from refund</span>
                   </button>
                 </div>
               </div>
 
               {/* Order ID & Name */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
-                  <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
-                    Order ID *
+                  <label style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                    ORDER NUMBER *
                   </label>
                   <input
                     type="text"
@@ -351,30 +379,30 @@ export default function AccountPage({ navigate }) {
                     placeholder="e.g. 10492"
                     value={returnForm.orderId}
                     onChange={(e) => setReturnForm({ ...returnForm, orderId: e.target.value })}
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '12px 14px', border: '1px solid rgba(0, 0, 0, 0.15)', fontSize: '0.85rem' }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
-                    Full Name *
+                  <label style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                    FULL NAME *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Your name"
+                    placeholder="Your Full Name"
                     value={returnForm.customerName}
                     onChange={(e) => setReturnForm({ ...returnForm, customerName: e.target.value })}
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '12px 14px', border: '1px solid rgba(0, 0, 0, 0.15)', fontSize: '0.85rem' }}
                   />
                 </div>
               </div>
 
               {/* Phone & Garment Details */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
-                  <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
-                    Phone Number (WhatsApp) *
+                  <label style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                    WHATSAPP / PHONE NUMBER *
                   </label>
                   <input
                     type="tel"
@@ -382,71 +410,43 @@ export default function AccountPage({ navigate }) {
                     placeholder="+91 98765 43210"
                     value={returnForm.phone}
                     onChange={(e) => setReturnForm({ ...returnForm, phone: e.target.value })}
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '12px 14px', border: '1px solid rgba(0, 0, 0, 0.15)', fontSize: '0.85rem' }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
-                    Garment Name / Current Size
+                  <label style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                    {returnType === 'exchange' ? 'DESIRED REPLACEMENT SIZE *' : 'GARMENT NAME'}
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Milange Charcoal Tee (Size L)"
-                    value={returnForm.itemDetails}
-                    onChange={(e) => setReturnForm({ ...returnForm, itemDetails: e.target.value })}
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', fontSize: '0.85rem' }}
+                    placeholder={returnType === 'exchange' ? 'e.g. Size L (Milange Charcoal)' : 'e.g. Loose Fit T-Shirt'}
+                    value={returnForm.requestedSize}
+                    onChange={(e) => setReturnForm({ ...returnForm, requestedSize: e.target.value })}
+                    style={{ width: '100%', padding: '12px 14px', border: '1px solid rgba(0, 0, 0, 0.15)', fontSize: '0.85rem' }}
                   />
                 </div>
               </div>
 
-              {/* Requested Size if Exchange */}
-              {returnType === 'exchange' && (
-                <div>
-                  <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
-                    Requested New Size *
-                  </label>
-                  <select
-                    value={returnForm.requestedSize}
-                    onChange={(e) => setReturnForm({ ...returnForm, requestedSize: e.target.value })}
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', fontSize: '0.85rem' }}
-                  >
-                    <option value="">Select Replacement Size</option>
-                    <option value="XS">XS</option>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                    <option value="XL">XL</option>
-                    <option value="XXL">XXL</option>
-                  </select>
-                </div>
-              )}
-
               <div>
-                <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
-                  Reason for Request
+                <label style={{ fontFamily: 'var(--font-sans)', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                  REASON FOR REQUEST (OPTIONAL)
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="e.g. Need a more relaxed fit across shoulders..."
+                  placeholder="Tell us if you prefer a tighter or looser drape..."
                   value={returnForm.reason}
                   onChange={(e) => setReturnForm({ ...returnForm, reason: e.target.value })}
-                  style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', fontSize: '0.85rem' }}
+                  style={{ width: '100%', padding: '12px 14px', border: '1px solid rgba(0, 0, 0, 0.15)', fontSize: '0.85rem', resize: 'vertical' }}
                 />
-              </div>
-
-              <div style={{ backgroundColor: '#FAF9F6', padding: '14px', borderRadius: '4px', border: '1px solid var(--border-light)', fontSize: '0.75rem', color: '#666666', lineHeight: 1.5 }}>
-                • Garment must be unworn, unwashed, and returned with original tags intact.<br />
-                • Reverse pickup will be scheduled by our courier partner within 24–48 hours.<br />
-                • Sale/clearance purchases are final sale as per official store policy.
               </div>
 
               <button
                 type="submit"
                 className="btn-primary"
-                style={{ width: '100%', padding: '14px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                style={{ padding: '16px 36px', alignSelf: 'flex-start', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
               >
-                <span>SUBMIT {returnType === 'exchange' ? 'EXCHANGE' : 'RETURN'} REQUEST</span>
+                <span>TRANSMIT REQUEST TO CONCIERGE</span>
                 <ArrowRight size={15} />
               </button>
             </form>
@@ -454,117 +454,71 @@ export default function AccountPage({ navigate }) {
         </div>
       )}
 
-      {/* TAB 3: ACCOUNT & DIRECT CONCIERGE */}
-      {activeTab === 'account' && (
-        <div style={{ backgroundColor: '#FFFFFF', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-xs)', padding: '32px', marginBottom: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(0, 0, 0, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <User size={22} color="#0A0A0A" />
-            </div>
-            <div>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>
-                CUSTOMER CARE & INVI DESK
-              </h2>
-              <p style={{ fontSize: '0.8rem', color: '#666666', margin: 0 }}>
-                Direct support channels, store policies, and registered address
-              </p>
-            </div>
+      {/* =========================================================================
+          TAB 3: CONCIERGE & SUPPORT DESK
+          ========================================================================= */}
+      {activeTab === 'support' && (
+        <div style={{ animation: 'fadeIn 0.25s ease' }}>
+          <div style={{ marginBottom: '28px' }}>
+            <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.25rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.01em', margin: '0 0 6px 0', color: '#0A0A0A' }}>
+              DIRECT CONCIERGE ASSISTANCE
+            </h2>
+            <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>
+              Speak with a real human stylist or tracking specialist. No bots, no canned answers.
+            </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', margin: '24px 0' }}>
-            <div style={{ padding: '20px', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-xs)' }}>
-              <h4 style={{ fontSize: '0.82rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '6px' }}>
-                WHATSAPP ASSISTANCE
-              </h4>
-              <p style={{ fontSize: '0.78rem', color: '#666666', marginBottom: '12px' }}>
-                Fastest resolution for sizing advice, custom drop requests, or tracking.
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '36px' }}>
+            <div style={{ border: '1px solid rgba(0, 0, 0, 0.1)', padding: '28px', backgroundColor: '#FFFFFF' }}>
+              <MessageSquare size={24} color="#128C7E" style={{ marginBottom: '12px' }} />
+              <h3 style={{ fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', margin: '0 0 6px 0' }}>
+                WHATSAPP CONCIERGE
+              </h3>
+              <p style={{ fontSize: '0.82rem', color: '#666666', lineHeight: 1.5, marginBottom: '16px' }}>
+                Instant sizing guidance, live AWB updates, and personal styling consultations.
               </p>
               <a
-                href={`https://wa.me/${BRAND.whatsappNumber}?text=Hi%20INVI`}
+                href={`https://wa.me/${BRAND.whatsappNumber}?text=Hi%20INVI,%20I%20need%20assistance`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"
-                style={{ backgroundColor: '#128C7E', borderColor: '#128C7E', fontSize: '0.75rem', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                style={{ backgroundColor: '#128C7E', borderColor: '#128C7E', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.76rem', padding: '12px 20px' }}
               >
-                <MessageSquare size={14} />
-                <span>{BRAND.phoneDisplay}</span>
+                <span>CHAT ON WHATSAPP →</span>
               </a>
             </div>
 
-            <div style={{ padding: '20px', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-xs)' }}>
-              <h4 style={{ fontSize: '0.82rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '6px' }}>
-                EMAIL DESK
-              </h4>
-              <p style={{ fontSize: '0.78rem', color: '#666666', marginBottom: '12px' }}>
-                Official correspondence and enterprise inquiries.
+            <div style={{ border: '1px solid rgba(0, 0, 0, 0.1)', padding: '28px', backgroundColor: '#FFFFFF' }}>
+              <Mail size={24} color="#0A0A0A" style={{ marginBottom: '12px' }} />
+              <h3 style={{ fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', margin: '0 0 6px 0' }}>
+                OFFICIAL INQUIRY DESK
+              </h3>
+              <p style={{ fontSize: '0.82rem', color: '#666666', lineHeight: 1.5, marginBottom: '16px' }}>
+                Written support for complex corporate orders, atelier custom drops, and policy inquiries.
               </p>
               <a
                 href={`mailto:${BRAND.email}`}
                 className="btn-secondary"
-                style={{ fontSize: '0.75rem', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.76rem', padding: '12px 20px' }}
               >
-                <Mail size={14} />
-                <span>{BRAND.email}</span>
+                <span>{BRAND.email} →</span>
               </a>
             </div>
           </div>
 
-          <div style={{ padding: '16px', backgroundColor: '#FAF9F6', borderRadius: 'var(--radius-xs)', border: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-            <div>
-              <span style={{ fontSize: '0.72rem', color: '#666666', textTransform: 'uppercase', display: 'block' }}>Official Shopify Receipt Portal</span>
-              <p style={{ fontSize: '0.8rem', color: '#0A0A0A', margin: 0 }}>Access your secure Shopify billing receipt archive</p>
+          <div style={{ borderTop: '1px solid rgba(0, 0, 0, 0.08)', paddingTop: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Clock size={16} color="#767676" />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#555555' }}>
+                OPERATING HOURS: {BUSINESS_CONFIG.supportHours}
+              </span>
             </div>
-            <a
-              href={BRAND.shopifyCustomerPortal}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-              style={{ fontSize: '0.72rem', padding: '6px 12px' }}
-            >
-              Open Shopify Portal ↗
-            </a>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#767676' }}>
+              DIRECT LINE: {BRAND.phoneDisplay}
+            </span>
           </div>
         </div>
       )}
-
-      {/* Verified Business Guidelines Strip */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-light)' }}>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-          <Truck size={18} color="#0A0A0A" style={{ marginTop: '2px', flexShrink: 0 }} />
-          <div>
-            <h4 style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '2px' }}>
-              DISPATCH & DELIVERY
-            </h4>
-            <p style={{ fontSize: '0.75rem', color: '#666666', lineHeight: 1.4 }}>
-              Dispatched in {BUSINESS_CONFIG.dispatchTimeline}. Pan-India delivery in {BUSINESS_CONFIG.deliveryTimeline}.
-            </p>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-          <RotateCcw size={18} color="#0A0A0A" style={{ marginTop: '2px', flexShrink: 0 }} />
-          <div>
-            <h4 style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '2px' }}>
-              RETURNS POLICY
-            </h4>
-            <p style={{ fontSize: '0.75rem', color: '#666666', lineHeight: 1.4 }}>
-              {BUSINESS_CONFIG.returnWindowDays}-day return window. Size exchanges processed at zero additional cost.
-            </p>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-          <Clock size={18} color="#0A0A0A" style={{ marginTop: '2px', flexShrink: 0 }} />
-          <div>
-            <h4 style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '2px' }}>
-              SUPPORT HOURS
-            </h4>
-            <p style={{ fontSize: '0.75rem', color: '#666666', lineHeight: 1.4 }}>
-              {BUSINESS_CONFIG.supportHours}. Direct WhatsApp & email support.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

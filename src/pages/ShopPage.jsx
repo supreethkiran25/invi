@@ -164,29 +164,46 @@ export default function ShopPage({ routeParams, navigate }) {
   const activeTabObj =
     CATEGORY_TABS.find((c) => c.id === activeCategory) || CATEGORY_TABS[0];
 
+  const categoryDescriptions = {
+    all: 'Complete archival collection. Heavyweight 240 GSM French Terry, air-cooled French linen blends, and bespoke 1NE OF ONE drops.',
+    tshirts: 'Constructed from custom 240 GSM combed cotton loopback French Terry with shape-retaining ribbed collars and architectural shoulder drops.',
+    shirts: 'Tailored from breathable 60/40 French linen blends engineered for lightweight comfort and relaxed drape in warm climates.',
+    polos: 'Classic regular-fit silhouettes crafted in dense pique and monogram knits for refined daily rotation.',
+    shackets: 'Structured architectural layering garments designed to transition effortlessly across all seasons.',
+    tops: 'Contemporary ribbed baby tees and cropped cuts balancing athletic movement with modern streetwear proportions.',
+    'one-of-1': 'Singular hand-finished bespoke collector drops. Once acquired, the edition is permanently retired.',
+    clearance: 'Final seasonal inventory reductions with savings up to 50% across select archival pieces.'
+  };
+
   return (
     <div className="shop-page invi-container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-20)' }}>
-      {/* Category Header */}
-      <div style={{ marginBottom: 'var(--space-6)' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '6px' }}>
-          {activeTabObj.name}
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-          Showing {filteredProducts.length} curated styles designed & tailored in Bangalore.
-        </p>
+      {/* Editorial Category Header */}
+      <div className="collection-editorial-hero" style={{ marginBottom: '28px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', paddingBottom: '24px' }}>
+        <span className="editorial-eyebrow" style={{ marginBottom: '4px' }}>
+          INDIAN VERSATILE INDIVIDUAL / ARCHIVE
+        </span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
+          <div>
+            <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em', margin: 0 }}>
+              {activeTabObj.name}
+            </h1>
+            <p style={{ color: '#555555', fontSize: '0.88rem', maxWidth: '640px', marginTop: '8px', lineHeight: 1.6 }}>
+              {categoryDescriptions[activeCategory] || categoryDescriptions.all}
+            </p>
+          </div>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: '#767676', letterSpacing: '0.06em' }}>
+            {filteredProducts.length} SILHOUETTES
+          </span>
+        </div>
       </div>
 
       {/* Category Scrollable Navigation Pills */}
-      <div className="category-scroll-container">
+      <div className="category-scroll-container" style={{ marginBottom: '24px' }}>
         {CATEGORY_TABS.map((tab) => (
           <button
             key={tab.id}
             onClick={() => handleCategorySelect(tab.id)}
             className={`filter-pill ${activeCategory === tab.id ? 'active' : ''}`}
-            style={{
-              borderColor: tab.highlight && activeCategory !== tab.id ? 'var(--accent-terracotta)' : undefined,
-              color: tab.highlight && activeCategory !== tab.id ? 'var(--accent-terracotta)' : undefined
-            }}
           >
             <span>{tab.name.toUpperCase()}</span>
           </button>

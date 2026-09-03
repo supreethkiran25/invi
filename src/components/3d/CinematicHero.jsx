@@ -110,7 +110,7 @@ export default function CinematicHero({ navigate }) {
                 textTransform: 'uppercase'
               }}
             >
-              AUTUMN / WINTER 2026
+              INDIAN VERSATILE INDIVIDUAL
             </span>
           </div>
 
@@ -123,7 +123,7 @@ export default function CinematicHero({ navigate }) {
               textTransform: 'uppercase'
             }}
           >
-            Bangalore Atelier • 240 GSM
+            Indian Versatile Individual • 240 GSM
           </span>
         </div>
 
@@ -180,7 +180,7 @@ export default function CinematicHero({ navigate }) {
               fontWeight: 400
             }}
           >
-            Heavyweight 240 GSM French Terry cotton & tailored linen blends. Engineered in Bangalore for effortless versatility.
+            Heavyweight 240 GSM French Terry cotton & tailored linen blends. Engineered for effortless versatility.
           </p>
 
           <div

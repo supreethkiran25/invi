@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useUI } from '../context/UIContext';
+import { getOptimizedImageUrl, FALLBACK_PRODUCT_IMAGE } from '../utils/imageOptimizer';
 
 export default function CartPage({ navigate }) {
   const {
@@ -111,9 +112,12 @@ export default function CartPage({ navigate }) {
               }}
             >
               <img
-                src={item.image}
+                src={getOptimizedImageUrl(item.image, 300)}
                 alt={item.name}
-                style={{ width: '84px', height: '104px', objectFit: 'cover', borderRadius: '2px', backgroundColor: 'var(--bg-subtle)' }}
+                style={{ width: '84px', height: '110px', objectFit: 'cover', borderRadius: '0', backgroundColor: '#F4F2ED' }}
+                onError={(e) => {
+                  e.target.src = FALLBACK_PRODUCT_IMAGE;
+                }}
               />
 
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
