@@ -24,31 +24,21 @@ export function UIProvider({ children }) {
   const openQuickView = (product) => setQuickViewProduct(product);
   const closeQuickView = () => setQuickViewProduct(null);
 
-  const flyToCart = (startRectOrElement, imageUrl) => {
-    if (!startRectOrElement) return;
-    let startX = window.innerWidth / 2;
-    let startY = window.innerHeight / 2;
+  const flyToCart = (eventOrCoords, imageUrl) => {
+    // Pure React coordinate extraction — ZERO DOM queries!
+    const clientX =
+      eventOrCoords?.clientX ??
+      (typeof eventOrCoords?.x === 'number' ? eventOrCoords.x : window.innerWidth / 2);
+    const clientY =
+      eventOrCoords?.clientY ??
+      (typeof eventOrCoords?.y === 'number' ? eventOrCoords.y : window.innerHeight / 2);
 
-    if (startRectOrElement.getBoundingClientRect) {
-      const rect = startRectOrElement.getBoundingClientRect();
-      startX = rect.left + rect.width / 2;
-      startY = rect.top + rect.height / 2;
-    } else if (typeof startRectOrElement.left === 'number') {
-      startX = startRectOrElement.left + (startRectOrElement.width || 0) / 2;
-      startY = startRectOrElement.top + (startRectOrElement.height || 0) / 2;
-    }
+    const startX = clientX;
+    const startY = clientY;
 
-    // Target the shopping bag icon in the fixed header
-    const bagBtn =
-      document.querySelector('.header-cart-btn') ||
-      document.querySelector('[data-cart-btn="true"]') ||
-      document.querySelector('[aria-label*="Shopping bag"]') ||
-      document.querySelector('.header-actions button:last-child');
-    const endRect = bagBtn
-      ? bagBtn.getBoundingClientRect()
-      : { left: window.innerWidth - 44, top: 18, width: 34, height: 34 };
-    const endX = endRect.left + endRect.width / 2;
-    const endY = endRect.top + endRect.height / 2;
+    // Fixed header bag target in top-right viewport — ZERO DOM queries!
+    const endX = window.innerWidth - 52;
+    const endY = 32;
 
     // High parabolic trajectory calculation
     const midX = startX + (endX - startX) * 0.45;
