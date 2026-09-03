@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ProductGallery from '../components/product/ProductGallery';
 import ProductGrid from '../components/product/ProductGrid';
 import productsData from '../data/products.json';
+import { getProductWithColorways } from '../data/productFamilies';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useUI } from '../context/UIContext';
@@ -12,9 +13,18 @@ import { Heart, ChevronDown, ChevronUp, ShieldCheck, Truck, RotateCcw, MessageSq
 export default function ProductDetailPage({ routeParams, navigate }) {
   const { slug, id } = routeParams || {};
 
-  const product =
-    productsData.find((p) => (id ? p.id === String(id) : p.slug === slug)) ||
-    productsData[0];
+  const initialProduct =
+    getProductWithColorways(id || slug) ||
+    getProductWithColorways(productsData[0].id);
+
+  const [currentProduct, setCurrentProduct] = useState(initialProduct);
+
+  useEffect(() => {
+    const p = getProductWithColorways(id || slug) || getProductWithColorways(productsData[0].id);
+    setCurrentProduct(p);
+  }, [slug, id]);
+
+  const product = currentProduct || initialProduct;
 
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -31,6 +41,19 @@ export default function ProductDetailPage({ routeParams, navigate }) {
   }, [product.id]);
 
   const isFavorited = isInWishlist(product.id);
+
+  const handleColorSelect = (colorway) => {
+    const fullProduct = getProductWithColorways(colorway.id || colorway.slug);
+    if (fullProduct) {
+      setCurrentProduct(fullProduct);
+      if (!fullProduct.sizes?.includes(selectedSize)) {
+        setSelectedSize(fullProduct.sizes?.[0] || 'M');
+      }
+      try {
+        window.history.replaceState({}, '', `/products/${fullProduct.slug}`);
+      } catch {}
+    }
+  };
 
   const handleAddToCart = () => {
     addToCart(product, selectedSize, quantity);
@@ -50,9 +73,12 @@ export default function ProductDetailPage({ routeParams, navigate }) {
     );
   };
 
-  // Curated Related products
+  // Curated Related products (excluding any sibling colors of this garment)
+  const siblingIds = new Set((product.colorways || []).map((cw) => String(cw.id)));
+  siblingIds.add(String(product.id));
+
   const relatedProducts = productsData
-    .filter((p) => p.category === product.category && p.id !== product.id)
+    .filter((p) => p.category === product.category && !siblingIds.has(String(p.id)))
     .slice(0, 4);
 
   return (
@@ -106,6 +132,43 @@ export default function ProductDetailPage({ routeParams, navigate }) {
 
             <p className="pdp-tax-caption">MRP INCLUSIVE OF ALL TAXES • FREE EXPRESS SHIPPING</p>
           </div>
+
+          {/* Color Selector */}
+          {product.colorways && product.colorways.length > 1 && (
+            <div className="pdp-color-block">
+              <div className="pdp-color-headline">
+                <span className="pdp-selected-color-txt">
+                  COLOR: <strong>{product.color}</strong>
+                </span>
+                <span className="pdp-color-count-tag">
+                  {product.colorways.length} SHADES
+                </span>
+              </div>
+
+              <div className="pdp-color-swatches-row" role="radiogroup" aria-label="Available colors">
+                {product.colorways.map((cw) => {
+                  const isSelected = String(cw.id) === String(product.id) || cw.color === product.color;
+                  return (
+                    <button
+                      key={cw.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      aria-label={`Select color ${cw.color}`}
+                      title={cw.color}
+                      className={`pdp-color-swatch-btn ${isSelected ? 'active' : ''}`}
+                      onClick={() => handleColorSelect(cw)}
+                    >
+                      <span
+                        className="pdp-color-swatch-circle"
+                        style={{ backgroundColor: cw.colorHex }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Compact Size Selector */}
           <div className="pdp-size-block">

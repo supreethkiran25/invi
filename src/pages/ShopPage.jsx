@@ -1,7 +1,7 @@
 // src/pages/ShopPage.jsx
 import React, { useState, useMemo, useEffect } from 'react';
 import ProductGrid from '../components/product/ProductGrid';
-import productsData from '../data/products.json';
+import { getConsolidatedProducts } from '../data/productFamilies';
 import { X } from 'lucide-react';
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -25,14 +25,14 @@ const PRICE_RANGES = [
 ];
 
 const CATEGORY_TABS = [
-  { id: 'all', name: 'All Garments', count: 52 },
-  { id: 'tshirts', name: 'T-Shirts', count: 28 },
-  { id: 'shirts', name: 'Linen Shirts', count: 8 },
-  { id: 'polos', name: 'Polos', count: 5 },
-  { id: 'shackets', name: 'Shackets', count: 4 },
-  { id: 'tops', name: 'Tops & Crop', count: 3 },
-  { id: 'one-of-1', name: '1NE OF ONE', count: 4, highlight: true },
-  { id: 'clearance', name: 'Clearance', count: 6, sale: true }
+  { id: 'all', name: 'All Garments' },
+  { id: 'tshirts', name: 'T-Shirts' },
+  { id: 'shirts', name: 'Linen Shirts' },
+  { id: 'polos', name: 'Polos' },
+  { id: 'shackets', name: 'Shackets' },
+  { id: 'tops', name: 'Tops & Crop' },
+  { id: 'one-of-1', name: '1NE OF ONE', highlight: true },
+  { id: 'clearance', name: 'Clearance', sale: true }
 ];
 
 function normalizeCat(cat) {
@@ -90,8 +90,10 @@ export default function ShopPage({ routeParams, navigate }) {
     selectedSizes.length + selectedColors.length + (selectedPriceRange ? 1 : 0);
 
   // Filtering & Sorting Logic
+  const consolidatedList = useMemo(() => getConsolidatedProducts(), []);
+
   const filteredProducts = useMemo(() => {
-    let list = [...productsData];
+    let list = [...consolidatedList];
 
     // Category Filter
     if (activeCategory === 'tshirts') {
@@ -115,9 +117,29 @@ export default function ShopPage({ routeParams, navigate }) {
       list = list.filter((p) => p.sizes && selectedSizes.some((s) => p.sizes.includes(s)));
     }
 
-    // Color Filter
+    // Color Filter: matches primary color or any available colorway, and pre-selects that colorway!
     if (selectedColors.length > 0) {
-      list = list.filter((p) => selectedColors.includes(p.color));
+      list = list
+        .filter((p) => {
+          if (selectedColors.includes(p.color)) return true;
+          if (p.colorways && p.colorways.some((cw) => selectedColors.includes(cw.color))) {
+            return true;
+          }
+          return false;
+        })
+        .map((p) => {
+          if (!selectedColors.includes(p.color) && p.colorways) {
+            const matched = p.colorways.find((cw) => selectedColors.includes(cw.color));
+            if (matched) {
+              return {
+                ...p,
+                ...matched,
+                colorways: p.colorways
+              };
+            }
+          }
+          return p;
+        });
     }
 
     // Price Range Filter
@@ -137,7 +159,7 @@ export default function ShopPage({ routeParams, navigate }) {
     }
 
     return list;
-  }, [activeCategory, selectedSizes, selectedColors, selectedPriceRange, sortBy]);
+  }, [consolidatedList, activeCategory, selectedSizes, selectedColors, selectedPriceRange, sortBy]);
 
   const activeTabObj =
     CATEGORY_TABS.find((c) => c.id === activeCategory) || CATEGORY_TABS[0];
@@ -150,7 +172,7 @@ export default function ShopPage({ routeParams, navigate }) {
           {activeTabObj.name}
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-          Showing {filteredProducts.length} of {productsData.length} genuine pieces designed & tailored in Bangalore.
+          Showing {filteredProducts.length} curated styles designed & tailored in Bangalore.
         </p>
       </div>
 

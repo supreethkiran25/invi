@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import EditorialHero from '../components/editorial/EditorialHero';
 import CraftStory from '../components/editorial/CraftStory';
 import ProductCard from '../components/product/ProductCard';
-import productsData from '../data/products.json';
+import { getConsolidatedProducts } from '../data/productFamilies';
 import { BRAND } from '../data/siteContent';
 
 const CATEGORY_TABS = [
@@ -15,19 +15,21 @@ const CATEGORY_TABS = [
 
 export default function HomePage({ navigate }) {
   const [activeCategory, setActiveCategory] = useState('all');
+  const consolidated = useMemo(() => getConsolidatedProducts(), []);
 
   // Memoized product filtering for the showcase section
   const filteredProducts = useMemo(() => {
-    return productsData
+    return consolidated
       .filter((p) => {
-        if (activeCategory === 'all') return (p.isNewArrival || p.isBestSeller) && !p.isOneOfOne;
-        if (activeCategory === 'tshirts') return p.category === 'tshirts';
-        if (activeCategory === 'shirts') return p.category === 'shirts';
+        const cat = p.category?.toLowerCase();
+        if (activeCategory === 'all') return !p.isOneOfOne;
+        if (activeCategory === 'tshirts') return cat === 't-shirts' || cat === 'tshirts';
+        if (activeCategory === 'shirts') return cat === 'shirts' || cat === 'linen-shirts';
         if (activeCategory === 'one-of-1') return p.isOneOfOne;
         return true;
       })
       .slice(0, 8);
-  }, [activeCategory]);
+  }, [consolidated, activeCategory]);
 
   return (
     <div className="home-page">

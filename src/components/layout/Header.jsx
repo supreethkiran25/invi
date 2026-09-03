@@ -22,10 +22,7 @@ export default function Header({ currentRoute, navigate }) {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled((prev) => {
-            const next = window.scrollY > 15;
-            return prev !== next ? next : prev;
-          });
+          setIsScrolled(window.scrollY > 20);
           ticking = false;
         });
         ticking = true;
@@ -53,7 +50,7 @@ export default function Header({ currentRoute, navigate }) {
 
   return (
     <header
-      className={`site-header ${isScrolled ? 'scrolled' : ''} ${isTransparent ? 'transparent-hero-blend' : ''}`}
+      className={`site-header ${isScrolled ? 'scrolled' : ''} ${isTransparent ? 'transparent-hero' : 'normal-header'}`}
       role="banner"
     >
       <div className="invi-container header-inner">
@@ -76,7 +73,7 @@ export default function Header({ currentRoute, navigate }) {
             className="header-logo-link"
             aria-label="INVI - Indian Versatile Individual"
           >
-            <InviLogo variant={isTransparent ? 'light' : 'dark'} height={28} />
+            <InviLogo variant={isTransparent ? 'light' : 'dark'} height={26} />
           </a>
         </div>
 

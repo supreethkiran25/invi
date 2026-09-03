@@ -1,5 +1,5 @@
 // src/components/product/ProductCard.jsx
-import React, { useState, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Heart } from 'lucide-react';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCart } from '../../context/CartContext';
@@ -9,15 +9,21 @@ function ProductCard({ product, navigate }) {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [showSizePicker, setShowSizePicker] = useState(false);
   const [pickerAction, setPickerAction] = useState('buynow'); // 'buynow' | 'cart'
+  const [activeColorway, setActiveColorway] = useState(product);
+
+  useEffect(() => {
+    setActiveColorway(product);
+  }, [product]);
 
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
   const { addToast } = useUI();
 
-  const isFavorited = isInWishlist(product.id);
-  const hasSecondary = product.images && product.images.length > 1;
-  const primaryImg = product.images?.[0] || product.thumbnail;
-  const secondaryImg = product.images?.[1] || primaryImg;
+  const currentItem = activeColorway || product;
+  const isFavorited = isInWishlist(currentItem.id);
+  const hasSecondary = currentItem.images && currentItem.images.length > 1;
+  const primaryImg = currentItem.images?.[0] || currentItem.thumbnail;
+  const secondaryImg = currentItem.images?.[1] || primaryImg;
 
   const activeImage = currentImgIndex === 1 && hasSecondary ? secondaryImg : primaryImg;
 
@@ -25,14 +31,14 @@ function ProductCard({ product, navigate }) {
     if (e.target.closest('.card-action-btn') || e.target.closest('.card-size-selector')) {
       return;
     }
-    navigate('product', { slug: product.slug, id: product.id });
+    navigate('product', { slug: currentItem.slug, id: currentItem.id });
   };
 
   const handleWishlistToggle = (e) => {
     e.stopPropagation();
-    toggleWishlist(product);
+    toggleWishlist(currentItem);
     addToast(
-      isFavorited ? `Removed from wishlist` : `Saved "${product.name}" to wishlist`,
+      isFavorited ? `Removed from wishlist` : `Saved "${currentItem.name}" to wishlist`,
       'wishlist'
     );
   };
@@ -45,13 +51,13 @@ function ProductCard({ product, navigate }) {
 
   const handleSelectSize = (e, size) => {
     e.stopPropagation();
-    addToCart(product, size, 1);
+    addToCart(currentItem, size, 1);
     setShowSizePicker(false);
 
     if (pickerAction === 'buynow') {
       navigate('cart', { autoCheckout: true });
     } else {
-      addToast(`Added "${product.name}" (${size}) to bag`, 'cart');
+      addToast(`Added "${currentItem.name}" (${size}) to bag`, 'cart');
     }
   };
 
@@ -145,17 +151,44 @@ function ProductCard({ product, navigate }) {
       {/* Product Content Block */}
       <div className="product-card-info">
         <span className="product-card-fabric">
-          {product.isOneOfOne ? '1NE OF ONE BESPOKE' : product.fabric}
+          {currentItem.isOneOfOne ? '1NE OF ONE BESPOKE' : currentItem.fabric}
         </span>
 
-        <h3 className="product-card-title">{product.name}</h3>
+        <h3 className="product-card-title">{product.styleFamily || currentItem.name}</h3>
+
+        {/* Compact Color Options Swatches */}
+        {product.colorways && product.colorways.length > 1 && (
+          <div className="card-color-swatches" onClick={(e) => e.stopPropagation()}>
+            {product.colorways.slice(0, 5).map((cw) => {
+              const isSelected = currentItem.color === cw.color;
+              return (
+                <button
+                  key={cw.id}
+                  type="button"
+                  className={`card-color-dot card-action-btn ${isSelected ? 'active' : ''}`}
+                  style={{ backgroundColor: cw.colorHex }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveColorway(cw);
+                  }}
+                  onMouseEnter={() => setActiveColorway(cw)}
+                  title={cw.color}
+                  aria-label={`Select color ${cw.color}`}
+                />
+              );
+            })}
+            {product.colorways.length > 5 && (
+              <span className="card-color-more">+{product.colorways.length - 5}</span>
+            )}
+          </div>
+        )}
 
         <div className="product-card-price-row">
-          <span className="price-current">₹{product.price.toLocaleString('en-IN')}</span>
-          {product.compareAtPrice && product.compareAtPrice > product.price && (
+          <span className="price-current">₹{currentItem.price.toLocaleString('en-IN')}</span>
+          {currentItem.compareAtPrice && currentItem.compareAtPrice > currentItem.price && (
             <>
-              <span className="price-compare">₹{product.compareAtPrice.toLocaleString('en-IN')}</span>
-              <span className="price-discount">{product.discountPercentage}% OFF</span>
+              <span className="price-compare">₹{currentItem.compareAtPrice.toLocaleString('en-IN')}</span>
+              <span className="price-discount">{currentItem.discountPercentage}% OFF</span>
             </>
           )}
         </div>
