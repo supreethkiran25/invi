@@ -32,8 +32,14 @@ export function CartProvider({ children }) {
   const closeCart = () => setIsCartOpen(false);
 
   const addToCart = (product, size = 'M', quantity = 1) => {
-    const chosenSize = size || product.sizes[0] || 'One Size';
-    const cartItemId = `${product.id}-${chosenSize}`;
+    const chosenSize = size || product.sizes?.[0] || 'M';
+    const matchedVariant = (product.variants || []).find(
+      (v) =>
+        (v.size && v.size.toUpperCase() === chosenSize.toUpperCase()) ||
+        (v.title && v.title.toUpperCase() === chosenSize.toUpperCase())
+    );
+    const variantId = matchedVariant ? String(matchedVariant.id) : String(product.id);
+    const cartItemId = `${product.id}-${chosenSize}-${product.color || ''}`;
 
     setCart((prev) => {
       const existingIndex = prev.findIndex((item) => item.cartItemId === cartItemId);
@@ -50,6 +56,7 @@ export function CartProvider({ children }) {
         {
           cartItemId,
           productId: product.id,
+          variantId,
           name: product.name,
           slug: product.slug,
           price: product.price,
@@ -64,6 +71,47 @@ export function CartProvider({ children }) {
     });
 
     setIsCartOpen(true);
+  };
+
+  /**
+   * Generates official live Shopify checkout permalink URL
+   * https://invi.co.in/cart/{variant_id}:{quantity},...
+   */
+  const getShopifyCheckoutUrl = (customItems = null, note = '') => {
+    const itemsToCheckout = customItems || cart;
+    if (!itemsToCheckout || itemsToCheckout.length === 0) return null;
+
+    const permalinkParts = itemsToCheckout
+      .filter((it) => it.variantId || it.productId)
+      .map((it) => `${it.variantId || it.productId}:${it.quantity || 1}`);
+
+    if (permalinkParts.length === 0) return null;
+
+    let checkoutUrl = `https://invi.co.in/cart/${permalinkParts.join(',')}`;
+
+    const params = new URLSearchParams();
+    if (promoCode) {
+      params.append('discount', promoCode);
+    }
+    if (note) {
+      params.append('note', note);
+    }
+    const queryString = params.toString();
+    if (queryString) {
+      checkoutUrl += `?${queryString}`;
+    }
+
+    return checkoutUrl;
+  };
+
+  /**
+   * Redirects customer directly to live Shopify checkout
+   */
+  const proceedToShopifyCheckout = (customItems = null, note = '') => {
+    const url = getShopifyCheckoutUrl(customItems, note);
+    if (url) {
+      window.location.href = url;
+    }
   };
 
   const removeFromCart = (cartItemId) => {
@@ -147,7 +195,9 @@ export function CartProvider({ children }) {
         removePromo,
         isFreeShipping,
         freeShippingRemaining,
-        freeShippingProgress
+        freeShippingProgress,
+        proceedToShopifyCheckout,
+        getShopifyCheckoutUrl
       }}
     >
       {children}

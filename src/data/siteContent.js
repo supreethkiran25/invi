@@ -2,97 +2,118 @@
 
 export const BRAND = {
   name: 'INVI',
+  meaning: 'Indian Versatile Individual',
   tagline: 'ALWAYS BE MORE',
-  founded: '2024',
-  origin: 'Bangalore, India',
+  motto: 'Be versatile. Be More. Be INVI.',
   email: 'invi.alwaysbemore@gmail.com',
   registeredAddress: '736 3rd Cross Fort Mohalla, KR Mohalla, 570004 Mysuru KA, India',
-  headquarters: 'Atelier INVI, Bangalore 560038, Karnataka, India',
   whatsappNumber: '919036334172',
   phoneDisplay: '+91 90363 34172',
+  supportHours: 'Mon–Fri: 11:00 AM – 6:00 PM IST',
   instagramHandle: '@invi.india',
   instagramUrl: 'https://instagram.com/invi.india',
-  officialStoreUrl: 'https://invi.co.in/'
+  officialStoreUrl: 'https://invi.co.in/',
+  shopifyCustomerPortal: 'https://shopify.com/60094251070/account/orders',
+  shopifyLoginUrl: 'https://invi.co.in/customer_authentication/redirect',
+  returnsPortalUrl: 'https://invi.co.in/apps/yanet-return'
+};
+
+export const BUSINESS_CONFIG = {
+  dispatchTimeline: '1–2 working days',
+  deliveryTimeline: '8–10 working days',
+  codFee: 100,
+  prepaidShippingFee: 0,
+  returnWindowDays: 7,
+  returnHandlingFee: 150,
+  exchangeCost: 0, // Free of charge
+  supportHours: 'Mon–Fri: 11:00 AM – 6:00 PM IST'
 };
 
 export const ANNOUNCEMENTS = [
-  'COMPLIMENTARY EXPRESS SHIPPING ON PREPAID ORDERS',
-  'HEAVYWEIGHT 240 GSM FRENCH TERRY • ENGINEERED FOR LONGEVITY',
+  'FREE SHIPPING ON PREPAID ORDERS',
+  'DISPATCH WITHIN 1–2 DAYS • PAN-INDIA DELIVERY (8–10 DAYS)',
   'CASH ON DELIVERY (COD) AVAILABLE PAN-INDIA • 7-DAY EASY RETURNS',
-  'NEW 1NE OF ONE BESPOKE ARCHIVE PIECES LIVE'
+  'BE VERSATILE. BE MORE. BE INVI.'
 ];
 
 export const CATEGORIES_NAV = [
-  { label: 'ALL COLLECTIONS', category: 'all' },
-  { label: 'T-SHIRTS', category: 'T-Shirts' },
-  { label: 'LINEN SHIRTS', category: 'Shirts' },
-  { label: '1NE OF ONE BESPOKE', category: 'one-of-1' },
-  { label: 'BEST SELLERS', category: 'best-sellers' },
-  { label: 'CLEARANCE SALE', category: 'clearance' }
+  { label: 'ALL GARMENTS', category: 'all' },
+  { label: 'T-SHIRTS', category: 't-shirts' },
+  { label: 'SHIRTS', category: 'shirts' },
+  { label: 'POLOS', category: 'polos' },
+  { label: 'TOPS', category: 'tops' },
+  { label: 'SHACKETS', category: 'shackets' },
+  { label: '1NE OF ONE', category: 'one-of-1' },
+  { label: 'CLEARANCE', category: 'clearance' }
 ];
 
 export const EDITORIAL_FEATURES = [
   {
-    badge: 'ARCHIVAL FABRIC',
+    badge: 'CORE ESSENTIAL',
     title: '240 GSM FRENCH TERRY',
     subtitle: 'ENGINEERED DRAPE & STRUCTURAL LONGEVITY',
     description:
-      'Woven from combed long-staple Indian cotton with an ultra-dense loopback interior. Designed to hold a sharp dropped-shoulder silhouette with zero cling.',
-    tag: 'CORE ESSENTIAL'
+      'Woven from combed long-staple Indian cotton with an ultra-dense loopback interior. Designed to hold a clean relaxed silhouette with zero cling.',
+    tag: 'T-SHIRTS'
   },
   {
-    badge: 'SUMMER ARCHITECTURE',
-    title: '60/40 FRENCH LINEN',
-    subtitle: 'AIR-COOLED LINEN BLEND DRAPE',
+    badge: 'STATEMENT SERIES',
+    title: 'LINEN BLEND SHIRTS',
+    subtitle: 'AIR-COOLED DRAPE & REFINED TEXTURE',
     description:
-      'Blended with tailored natural modal for a wrinkle-resistant, fluid drape that breathes effortlessly through tropical heat and high humidity.',
-    tag: 'TAILORED SERIES'
+      'Woven for lightweight, fluid drape that breathes effortlessly through warm Indian climates with elevated style.',
+    tag: 'SHIRTS'
   },
   {
-    badge: 'SINGLE PIECE RUN',
+    badge: 'EXCLUSIVE ARCHIVE',
     title: '1NE OF ONE BESPOKE',
-    subtitle: 'INDIVIDUALLY EMBROIDERED & SERIALIZED',
+    subtitle: 'INDIVIDUALLY CRAFTED & UNIQUE',
     description:
-      'Every garment in the 1NE OF ONE series exists as a single unique piece worldwide. Once acquired, the pattern is permanently retired to the INVI archives.',
-    tag: 'COLLECTOR DROP'
+      'Every piece in the 1NE OF ONE series exists as a single unique garment with distinctive artwork.',
+    tag: 'BESPOKE'
   }
 ];
 
 export const BRAND_VALUES = [
   {
-    title: 'HEAVYWEIGHT 240 GSM',
-    subtitle: 'Zero see-through, structured boxy drape'
+    title: '240 GSM HEAVYWEIGHT',
+    subtitle: 'Structured, durable drape that never clings'
   },
   {
     title: '100% COMBED COTTON',
-    subtitle: 'Brushed loop interior for all-day comfort'
+    subtitle: 'Ultra-soft touch with breathability'
   },
   {
-    title: 'LIFETIME SEAM INTEGRITY',
-    subtitle: 'Twin-needle lockstitching & reinforced collar'
+    title: 'REINFORCED CONSTRUCTION',
+    subtitle: 'Twin-needle lockstitching & shape-retaining collar'
   },
   {
-    title: 'ETHICALLY CRAFTED IN INDIA',
-    subtitle: 'Fair studio wages & sustainable dyeing'
+    title: 'INDIAN VERSATILE INDIVIDUAL',
+    subtitle: 'Engineered for versatility and confidence'
   }
 ];
 
 export const ABOUT_STORY = {
-  heroHeadline: 'CRAFTED FOR THOSE WHO DEMAND MORE.',
+  heroHeadline: 'INDIAN VERSATILE INDIVIDUAL',
+  subHeadline: 'Be versatile. Be More. Be INVI.',
   mission:
-    'INVI was founded in Bangalore with a singular conviction: luxury streetwear should not rely on cheap blended fabrics or fast-fashion shortcuts. We engineer heavyweight 240 GSM French Terry essentials and bespoke linen shirts built for longevity, flawless drape, and effortless confidence.',
+    'At INVI, we believe that clothing is more than just fabric—it’s an extension of who you are. Our mission is to empower every person who wears INVI to feel like a true versatile individual, ready to conquer any challenge and embrace every opportunity.',
+  brandTribute:
+    'INVI stands for Indian Versatile Individual, a tribute to the strength, adaptability, and creativity that define our people. Our designs are carefully curated to inspire confidence and versatility, ensuring you look and feel your best no matter the occasion.',
+  mindset:
+    'With INVI, you’re not just wearing clothes; you’re embodying a mindset. Step into a world where your individuality is celebrated, and your potential is limitless.',
   craftsmanship: [
     {
-      title: 'Dense 240 GSM Loopback Construction',
-      desc: 'Our proprietary French Terry knit delivers the perfect balance of substantial weight and breathable air permeability, ensuring your tee holds its tailored boxy silhouette wash after wash.'
+      title: 'Versatility in Every Cut',
+      desc: 'Designs carefully crafted to transition effortlessly from relaxed street style to elevated social occasions.'
     },
     {
-      title: 'Micro-Ribbed Shape-Retaining Necklines',
-      desc: 'Engineered with elastane-infused ribbing to prevent collar baconing or sagging, maintaining a crisp neckline through years of daily wear.'
+      title: 'Substantial 240 GSM Fabric Weight',
+      desc: 'Dense loopback knit that maintains structural drape, breathable comfort, and long-lasting form.'
     },
     {
-      title: 'Small-Batch Atelier Craftsmanship',
-      desc: 'Proudly conceptualized, cut, and tailored in India with fair workshop practices, rigorous seam inspection, and zero mass-factory cutting corners.'
+      title: 'Proudly Designed for Indian Individuals',
+      desc: 'Tailored proportions designed specifically for Indian silhouettes, climates, and daily lifestyles.'
     }
   ]
 };

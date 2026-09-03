@@ -2,36 +2,30 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useUI } from '../context/UIContext';
-import { BRAND } from '../data/siteContent';
 
-export default function CartPage({ routeParams, navigate }) {
+export default function CartPage({ navigate }) {
   const {
     cart,
     removeFromCart,
     updateQuantity,
-    clearCart,
-    subtotal,
     rawSubtotal,
     discountAmount,
+    subtotal,
     promoCode,
     applyPromo,
     removePromo,
-    isFreeShipping,
-    freeShippingRemaining,
-    freeShippingProgress
+    proceedToShopifyCheckout
   } = useCart();
 
   const { addToast } = useUI();
   const [couponInput, setCouponInput] = useState('');
   const [orderNote, setOrderNote] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('prepaid'); // 'prepaid' | 'cod'
-  const [isCheckoutSubmitted, setIsCheckoutSubmitted] = useState(false);
-  const [orderId, setOrderId] = useState('');
 
-  // Shipping cost calculation
-  const shippingFee = isFreeShipping ? 0 : 99;
+  // Shipping cost calculation: Free prepaid shipping, ₹100 COD fee
+  const shippingFee = 0;
   const codFee = paymentMethod === 'cod' ? 100 : 0;
-  const finalTotal = subtotal + shippingFee + codFee;
+  const finalTotal = subtotal + codFee;
 
   const handleApplyCoupon = (e) => {
     e.preventDefault();
@@ -43,50 +37,8 @@ export default function CartPage({ routeParams, navigate }) {
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
-    const generatedId = `INVI-${Math.floor(100000 + Math.random() * 900000)}`;
-    setOrderId(generatedId);
-    setIsCheckoutSubmitted(true);
-    clearCart();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    proceedToShopifyCheckout(null, orderNote);
   };
-
-  if (isCheckoutSubmitted) {
-    return (
-      <div className="invi-container" style={{ padding: 'var(--space-16) var(--space-4)', maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
-        <span className="label-badge" style={{ color: '#16A34A', display: 'block', marginBottom: '8px' }}>
-          ORDER CONFIRMED
-        </span>
-        <h1 style={{ fontSize: '2.25rem', textTransform: 'uppercase', marginBottom: '12px' }}>
-          THANK YOU FOR YOUR ORDER
-        </h1>
-        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '24px' }}>
-          Your order <strong>#{orderId}</strong> has been received and is being prepared in our Bangalore atelier. You will receive an SMS and WhatsApp tracking update upon dispatch.
-        </p>
-
-        <div style={{ backgroundColor: '#FFFFFF', border: '1px solid var(--border-medium)', padding: '24px', borderRadius: 'var(--radius-xs)', textAlign: 'left', marginBottom: '32px' }}>
-          <h3 style={{ fontSize: '0.85rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '14px', borderBottom: '1px solid var(--border-light)', paddingBottom: '8px' }}>
-            ORDER SUMMARY
-          </h3>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', padding: '6px 0', borderBottom: '1px solid var(--border-light)' }}>
-            <span>Payment Method:</span>
-            <strong>{paymentMethod === 'cod' ? 'Cash on Delivery (COD)' : 'Prepaid (Instant 100% Secure)'}</strong>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', padding: '6px 0', borderBottom: '1px solid var(--border-light)' }}>
-            <span>Estimated Delivery:</span>
-            <strong>3–5 Working Days</strong>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 800, paddingTop: '12px' }}>
-            <span>Total Amount:</span>
-            <span>₹{finalTotal.toLocaleString('en-IN')}</span>
-          </div>
-        </div>
-
-        <button className="btn-primary" onClick={() => navigate('home')}>
-          RETURN TO HOMEPAGE →
-        </button>
-      </div>
-    );
-  }
 
   if (cart.length === 0) {
     return (
@@ -364,7 +316,7 @@ export default function CartPage({ routeParams, navigate }) {
               style={{ width: '100%', height: '52px', fontSize: '0.85rem' }}
               onClick={handlePlaceOrder}
             >
-              COMPLETE & PLACE ORDER →
+              PROCEED TO SECURE CHECKOUT →
             </button>
 
             <p style={{ fontSize: '0.68rem', color: '#777777', textAlign: 'center', marginTop: '12px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>

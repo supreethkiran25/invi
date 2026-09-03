@@ -41,13 +41,13 @@ export default function HomePage({ navigate }) {
         <div className="invi-container">
           <div className="home-trust-bar-grid">
             <div className="home-trust-item">
-              <span>COMPLIMENTARY SHIPPING OVER ₹999</span>
+              <span>FREE SHIPPING ON PREPAID ORDERS</span>
             </div>
             <div className="home-trust-item">
-              <span>PAN-INDIA CASH ON DELIVERY</span>
+              <span>CASH ON DELIVERY PAN-INDIA (₹100)</span>
             </div>
             <div className="home-trust-item">
-              <span>7-DAY RETURNS & EXCHANGE</span>
+              <span>7-DAY EASY RETURNS & EXCHANGES</span>
             </div>
             <div className="home-trust-item">
               <a
@@ -56,7 +56,7 @@ export default function HomePage({ navigate }) {
                 rel="noopener noreferrer"
                 className="home-trust-link"
               >
-                WHATSAPP CONCIERGE →
+                WHATSAPP CONCIERGE (11AM–6PM) →
               </a>
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function HomePage({ navigate }) {
           <div className="section-header-row" style={{ alignItems: 'center' }}>
             <div>
               <span className="label-badge" style={{ color: '#555555', display: 'block', marginBottom: '4px', fontSize: '0.72rem' }}>
-                AUTUMN / WINTER 2026
+                INDIAN VERSATILE INDIVIDUAL
               </span>
               <h2 className="section-title">CURATED ESSENTIALS</h2>
             </div>
@@ -106,7 +106,7 @@ export default function HomePage({ navigate }) {
               onClick={() => navigate('shop', { category: activeCategory })}
               style={{ minWidth: '220px' }}
             >
-              VIEW ALL 52 PIECES →
+              EXPLORE FULL COLLECTION →
             </button>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function HomePage({ navigate }) {
               fontFamily: 'var(--font-sans)'
             }}
           >
-            Every garment is individually treated, hand-finished, and never reproduced. Crafted in our Bangalore atelier.
+            Every piece in the 1NE OF ONE series exists as a single unique garment with distinctive artwork. Once acquired, the design is permanently retired.
           </p>
 
           <button

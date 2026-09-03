@@ -73,88 +73,138 @@ export default function Footer({ navigate }) {
         </div>
 
         {/* Links Navigation Grid */}
-        <div className="footer-links-grid">
-          {/* Shop Collections */}
+        <div className="footer-links-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '32px' }}>
+          {/* 1. SHOP */}
           <div className="footer-link-group">
-            <h4 className="footer-link-heading">COLLECTIONS</h4>
+            <h4 className="footer-link-heading">SHOP</h4>
             <ul className="footer-links-list">
               <li>
-                <a href="/shop" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'all' }); }}>
-                  All Garments (52)
+                <a href="/collections/t-shirts" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'tshirts' }); }}>
+                  T-Shirts
                 </a>
               </li>
               <li>
-                <a href="/shop/tshirts" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'tshirts' }); }}>
-                  240 GSM T-Shirts
+                <a href="/collections/statement-shirts" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'shirts' }); }}>
+                  Shirts
                 </a>
               </li>
               <li>
-                <a href="/shop/shirts" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'shirts' }); }}>
-                  Linen Blend Shirts
+                <a href="/collections/polos" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'polos' }); }}>
+                  Polos
                 </a>
               </li>
               <li>
-                <a href="/shop/polos" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'polos' }); }}>
-                  Pique Polos
+                <a href="/collections/baby-tee" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'tops' }); }}>
+                  Tops
                 </a>
               </li>
               <li>
-                <a href="/shop/one-of-1" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'one-of-1' }); }} style={{ color: 'var(--accent-terracotta)', fontWeight: 600 }}>
-                  1NE OF ONE Bespoke
+                <a href="/collections/shacket" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'shackets' }); }}>
+                  Shackets
                 </a>
               </li>
               <li>
-                <a href="/shop/clearance" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'clearance' }); }}>
-                  Archive Clearance
+                <a href="/collections/one-of-1" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'one-of-1' }); }} style={{ color: '#D97706', fontWeight: 600 }}>
+                  1NE OF ONE
+                </a>
+              </li>
+              <li>
+                <a href="/collections/clearance" onClick={(e) => { e.preventDefault(); navigate('shop', { category: 'clearance' }); }}>
+                  Clearance
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Client Concierge & Support */}
+          {/* 2. CUSTOMER CARE */}
           <div className="footer-link-group">
             <h4 className="footer-link-heading">CUSTOMER CARE</h4>
             <ul className="footer-links-list">
               <li>
                 <a href="/contact" onClick={(e) => { e.preventDefault(); navigate('contact'); }}>
-                  Contact Care Team
+                  Contact Us
                 </a>
               </li>
               <li>
-                <a href="/account" onClick={(e) => { e.preventDefault(); navigate('account'); }}>
-                  Track Your Order
+                <a href="/policies/shipping-policy" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'shipping' }); }}>
+                  Shipping Policy
                 </a>
               </li>
               <li>
-                <a href="/policies/shipping" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'shipping' }); }}>
-                  Pan-India Shipping (1-2 Days)
+                <a href="/policies/refund-policy" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'returns' }); }}>
+                  Returns & Exchanges
                 </a>
               </li>
               <li>
-                <a href="/policies/returns" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'returns' }); }}>
-                  7-Day Return Policy
+                <a
+                  href="https://shopify.com/60094251070/account/orders"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Track Order →
+                </a>
+              </li>
+              <li>
+                <a href="/about" onClick={(e) => { e.preventDefault(); navigate('about'); }}>
+                  FAQ
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Brand & Atelier */}
+          {/* 3. COMPANY */}
           <div className="footer-link-group">
-            <h4 className="footer-link-heading">BRAND & STORY</h4>
+            <h4 className="footer-link-heading">COMPANY</h4>
             <ul className="footer-links-list">
               <li>
                 <a href="/about" onClick={(e) => { e.preventDefault(); navigate('about'); }}>
-                  The INVI Manifesto
+                  About INVI
                 </a>
               </li>
               <li>
-                <a href="/policies/terms" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'terms' }); }}>
+                <a href="/policies/privacy-policy" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'privacy' }); }}>
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/policies/terms-of-service" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'terms' }); }}>
                   Terms of Service
                 </a>
               </li>
+            </ul>
+          </div>
+
+          {/* 4. CONTACT & SOCIAL */}
+          <div className="footer-link-group">
+            <h4 className="footer-link-heading">CONNECT</h4>
+            <ul className="footer-links-list">
               <li>
-                <a href="/policies/privacy" onClick={(e) => { e.preventDefault(); navigate('policy', { type: 'privacy' }); }}>
-                  Privacy Policy
+                <a href={`mailto:${BRAND.email}`}>
+                  {BRAND.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`https://wa.me/${BRAND.whatsappNumber}?text=Hi%20INVI`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp: {BRAND.phoneDisplay}
+                </a>
+              </li>
+              <li>
+                <span style={{ color: '#888888', fontSize: '0.75rem' }}>
+                  {BRAND.supportHours}
+                </span>
+              </li>
+              <li style={{ marginTop: '8px' }}>
+                <a
+                  href={BRAND.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#FAF9F6', fontWeight: 600 }}
+                >
+                  Instagram: {BRAND.instagramHandle} ↗
                 </a>
               </li>
             </ul>
@@ -164,7 +214,7 @@ export default function Footer({ navigate }) {
         {/* Bottom Copyright */}
         <div className="footer-bottom-bar">
           <p>© {new Date().getFullYear()} INVI (Indian Versatile Individual). All rights reserved.</p>
-          <p>100% Genuine Craftsmanship • Dispatched from Bangalore, India</p>
+          <p>{BRAND.registeredAddress}</p>
         </div>
       </div>
     </footer>

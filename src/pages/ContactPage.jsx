@@ -7,46 +7,64 @@ import { Phone, MessageSquare, Mail, Clock, MapPin, Check, Send } from 'lucide-r
 export default function ContactPage() {
   const { addToast } = useUI();
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', orderId: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    addToast('Your message has been sent to our customer care team.', 'info');
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setErrorMessage('Please fill in all required fields.');
+      return;
+    }
+    setErrorMessage('');
+    setIsSubmitting(true);
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      addToast('Opening your email client to dispatch to invi.alwaysbemore@gmail.com', 'info');
+      // Direct mailto handoff
+      const subject = encodeURIComponent(`INVI Inquiry from ${formData.name}${formData.orderId ? ` [Order #${formData.orderId}]` : ''}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || 'N/A'}\nOrder ID: ${formData.orderId || 'N/A'}\n\nMessage:\n${formData.message}`
+      );
+      window.open(`mailto:${BRAND.email}?subject=${subject}&body=${body}`, '_blank');
+    }, 400);
   };
 
   return (
     <div className="contact-page invi-container" style={{ padding: 'var(--space-12) var(--space-4) var(--space-20) var(--space-4)' }}>
       <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto var(--space-12) auto' }}>
-        <span className="label-badge" style={{ color: 'var(--accent-terracotta)', display: 'block', marginBottom: '8px' }}>
-          Customer Concierge
+        <span className="label-badge" style={{ color: '#555555', display: 'block', marginBottom: '8px' }}>
+          Customer Support
         </span>
-        <h1 style={{ fontSize: '2.75rem', marginBottom: '12px' }}>CONNECT WITH INVI</h1>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '12px', letterSpacing: '-0.02em' }}>CONNECT WITH INVI</h1>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-          Have sizing inquiries, custom order questions, or require assistance with an existing dispatch? Our concierge is at your service.
+          Have sizing inquiries, custom order questions, or require assistance with an existing order? Our team is at your service.
         </p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-12)', maxWidth: '1000px', margin: '0 auto' }}>
         {/* Left Column: Direct Contact Details */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-          {/* WhatsApp Concierge Card */}
+          {/* WhatsApp Direct Card */}
           <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-light)', padding: 'var(--space-6)', borderRadius: 'var(--radius-xs)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-              <MessageSquare size={20} color="var(--accent-success)" />
+              <MessageSquare size={20} color="#16A34A" />
               <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase' }}>
                 WhatsApp Direct Assistance
               </h3>
             </div>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: 1.5 }}>
-              Instant advice on sizing, garment drape, order tracking, and custom requests.
+              Instant advice on sizing, garment drape, order tracking, and product queries.
             </p>
             <a
-              href={`https://wa.me/${BRAND.whatsappNumber}`}
+              href={`https://wa.me/${BRAND.whatsappNumber}?text=Hi%20INVI,%20I'd%20like%20assistance`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
-              style={{ backgroundColor: '#128C7E', borderColor: '#128C7E', padding: '10px 20px', fontSize: 'var(--text-xs)', display: 'inline-flex' }}
+              style={{ backgroundColor: '#128C7E', borderColor: '#128C7E', padding: '10px 20px', fontSize: 'var(--text-xs)', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
             >
               <MessageSquare size={14} />
               <span>Chat on WhatsApp</span>
@@ -56,22 +74,22 @@ export default function ContactPage() {
           {/* Phone & Email Info */}
           <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-light)', padding: 'var(--space-6)', borderRadius: 'var(--radius-xs)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ display: 'flex', gap: '12px' }}>
-              <Phone size={18} color="var(--accent-terracotta)" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <Phone size={18} color="#0A0A0A" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', textTransform: 'uppercase', fontWeight: 700 }}>
                   Phone Support
                 </h4>
-                <a href={`tel:${BRAND.phone}`} style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)' }}>
+                <a href={`tel:${BRAND.whatsappNumber}`} style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)' }}>
                   {BRAND.phoneDisplay}
                 </a>
               </div>
             </div>
 
             <div style={{ display: 'flex', gap: '12px' }}>
-              <Mail size={18} color="var(--accent-terracotta)" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <Mail size={18} color="#0A0A0A" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', textTransform: 'uppercase', fontWeight: 700 }}>
-                  Email Enquiries
+                  Email Support
                 </h4>
                 <a href={`mailto:${BRAND.email}`} style={{ fontSize: 'var(--text-sm)', color: 'var(--text-primary)' }}>
                   {BRAND.email}
@@ -80,25 +98,25 @@ export default function ContactPage() {
             </div>
 
             <div style={{ display: 'flex', gap: '12px' }}>
-              <Clock size={18} color="var(--accent-terracotta)" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <Clock size={18} color="#0A0A0A" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', textTransform: 'uppercase', fontWeight: 700 }}>
-                  Concierge Operating Hours
+                  Support Operating Hours
                 </h4>
                 <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>
-                  {BRAND.hours}
+                  {BRAND.supportHours}
                 </p>
               </div>
             </div>
 
             <div style={{ display: 'flex', gap: '12px' }}>
-              <MapPin size={18} color="var(--accent-terracotta)" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <MapPin size={18} color="#0A0A0A" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', textTransform: 'uppercase', fontWeight: 700 }}>
-                  Design Studio & Warehouse
+                  Registered Address
                 </h4>
-                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>
-                  INVI Apparel Studio, Bangalore, Karnataka, India
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                  {BRAND.registeredAddress}
                 </p>
               </div>
             </div>

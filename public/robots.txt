@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /account
+
+Sitemap: https://invi.co.in/sitemap.xml

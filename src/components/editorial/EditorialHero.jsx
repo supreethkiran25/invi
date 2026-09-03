@@ -5,29 +5,29 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const HERO_SLIDES = [
   {
     id: 1,
-    tag: 'AUTUMN / WINTER 2026 • BANGALORE ATELIER',
+    tag: 'INDIAN VERSATILE INDIVIDUAL',
     title: 'ALWAYS BE MORE.',
-    subtitle: 'Heavyweight French Terry Cotton. Combed loopback interior with dropped-shoulder loose drape.',
-    ctaPrimary: { label: 'SHOP T-SHIRTS', category: 'T-Shirts' },
-    ctaSecondary: { label: 'EXPLORE ALL 52 PIECES', category: 'all' },
+    subtitle: 'Be versatile. Be More. Be INVI. Heavyweight 240 GSM French Terry and breathable everyday essentials.',
+    ctaPrimary: { label: 'SHOP T-SHIRTS', category: 'tshirts' },
+    ctaSecondary: { label: 'EXPLORE COLLECTION', category: 'all' },
     image: '/images/hero_campaign_1.webp'
   },
   {
     id: 2,
-    tag: 'SUMMER ARCHITECTURE • RESORT SERIES',
-    title: 'TAILORED FRENCH LINEN.',
+    tag: 'STATEMENT SERIES',
+    title: 'FRENCH LINEN BLEND.',
     subtitle: 'Air-cooled 60/40 French linen blend shirts with natural drape and relaxed comfort.',
-    ctaPrimary: { label: 'EXPLORE LINEN SHIRTS', category: 'Shirts' },
-    ctaSecondary: { label: 'VIEW ALL SHIRTS', category: 'Shirts' },
+    ctaPrimary: { label: 'SHOP SHIRTS', category: 'shirts' },
+    ctaSecondary: { label: 'VIEW ALL SHIRTS', category: 'shirts' },
     image: '/images/hero_campaign_2.webp'
   },
   {
     id: 3,
-    tag: 'CORE ESSENTIALS • HEAVYWEIGHT COTTON',
-    title: 'ENGINEERED DRAPE.',
-    subtitle: 'Substantial weight, shape-retaining micro-rib collar, and dropped-shoulder boxy fit.',
-    ctaPrimary: { label: 'SHOP BEST SELLERS', category: 'best-sellers' },
-    ctaSecondary: { label: 'EXPLORE ALL', category: 'all' },
+    tag: 'EXCLUSIVE ARCHIVE',
+    title: '1NE OF ONE BESPOKE.',
+    subtitle: 'Singular, hand-finished 1*1 collector drops. Once acquired, the design is permanently retired.',
+    ctaPrimary: { label: 'EXPLORE 1NE OF ONE', category: 'one-of-1' },
+    ctaSecondary: { label: 'SHOP ALL GARMENTS', category: 'all' },
     image: '/images/hero_campaign_3.webp'
   }
 ];

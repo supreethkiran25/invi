@@ -21,7 +21,8 @@ export default function CartDrawer({ navigate }) {
     removePromo,
     isFreeShipping,
     freeShippingRemaining,
-    freeShippingProgress
+    freeShippingProgress,
+    proceedToShopifyCheckout
   } = useCart();
 
   const { addToast } = useUI();
@@ -46,11 +47,7 @@ export default function CartDrawer({ navigate }) {
 
   const handleCheckoutClick = () => {
     setIsCheckingOut(true);
-    setTimeout(() => {
-      setIsCheckingOut(false);
-      closeCart();
-      navigate('cart', { autoCheckout: true });
-    }, 300);
+    proceedToShopifyCheckout();
   };
 
   if (!isCartOpen) return null;
@@ -274,8 +271,8 @@ export default function CartDrawer({ navigate }) {
               )}
 
               <div className="cart-summary-line">
-                <span>ESTIMATED SHIPPING</span>
-                <strong>{isFreeShipping ? 'FREE' : '₹99'}</strong>
+                <span>SHIPPING</span>
+                <strong style={{ color: '#16A34A' }}>FREE (PREPAID)</strong>
               </div>
 
               <div className="cart-summary-total-line">
@@ -284,7 +281,7 @@ export default function CartDrawer({ navigate }) {
                   <span className="tax-inclusive-tag">INCLUSIVE OF ALL TAXES</span>
                 </div>
                 <span className="total-value">
-                  ₹{(subtotal + (isFreeShipping ? 0 : 99)).toLocaleString('en-IN')}
+                  ₹{subtotal.toLocaleString('en-IN')}
                 </span>
               </div>
             </div>
@@ -296,8 +293,33 @@ export default function CartDrawer({ navigate }) {
               disabled={isCheckingOut}
             >
               <span>
-                {isCheckingOut ? 'SECURING YOUR BAG...' : `PROCEED TO CHECKOUT • ₹${(subtotal + (isFreeShipping ? 0 : 99)).toLocaleString('en-IN')}`}
+                {isCheckingOut ? 'PROCEEDING TO SECURE CHECKOUT...' : `CHECKOUT • ₹${subtotal.toLocaleString('en-IN')}`}
               </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                closeCart();
+                navigate('cart');
+              }}
+              style={{
+                width: '100%',
+                padding: '10px 0',
+                marginTop: '8px',
+                background: 'transparent',
+                border: '1px solid var(--border-medium)',
+                borderRadius: 'var(--radius-xs)',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                color: '#0A0A0A',
+                cursor: 'pointer'
+              }}
+            >
+              VIEW FULL SHOPPING BAG →
             </button>
 
             {/* Trust Assurances */}

@@ -20,6 +20,7 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const AccountPage = lazy(() => import('./pages/AccountPage'));
 const PolicyPage = lazy(() => import('./pages/PolicyPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const CartDrawer = lazy(() => import('./components/cart/CartDrawer'));
 const SearchOverlay = lazy(() => import('./components/search/SearchOverlay'));
@@ -35,10 +36,12 @@ const CATEGORY_MAP = {
   'tshirts': 'tshirts',
   't-shirt': 'tshirts',
   'shirts': 'shirts',
+  'statement-shirts': 'shirts',
   'linen-shirts': 'shirts',
   'shackets': 'shackets',
   'shacket': 'shackets',
   'tops': 'tops',
+  'baby-tee': 'tops',
   'polos': 'polos',
   'polo': 'polos',
   '1ne-of-one': 'one-of-1',
@@ -76,16 +79,18 @@ function parsePath(pathname) {
     if (first === 'privacy') return { page: 'policy', type: 'privacy' };
     if (first === 'terms') return { page: 'policy', type: 'terms' };
     if (first === 'policies' || first === 'policy') {
-      return { page: 'policy', type: second || 'shipping' };
+      const policyKey = second === 'shipping-policy' ? 'shipping' : second === 'refund-policy' ? 'returns' : second === 'privacy-policy' ? 'privacy' : second === 'terms-of-service' ? 'terms' : (second || 'shipping');
+      return { page: 'policy', type: policyKey };
     }
 
     if (CATEGORY_MAP[first]) {
       return { page: 'shop', category: CATEGORY_MAP[first] };
     }
+
+    return { page: '404' };
   } catch {
-    // Fallback
+    return { page: 'home' };
   }
-  return { page: 'home' };
 }
 
 export default function App() {
@@ -166,6 +171,7 @@ export default function App() {
                     {page === 'policy' && (
                       <PolicyPage routeParams={currentRoute} navigate={navigate} />
                     )}
+                    {page === '404' && <NotFoundPage navigate={navigate} />}
                   </Suspense>
                 )}
               </main>

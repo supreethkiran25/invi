@@ -19,14 +19,14 @@ export default function AboutPage({ navigate }) {
         }}
       >
         <div className="invi-container" style={{ maxWidth: '840px' }}>
-          <span className="label-badge" style={{ color: 'var(--accent-terracotta)', display: 'block', marginBottom: '12px' }}>
-            Brand Origins
+          <span className="label-badge" style={{ color: '#D4D4D4', display: 'block', marginBottom: '12px', letterSpacing: '0.2em' }}>
+            BE VERSATILE. BE MORE. BE INVI.
           </span>
-          <h1 style={{ fontSize: 'clamp(2.25rem, 5vw, 3.75rem)', marginBottom: '16px', color: '#fff', textTransform: 'uppercase' }}>
-            INDIAN VERSATILE INDIVIDUAL
+          <h1 style={{ fontSize: 'clamp(2.25rem, 5vw, 3.75rem)', marginBottom: '16px', color: '#fff', textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
+            {ABOUT_STORY.heroHeadline}
           </h1>
           <p style={{ fontSize: 'var(--text-lg)', color: '#D4D4D4', lineHeight: 1.6, fontWeight: 300 }}>
-            {ABOUT_STORY.heroSubheading}
+            {ABOUT_STORY.subHeadline}
           </p>
         </div>
       </section>
@@ -36,18 +36,21 @@ export default function AboutPage({ navigate }) {
         <div className="invi-container" style={{ maxWidth: '780px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--text-secondary)' }}>
             <p style={{ fontSize: 'var(--text-lg)', color: 'var(--text-primary)', fontWeight: 500 }}>
-              {ABOUT_STORY.missionParagraph1}
+              {ABOUT_STORY.mission}
             </p>
             <p>
-              {ABOUT_STORY.missionParagraph2}
+              {ABOUT_STORY.brandTribute}
+            </p>
+            <p>
+              {ABOUT_STORY.mindset}
             </p>
           </div>
 
           {/* Pillars */}
           <div style={{ marginTop: 'var(--space-16)', display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--space-8)' }}>
-            {ABOUT_STORY.corePillars.map((pillar) => (
+            {ABOUT_STORY.craftsmanship.map((pillar, idx) => (
               <div
-                key={pillar.num}
+                key={idx}
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '60px 1fr',
@@ -56,11 +59,11 @@ export default function AboutPage({ navigate }) {
                   borderBottom: '1px solid var(--border-light)'
                 }}
               >
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 800, color: 'var(--accent-terracotta)' }}>
-                  {pillar.num}
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 800, color: '#0A0A0A' }}>
+                  0{idx + 1}
                 </span>
                 <div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', marginBottom: '8px', textTransform: 'uppercase' }}>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', marginBottom: '8px', textTransform: 'uppercase' }}>
                     {pillar.title}
                   </h3>
                   <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>

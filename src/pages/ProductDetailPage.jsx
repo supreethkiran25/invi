@@ -26,10 +26,6 @@ export default function ProductDetailPage({ routeParams, navigate }) {
 
   const product = currentProduct || initialProduct;
 
-  const { addToCart } = useCart();
-  const { isInWishlist, toggleWishlist } = useWishlist();
-  const { openSizeGuide, addToast } = useUI();
-
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || 'M');
   const [quantity, setQuantity] = useState(1);
   const [openAccordion, setOpenAccordion] = useState('fabric');
@@ -40,13 +36,29 @@ export default function ProductDetailPage({ routeParams, navigate }) {
     setQuantity(1);
   }, [product.id, product.sizes]);
 
+  const { addToCart, proceedToShopifyCheckout } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const { openSizeGuide, addToast } = useUI();
+
+  const isSizeAvailable = (size) => {
+    if (!product.variants || product.variants.length === 0) return true;
+    const v = product.variants.find(
+      (variant) =>
+        (variant.size && variant.size.toUpperCase() === size.toUpperCase()) ||
+        (variant.title && variant.title.toUpperCase() === size.toUpperCase())
+    );
+    return v ? v.available !== false : true;
+  };
+
+  const isCurrentSizeAvailable = isSizeAvailable(selectedSize);
+
   const isFavorited = isInWishlist(product.id);
 
   const handleColorSelect = (colorway) => {
-    const fullProduct = getProductWithColorways(colorway.id || colorway.slug);
+    const fullProduct = productsData.find((p) => String(p.id) === String(colorway.id));
     if (fullProduct) {
       setCurrentProduct(fullProduct);
-      if (!fullProduct.sizes?.includes(selectedSize)) {
+      if (fullProduct.sizes && !fullProduct.sizes.includes(selectedSize)) {
         setSelectedSize(fullProduct.sizes?.[0] || 'M');
       }
       try {
@@ -56,13 +68,26 @@ export default function ProductDetailPage({ routeParams, navigate }) {
   };
 
   const handleAddToCart = () => {
+    if (!isCurrentSizeAvailable) return;
     addToCart(product, selectedSize, quantity);
     addToast(`Added "${product.name}" (${selectedSize}) to your bag`, 'cart');
   };
 
   const handleBuyNow = () => {
-    addToCart(product, selectedSize, quantity);
-    navigate('cart', { autoCheckout: true });
+    if (!isCurrentSizeAvailable) return;
+    const matchedVariant = (product.variants || []).find(
+      (v) =>
+        (v.size && v.size.toUpperCase() === selectedSize.toUpperCase()) ||
+        (v.title && v.title.toUpperCase() === selectedSize.toUpperCase())
+    );
+    const variantId = matchedVariant ? String(matchedVariant.id) : String(product.id);
+    proceedToShopifyCheckout([
+      {
+        variantId,
+        productId: product.id,
+        quantity
+      }
+    ]);
   };
 
   const handleWishlistToggle = () => {
@@ -186,16 +211,22 @@ export default function ProductDetailPage({ routeParams, navigate }) {
             </div>
 
             <div className="pdp-size-pills-row">
-              {(product.sizes || ['XS', 'S', 'M', 'L', 'XL', 'XXL']).map((size) => (
-                <button
-                  key={size}
-                  className={`pdp-size-btn ${selectedSize === size ? 'active' : ''}`}
-                  onClick={() => setSelectedSize(size)}
-                  aria-label={`Select size ${size}`}
-                >
-                  {size}
-                </button>
-              ))}
+              {(product.sizes || ['XS', 'S', 'M', 'L', 'XL', 'XXL']).map((size) => {
+                const available = isSizeAvailable(size);
+                return (
+                  <button
+                    key={size}
+                    className={`pdp-size-btn ${selectedSize === size ? 'active' : ''} ${!available ? 'unavailable' : ''}`}
+                    onClick={() => available && setSelectedSize(size)}
+                    disabled={!available}
+                    title={available ? `Select size ${size}` : `Size ${size} is currently out of stock`}
+                    aria-label={`Size ${size}${!available ? ' (Out of stock)' : ''}`}
+                    style={!available ? { opacity: 0.4, textDecoration: 'line-through', cursor: 'not-allowed' } : {}}
+                  >
+                    {size}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -208,6 +239,7 @@ export default function ProductDetailPage({ routeParams, navigate }) {
                   className="pdp-qty-stepper-btn"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   aria-label="Decrease quantity"
+                  disabled={!isCurrentSizeAvailable}
                 >
                   −
                 </button>
@@ -216,6 +248,7 @@ export default function ProductDetailPage({ routeParams, navigate }) {
                   className="pdp-qty-stepper-btn"
                   onClick={() => setQuantity(Math.min(10, quantity + 1))}
                   aria-label="Increase quantity"
+                  disabled={!isCurrentSizeAvailable}
                 >
                   +
                 </button>
@@ -225,8 +258,10 @@ export default function ProductDetailPage({ routeParams, navigate }) {
               <button
                 className="pdp-add-bag-btn"
                 onClick={handleAddToCart}
+                disabled={!isCurrentSizeAvailable}
+                style={!isCurrentSizeAvailable ? { opacity: 0.5, cursor: 'not-allowed', backgroundColor: '#888888' } : {}}
               >
-                ADD TO BAG
+                {isCurrentSizeAvailable ? 'ADD TO BAG' : 'OUT OF STOCK'}
               </button>
 
               {/* Wishlist Button */}
@@ -249,8 +284,10 @@ export default function ProductDetailPage({ routeParams, navigate }) {
             <button
               className="pdp-buy-now-btn"
               onClick={handleBuyNow}
+              disabled={!isCurrentSizeAvailable}
+              style={!isCurrentSizeAvailable ? { opacity: 0.5, cursor: 'not-allowed', backgroundColor: '#888888' } : {}}
             >
-              INSTANT BUY NOW (COD / UPI)
+              {isCurrentSizeAvailable ? 'INSTANT BUY NOW (COD / UPI)' : 'SIZE UNAVAILABLE'}
             </button>
           </div>
 
@@ -262,7 +299,7 @@ export default function ProductDetailPage({ routeParams, navigate }) {
             </div>
             <div className="pdp-trust-card">
               <ShieldCheck size={15} strokeWidth={2} />
-              <span>100% AUTHENTIC ATELIER</span>
+              <span>100% AUTHENTIC INVI</span>
             </div>
             <div className="pdp-trust-card">
               <RotateCcw size={15} strokeWidth={2} />
@@ -275,7 +312,7 @@ export default function ProductDetailPage({ routeParams, navigate }) {
               className="pdp-trust-card pdp-trust-wa"
             >
               <MessageSquare size={15} strokeWidth={2} />
-              <span>WHATSAPP STYLIST</span>
+              <span>WHATSAPP CONCIERGE</span>
             </a>
           </div>
 
@@ -303,11 +340,11 @@ export default function ProductDetailPage({ routeParams, navigate }) {
                   </div>
                   <div className="pdp-spec-line">
                     <span className="pdp-spec-key">DRAPE:</span>
-                    <span className="pdp-spec-val">Structured loopback combed cotton designed to retain architectural drape with zero body cling.</span>
+                    <span className="pdp-spec-val">Structured drape designed to retain form with zero cling.</span>
                   </div>
                   <div className="pdp-spec-line">
                     <span className="pdp-spec-key">ORIGIN:</span>
-                    <span className="pdp-spec-val">Engineered & Tailored in Bangalore, India.</span>
+                    <span className="pdp-spec-val">Designed & Crafted in India.</span>
                   </div>
                 </div>
               )}
@@ -382,11 +419,21 @@ export default function ProductDetailPage({ routeParams, navigate }) {
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button className="pdp-m-add-btn" onClick={handleAddToCart}>
-            ADD
+          <button
+            className="pdp-m-add-btn"
+            onClick={handleAddToCart}
+            disabled={!isCurrentSizeAvailable}
+            style={!isCurrentSizeAvailable ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+          >
+            {isCurrentSizeAvailable ? 'ADD' : 'SOLD OUT'}
           </button>
-          <button className="pdp-m-buy-btn" onClick={handleBuyNow}>
-            BUY NOW
+          <button
+            className="pdp-m-buy-btn"
+            onClick={handleBuyNow}
+            disabled={!isCurrentSizeAvailable}
+            style={!isCurrentSizeAvailable ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+          >
+            {isCurrentSizeAvailable ? 'BUY NOW' : 'UNAVAILABLE'}
           </button>
         </div>
       </div>

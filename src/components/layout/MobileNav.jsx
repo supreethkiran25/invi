@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import InviLogo from '../ui/InviLogo';
 import { useUI } from '../../context/UIContext';
 import { BRAND } from '../../data/siteContent';
-import { X, ChevronDown, ChevronRight, MessageSquare, Heart, User, Sparkles } from 'lucide-react';
+import { X, ChevronDown, ChevronRight, MessageSquare } from 'lucide-react';
 
-export default function MobileNav({ currentRoute, navigate }) {
+export default function MobileNav({ navigate }) {
   const { isMobileNavOpen, closeMobileNav } = useUI();
-  const [openSection, setOpenSection] = useState('collections'); // 'collections' | 'atelier' | null
+  const [openSection, setOpenSection] = useState('shop');
 
   if (!isMobileNavOpen) return null;
 
@@ -45,21 +45,21 @@ export default function MobileNav({ currentRoute, navigate }) {
 
         {/* Accordion Navigation Groups */}
         <div className="mobile-nav-accordion">
-          {/* Topic 1: COLLECTIONS Dropdown */}
+          {/* Section 1: SHOP Dropdown */}
           <div className="mobile-accordion-group">
             <button
               className="mobile-accordion-trigger"
-              onClick={() => toggleSection('collections')}
-              aria-expanded={openSection === 'collections'}
+              onClick={() => toggleSection('shop')}
+              aria-expanded={openSection === 'shop'}
             >
-              <span>COLLECTIONS</span>
+              <span>SHOP</span>
               <ChevronDown
                 size={16}
-                className={`accordion-icon ${openSection === 'collections' ? 'rotate' : ''}`}
+                className={`accordion-icon ${openSection === 'shop' ? 'rotate' : ''}`}
               />
             </button>
 
-            {openSection === 'collections' && (
+            {openSection === 'shop' && (
               <div className="mobile-accordion-content">
                 <a
                   href="/shop"
@@ -69,31 +69,67 @@ export default function MobileNav({ currentRoute, navigate }) {
                   }}
                   className="mobile-sub-link"
                 >
-                  <span>SHOP ALL PIECES (52)</span>
+                  <span>ALL GARMENTS</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
 
                 <a
-                  href="/collections/tshirts"
+                  href="/collections/t-shirts"
                   onClick={(e) => {
                     e.preventDefault();
-                    handleNavClick('shop', { category: 'T-Shirts' });
+                    handleNavClick('shop', { category: 'tshirts' });
                   }}
                   className="mobile-sub-link"
                 >
-                  <span>T-SHIRTS (HEAVYWEIGHT COTTON)</span>
+                  <span>T-SHIRTS (240 GSM)</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
 
                 <a
-                  href="/collections/shirts"
+                  href="/collections/statement-shirts"
                   onClick={(e) => {
                     e.preventDefault();
-                    handleNavClick('shop', { category: 'Shirts' });
+                    handleNavClick('shop', { category: 'shirts' });
                   }}
                   className="mobile-sub-link"
                 >
-                  <span>LINEN SHIRTS (60/40 BLEND)</span>
+                  <span>SHIRTS (LINEN BLEND)</span>
+                  <ChevronRight size={14} opacity={0.4} />
+                </a>
+
+                <a
+                  href="/collections/polos"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('shop', { category: 'polos' });
+                  }}
+                  className="mobile-sub-link"
+                >
+                  <span>POLOS</span>
+                  <ChevronRight size={14} opacity={0.4} />
+                </a>
+
+                <a
+                  href="/collections/baby-tee"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('shop', { category: 'tops' });
+                  }}
+                  className="mobile-sub-link"
+                >
+                  <span>TOPS (BABY TEES)</span>
+                  <ChevronRight size={14} opacity={0.4} />
+                </a>
+
+                <a
+                  href="/collections/shacket"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('shop', { category: 'shackets' });
+                  }}
+                  className="mobile-sub-link"
+                >
+                  <span>SHACKETS</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
 
@@ -105,19 +141,7 @@ export default function MobileNav({ currentRoute, navigate }) {
                   }}
                   className="mobile-sub-link"
                 >
-                  <span style={{ color: '#92400E', fontWeight: 800 }}>1NE OF ONE BESPOKE</span>
-                  <ChevronRight size={14} opacity={0.4} />
-                </a>
-
-                <a
-                  href="/collections/best-sellers"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick('shop', { category: 'best-sellers' });
-                  }}
-                  className="mobile-sub-link"
-                >
-                  <span>BEST SELLERS</span>
+                  <span style={{ color: '#92400E', fontWeight: 800 }}>1NE OF ONE (BESPOKE)</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
 
@@ -129,44 +153,53 @@ export default function MobileNav({ currentRoute, navigate }) {
                   }}
                   className="mobile-sub-link"
                 >
-                  <span style={{ color: '#DC2626', fontWeight: 800 }}>CLEARANCE SALE</span>
+                  <span style={{ color: '#DC2626', fontWeight: 800 }}>CLEARANCE</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
               </div>
             )}
           </div>
 
-          {/* Topic 2: 1NE OF ONE (Direct item) */}
-          <div className="mobile-accordion-group">
-            <a
-              href="/collections/one-of-1"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('shop', { category: 'one-of-1' });
-              }}
-              className="mobile-direct-link"
-            >
-              <span>1NE OF ONE BESPOKE DROP</span>
-              <span className="mobile-pill-badge">1*1</span>
-            </a>
-          </div>
-
-          {/* Topic 3: ATELIER & CLIENT CARE Dropdown */}
+          {/* Section 2: DISCOVER Dropdown */}
           <div className="mobile-accordion-group">
             <button
               className="mobile-accordion-trigger"
-              onClick={() => toggleSection('atelier')}
-              aria-expanded={openSection === 'atelier'}
+              onClick={() => toggleSection('discover')}
+              aria-expanded={openSection === 'discover'}
             >
-              <span>ATELIER & CLIENT SERVICES</span>
+              <span>DISCOVER</span>
               <ChevronDown
                 size={16}
-                className={`accordion-icon ${openSection === 'atelier' ? 'rotate' : ''}`}
+                className={`accordion-icon ${openSection === 'discover' ? 'rotate' : ''}`}
               />
             </button>
 
-            {openSection === 'atelier' && (
+            {openSection === 'discover' && (
               <div className="mobile-accordion-content">
+                <a
+                  href="/shop?sort=newest"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('shop', { sortBy: 'newest' });
+                  }}
+                  className="mobile-sub-link"
+                >
+                  <span>NEW ARRIVALS</span>
+                  <ChevronRight size={14} opacity={0.4} />
+                </a>
+
+                <a
+                  href="/shop?filter=bestseller"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick('shop', { filter: 'bestseller' });
+                  }}
+                  className="mobile-sub-link"
+                >
+                  <span>BEST SELLERS</span>
+                  <ChevronRight size={14} opacity={0.4} />
+                </a>
+
                 <a
                   href="/about"
                   onClick={(e) => {
@@ -175,34 +208,29 @@ export default function MobileNav({ currentRoute, navigate }) {
                   }}
                   className="mobile-sub-link"
                 >
-                  <span>Our Story & Craft Manifesto</span>
+                  <span>ABOUT INVI</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
+              </div>
+            )}
+          </div>
 
-                <a
-                  href="/account"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick('account');
-                  }}
-                  className="mobile-sub-link"
-                >
-                  <span>VIP Account & Live Tracking</span>
-                  <ChevronRight size={14} opacity={0.4} />
-                </a>
+          {/* Section 3: CLIENT CARE */}
+          <div className="mobile-accordion-group">
+            <button
+              className="mobile-accordion-trigger"
+              onClick={() => toggleSection('care')}
+              aria-expanded={openSection === 'care'}
+            >
+              <span>CUSTOMER CARE</span>
+              <ChevronDown
+                size={16}
+                className={`accordion-icon ${openSection === 'care' ? 'rotate' : ''}`}
+              />
+            </button>
 
-                <a
-                  href="/wishlist"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick('wishlist');
-                  }}
-                  className="mobile-sub-link"
-                >
-                  <span>Saved Wishlist</span>
-                  <ChevronRight size={14} opacity={0.4} />
-                </a>
-
+            {openSection === 'care' && (
+              <div className="mobile-accordion-content">
                 <a
                   href="/contact"
                   onClick={(e) => {
@@ -211,7 +239,27 @@ export default function MobileNav({ currentRoute, navigate }) {
                   }}
                   className="mobile-sub-link"
                 >
-                  <span>Customer Concierge</span>
+                  <span>CONTACT US (11AM–6PM)</span>
+                  <ChevronRight size={14} opacity={0.4} />
+                </a>
+
+                <a
+                  href="https://shopify.com/60094251070/account/orders"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mobile-sub-link"
+                >
+                  <span>TRACK YOUR ORDER →</span>
+                  <ChevronRight size={14} opacity={0.4} />
+                </a>
+
+                <a
+                  href="https://invi.co.in/apps/yanet-return"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mobile-sub-link"
+                >
+                  <span>RETURN / EXCHANGE PORTAL →</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
 
@@ -223,7 +271,7 @@ export default function MobileNav({ currentRoute, navigate }) {
                   }}
                   className="mobile-sub-link"
                 >
-                  <span>Shipping, COD & Returns Policy</span>
+                  <span>SHIPPING & COD (₹100) POLICY</span>
                   <ChevronRight size={14} opacity={0.4} />
                 </a>
               </div>
@@ -244,8 +292,8 @@ export default function MobileNav({ currentRoute, navigate }) {
           </a>
 
           <div className="mobile-nav-meta">
-            <span>{BRAND.hours}</span>
-            <span>BANGALORE ATELIER</span>
+            <span>{BRAND.supportHours}</span>
+            <span>ALWAYS BE MORE</span>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ export default function CraftStory({ navigate }) {
         {/* Section Header */}
         <div className="craft-header-box">
           <span className="craft-label-badge">
-            ENGINEERED COMFORT • BANGALORE ATELIER
+            VERSATILITY & FORM • INDIAN CRAFTSMANSHIP
           </span>
           <h2 className="craft-main-title">THE FABRIC ARCHITECTURE</h2>
           <p className="craft-sub-title">
@@ -51,9 +51,9 @@ export default function CraftStory({ navigate }) {
 
               <button
                 className="btn-primary craft-card-btn"
-                onClick={() => navigate('shop', { category: 'T-Shirts' })}
+                onClick={() => navigate('shop', { category: 'tshirts' })}
               >
-                SHOP T-SHIRTS (₹799–₹899) →
+                SHOP T-SHIRTS →
               </button>
             </div>
           </div>
@@ -88,9 +88,9 @@ export default function CraftStory({ navigate }) {
 
               <button
                 className="btn-primary craft-card-btn"
-                onClick={() => navigate('shop', { category: 'Shirts' })}
+                onClick={() => navigate('shop', { category: 'shirts' })}
               >
-                SHOP LINEN SHIRTS (₹1,099) →
+                SHOP LINEN SHIRTS →
               </button>
             </div>
           </div>
