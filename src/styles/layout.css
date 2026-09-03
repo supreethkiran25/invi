@@ -1284,6 +1284,58 @@
   border-radius: var(--radius-full);
 }
 
+.mobile-nav-curated-strip {
+  margin: 16px 0;
+  flex-shrink: 0;
+}
+
+.mobile-nav-curated-card {
+  padding: 14px 16px;
+  background-color: #F4F2ED;
+  border: 1px solid #E5E2D9;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-curated-card:hover {
+  background-color: #EAE6DD;
+  border-color: #D4CEBF;
+}
+
+.mobile-nav-curated-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.curated-card-tag {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #B35436;
+  text-transform: uppercase;
+}
+
+.curated-card-title {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #0A0A0A;
+  text-transform: uppercase;
+}
+
+.curated-card-link {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #525252;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
 .mobile-nav-footer {
   margin-top: auto;
   padding-top: 16px;
@@ -1298,17 +1350,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  height: 44px;
-  background-color: #0A0A0A;
-  color: #FFFFFF;
+  gap: 10px;
+  height: 48px;
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
-  border-radius: var(--radius-xs);
+  border-radius: 4px;
   text-decoration: none;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-whatsapp-btn span,
+.mobile-nav-whatsapp-btn .whatsapp-btn-text {
+  color: #FFFFFF !important;
+  display: inline-block !important;
+  font-weight: 800 !important;
+}
+
+.mobile-nav-whatsapp-btn svg,
+.mobile-nav-whatsapp-btn .whatsapp-btn-icon {
+  color: #22C55E !important;
+  stroke: #22C55E !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
 }
 
 .mobile-nav-meta {

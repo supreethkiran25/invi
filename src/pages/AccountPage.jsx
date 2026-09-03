@@ -405,8 +405,12 @@ export default function AccountPage({ navigate }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
                 <div
                   style={{
-                    width: '54px',
-                    height: '54px',
+                    width: '56px',
+                    height: '56px',
+                    minWidth: '56px',
+                    minHeight: '56px',
+                    flexShrink: 0,
+                    aspectRatio: '1 / 1',
                     borderRadius: '50%',
                     backgroundColor: '#FAF9F6',
                     color: '#0A0A0A',
@@ -416,23 +420,28 @@ export default function AccountPage({ navigate }) {
                     fontFamily: 'var(--font-sans)',
                     fontWeight: 900,
                     fontSize: '1.05rem',
-                    letterSpacing: '0.04em'
+                    letterSpacing: '0.04em',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
                   }}
                 >
                   {user.name ? user.name.slice(0, 2).toUpperCase() : 'IN'}
                 </div>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                    <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.35rem', fontWeight: 800, margin: 0, color: '#fff' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: '1.35rem', fontWeight: 800, margin: 0, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
                       {user.name}
                     </h1>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', backgroundColor: 'rgba(255,255,255,0.14)', padding: '3px 8px', borderRadius: '2px', fontSize: '0.68rem', fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '0.04em', color: '#4ADE80' }}>
-                      <UserCheck size={12} /> VERIFIED CLIENT
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', backgroundColor: 'rgba(74, 222, 128, 0.15)', border: '1px solid rgba(74, 222, 128, 0.3)', padding: '3px 9px', borderRadius: '4px', fontSize: '0.68rem', fontFamily: 'var(--font-sans)', fontWeight: 800, letterSpacing: '0.06em', color: '#4ADE80' }}>
+                      <UserCheck size={13} /> VERIFIED CLIENT
                     </span>
                   </div>
-                  <p style={{ margin: '4px 0 0 0', fontSize: '0.78rem', color: '#A3A3A3' }}>
-                    {user.email} &bull; {user.phone} &bull; Member since {user.memberSince || '2026'}
-                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 12px', alignItems: 'center', marginTop: '6px', fontSize: '0.78rem', color: '#A3A3A3' }}>
+                    <span>{user.email}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.3)' }}>•</span>
+                    <span>{user.phone}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.3)' }}>•</span>
+                    <span>Member since {user.memberSince || 'September 2026'}</span>
+                  </div>
                 </div>
               </div>
 

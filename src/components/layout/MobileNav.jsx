@@ -318,6 +318,22 @@ export default function MobileNav({ navigate }) {
           </div>
         </div>
 
+        {/* Editorial Collection Banner to eliminate empty void */}
+        <div className="mobile-nav-curated-strip">
+          <div
+            onClick={() => handleNavClick('shop', { category: 'all' })}
+            className="mobile-nav-curated-card"
+            role="button"
+            tabIndex={0}
+          >
+            <div className="mobile-nav-curated-text">
+              <span className="curated-card-tag">ATELIER ARCHIVE DROP</span>
+              <strong className="curated-card-title">52 EDITORIAL SILHOUETTES</strong>
+              <span className="curated-card-link">DISCOVER ALL GARMENTS →</span>
+            </div>
+          </div>
+        </div>
+
         {/* Concierge & Assistance Footer */}
         <div className="mobile-nav-footer">
           <a
@@ -326,8 +342,8 @@ export default function MobileNav({ navigate }) {
             rel="noopener noreferrer"
             className="mobile-nav-whatsapp-btn"
           >
-            <MessageSquare size={16} />
-            <span>WHATSAPP CONCIERGE</span>
+            <MessageSquare size={16} className="whatsapp-btn-icon" />
+            <span className="whatsapp-btn-text">WHATSAPP CONCIERGE</span>
           </a>
 
           <div className="mobile-nav-meta">
