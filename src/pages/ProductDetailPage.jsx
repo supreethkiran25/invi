@@ -38,7 +38,7 @@ export default function ProductDetailPage({ routeParams, navigate }) {
     window.scrollTo({ top: 0, behavior: 'instant' });
     setSelectedSize(product.sizes?.[0] || 'M');
     setQuantity(1);
-  }, [product.id]);
+  }, [product.id, product.sizes]);
 
   const isFavorited = isInWishlist(product.id);
 
