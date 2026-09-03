@@ -7,7 +7,6 @@ const HERO_SLIDES = [
     id: 1,
     tag: 'INDIAN VERSATILE INDIVIDUAL',
     title: 'ALWAYS BE MORE.',
-    subtitle: 'Be versatile. Be More. Be INVI. Heavyweight 240 GSM French Terry and breathable everyday essentials.',
     ctaPrimary: { label: 'SHOP THE COLLECTION', category: 'all' },
     ctaSecondary: { label: 'EXPLORE INVI', page: 'about' },
     image: '/images/hero_campaign_1.webp'
@@ -16,7 +15,6 @@ const HERO_SLIDES = [
     id: 2,
     tag: 'STATEMENT SERIES',
     title: 'FRENCH LINEN BLEND.',
-    subtitle: 'Air-cooled 60/40 French linen blend shirts with natural drape and relaxed comfort.',
     ctaPrimary: { label: 'SHOP SHIRTS', category: 'shirts' },
     ctaSecondary: { label: 'EXPLORE ALL', category: 'all' },
     image: '/images/hero_campaign_2.webp'
@@ -25,7 +23,6 @@ const HERO_SLIDES = [
     id: 3,
     tag: 'EXCLUSIVE ARCHIVE',
     title: '1NE OF ONE BESPOKE.',
-    subtitle: 'Singular, hand-finished 1*1 collector drops. Once acquired, the design is permanently retired.',
     ctaPrimary: { label: 'EXPLORE 1NE OF ONE', category: 'one-of-1' },
     ctaSecondary: { label: 'SHOP ALL GARMENTS', category: 'all' },
     image: '/images/hero_campaign_3.webp'
@@ -200,10 +197,6 @@ export default function EditorialHero({ navigate }) {
           <h1 className="hero-main-title">
             {activeSlide.title}
           </h1>
-
-          <p className="hero-description">
-            {activeSlide.subtitle}
-          </p>
 
           <div className="hero-cta-group">
             <button
