@@ -86,16 +86,16 @@ export default function CartDrawer({ navigate }) {
             <span className="free-shipping-text">
               {isFreeShipping
                 ? 'COMPLIMENTARY EXPRESS SHIPPING UNLOCKED'
-                : `ADD ₹${freeShippingRemaining.toLocaleString('en-IN')} MORE FOR FREE SHIPPING`}
+                : `ADD ₹${(Number.isFinite(freeShippingRemaining) ? freeShippingRemaining : 1499).toLocaleString('en-IN')} MORE FOR FREE SHIPPING`}
             </span>
             <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.7rem', fontWeight: 800, color: '#0A0A0A' }}>
-              {isFreeShipping ? '100%' : `${Math.round(freeShippingProgress)}%`}
+              {isFreeShipping ? '100%' : `${Math.round(Number.isFinite(freeShippingProgress) ? freeShippingProgress : 0)}%`}
             </span>
           </div>
           <div className="progress-track">
             <div
               className="progress-fill"
-              style={{ width: `${freeShippingProgress}%` }}
+              style={{ width: `${Math.min(100, Math.max(0, Number.isFinite(freeShippingProgress) ? freeShippingProgress : 0))}%` }}
             />
           </div>
         </div>

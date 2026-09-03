@@ -15,12 +15,14 @@ export const BRAND = {
   officialStoreUrl: 'https://invi.co.in/',
   shopifyCustomerPortal: 'https://shopify.com/60094251070/account/orders',
   shopifyLoginUrl: 'https://invi.co.in/customer_authentication/redirect',
-  returnsPortalUrl: 'https://invi.co.in/apps/yanet-return'
+  returnsPortalUrl: 'https://invi.co.in/apps/yanet-return',
+  freeShippingThreshold: 1499
 };
 
 export const BUSINESS_CONFIG = {
   dispatchTimeline: '1–2 working days',
   deliveryTimeline: '8–10 working days',
+  freeShippingThreshold: 1499,
   codFee: 100,
   prepaidShippingFee: 0,
   returnWindowDays: 7,

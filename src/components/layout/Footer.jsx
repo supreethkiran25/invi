@@ -137,11 +137,13 @@ export default function Footer({ navigate }) {
               </li>
               <li>
                 <a
-                  href="https://shopify.com/60094251070/account/orders"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/account"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('account');
+                  }}
                 >
-                  Track Order →
+                  Track Order
                 </a>
               </li>
               <li>

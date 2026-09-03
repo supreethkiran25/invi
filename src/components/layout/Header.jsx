@@ -6,12 +6,64 @@ import { useWishlist } from '../../context/WishlistContext';
 import { useUI } from '../../context/UIContext';
 import { Search, Heart, ShoppingBag, Menu, User, ChevronDown, Sparkles, ArrowRight } from 'lucide-react';
 
+const MEGA_CATEGORY_PREVIEWS = {
+  all: {
+    category: 'all',
+    tag: 'COMPLETE CATALOGUE',
+    title: '52 EDITORIAL SILHOUETTES',
+    image: '/images/hero_campaign_1.webp'
+  },
+  tshirts: {
+    category: 'tshirts',
+    tag: '240 GSM FRENCH TERRY',
+    title: 'HEAVYWEIGHT OVERSIZED TEES',
+    image: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/SID04717.jpg?v=1786604164&width=800&format=webp'
+  },
+  shirts: {
+    category: 'shirts',
+    tag: 'FRENCH LINEN RELAXED CUT',
+    title: '60/40 LINEN BLEND SHIRTS',
+    image: '/images/hero_campaign_2.webp'
+  },
+  polos: {
+    category: 'polos',
+    tag: 'TEXTURED CRAFTED KNITS',
+    title: 'MONOGRAM TAILORED POLOS',
+    image: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/58FE974E-9DBE-4F30-B5E8-AD12508D4C14.jpg?v=1769599843&width=800&format=webp'
+  },
+  tops: {
+    category: 'tops',
+    tag: 'SUMMER SERIES',
+    title: 'RIBBED CONTEMPORARY TOPS',
+    image: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/8_jpg_e0fe5184-920b-4b8d-ad7d-3c26df600976.png?v=1772800217&width=800&format=webp'
+  },
+  shackets: {
+    category: 'shackets',
+    tag: 'STRUCTURAL LAYERING',
+    title: 'ARCHITECTURAL SHACKETS',
+    image: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/1.jpg_2_8bdc001a-920f-42df-9bd5-8499d1b94b60.jpg?v=1774801057&width=800&format=webp'
+  },
+  'one-of-1': {
+    category: 'one-of-1',
+    tag: 'BESPOKE 1*1 ARTIFACT',
+    title: 'SINGULAR COLLECTOR ARCHIVE',
+    image: 'https://cdn.shopify.com/s/files/1/0600/9425/1070/files/6_jpg_0cd182ba-2e3c-4855-abdb-1e8631486043.jpg?v=1779789184&width=800&format=webp'
+  },
+  clearance: {
+    category: 'clearance',
+    tag: 'FINAL CHANCE',
+    title: 'SEASONAL ARCHIVE (UP TO 50% OFF)',
+    image: '/images/hero_campaign_4.webp'
+  }
+};
+
 export default function Header({ currentRoute, navigate }) {
   const { cartCount, openCart } = useCart();
   const { wishlistCount } = useWishlist();
   const { openSearch, openMobileNav, cartBump } = useUI();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [hoveredCategory, setHoveredCategory] = useState('tshirts');
   const dropdownTimeoutRef = useRef(null);
 
   const isHome = !currentRoute || currentRoute.page === 'home';
@@ -136,7 +188,8 @@ export default function Header({ currentRoute, navigate }) {
                   <div className="mega-col-categories">
                     <span className="mega-header-label">ALL CATEGORIES</span>
                     <button
-                      className="mega-category-item"
+                      className={`mega-category-item ${hoveredCategory === 'all' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('all')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'all' }))}
                       role="menuitem"
                     >
@@ -144,7 +197,8 @@ export default function Header({ currentRoute, navigate }) {
                       <small>Complete 52-Piece Catalogue</small>
                     </button>
                     <button
-                      className="mega-category-item"
+                      className={`mega-category-item ${hoveredCategory === 'tshirts' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('tshirts')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tshirts' }))}
                       role="menuitem"
                     >
@@ -152,7 +206,8 @@ export default function Header({ currentRoute, navigate }) {
                       <small>240 GSM Combed French Terry</small>
                     </button>
                     <button
-                      className="mega-category-item"
+                      className={`mega-category-item ${hoveredCategory === 'shirts' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('shirts')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'shirts' }))}
                       role="menuitem"
                     >
@@ -160,7 +215,8 @@ export default function Header({ currentRoute, navigate }) {
                       <small>60/40 French Linen Blends</small>
                     </button>
                     <button
-                      className="mega-category-item"
+                      className={`mega-category-item ${hoveredCategory === 'polos' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('polos')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'polos' }))}
                       role="menuitem"
                     >
@@ -168,7 +224,8 @@ export default function Header({ currentRoute, navigate }) {
                       <small>Timeless & Monogram Knits</small>
                     </button>
                     <button
-                      className="mega-category-item"
+                      className={`mega-category-item ${hoveredCategory === 'tops' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('tops')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tops' }))}
                       role="menuitem"
                     >
@@ -176,7 +233,8 @@ export default function Header({ currentRoute, navigate }) {
                       <small>Contemporary Ribbed Silhouettes</small>
                     </button>
                     <button
-                      className="mega-category-item"
+                      className={`mega-category-item ${hoveredCategory === 'shackets' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('shackets')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'shackets' }))}
                       role="menuitem"
                     >
@@ -184,7 +242,8 @@ export default function Header({ currentRoute, navigate }) {
                       <small>Structured Architectural Layering</small>
                     </button>
                     <button
-                      className="mega-category-item highlight-oneofone"
+                      className={`mega-category-item highlight-oneofone ${hoveredCategory === 'one-of-1' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('one-of-1')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'one-of-1' }))}
                       role="menuitem"
                     >
@@ -192,7 +251,8 @@ export default function Header({ currentRoute, navigate }) {
                       <small>Singular 1*1 Bespoke Archive</small>
                     </button>
                     <button
-                      className="mega-category-item highlight-sale"
+                      className={`mega-category-item highlight-sale ${hoveredCategory === 'clearance' ? 'active-hover-item' : ''}`}
+                      onMouseEnter={() => setHoveredCategory('clearance')}
                       onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'clearance' }))}
                       role="menuitem"
                     >
@@ -201,25 +261,36 @@ export default function Header({ currentRoute, navigate }) {
                     </button>
                   </div>
 
-                  {/* Right Column: Editorial Featured Card */}
-                  <div
-                    className="mega-col-featured"
-                    onClick={() => handleDropdownItemClick(() => navigate('shop', { category: 'tshirts' }))}
-                  >
-                    <div className="mega-featured-img-box">
-                      <img
-                        src="/images/hero_campaign_2.webp"
-                        alt="INVI French Linen & Heavyweight Streetwear"
-                        className="mega-featured-img"
-                        loading="lazy"
-                      />
-                      <div className="mega-featured-scrim">
-                        <span className="mega-featured-tag">ATELIER SPOTLIGHT</span>
-                        <h4 className="mega-featured-title">240 GSM FRENCH TERRY</h4>
-                        <span className="mega-featured-sub">EXPLORE LOOKBOOK →</span>
+                  {/* Right Column: Editorial Dynamic Hover Featured Card */}
+                  {(() => {
+                    const activePreview = MEGA_CATEGORY_PREVIEWS[hoveredCategory] || MEGA_CATEGORY_PREVIEWS.tshirts;
+                    return (
+                      <div
+                        className="mega-col-featured"
+                        onClick={() => handleDropdownItemClick(() => navigate('shop', { category: activePreview.category }))}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        <div className="mega-featured-img-box">
+                          <img
+                            key={activePreview.image}
+                            src={activePreview.image}
+                            alt={`INVI ${activePreview.title}`}
+                            className="mega-featured-img"
+                            loading="eager"
+                            onError={(e) => {
+                              e.target.src = '/images/hero_campaign_1.webp';
+                            }}
+                          />
+                          <div className="mega-featured-scrim">
+                            <span className="mega-featured-tag">{activePreview.tag}</span>
+                            <h4 className="mega-featured-title">{activePreview.title}</h4>
+                            <span className="mega-featured-sub">EXPLORE LOOKBOOK →</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    );
+                  })()}
                 </div>
               </div>
             )}

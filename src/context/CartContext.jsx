@@ -168,9 +168,10 @@ export function CartProvider({ children }) {
   const rawSubtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const discountAmount = Math.round(rawSubtotal * promoDiscount);
   const subtotal = rawSubtotal - discountAmount;
-  const isFreeShipping = subtotal >= BRAND.freeShippingThreshold;
-  const freeShippingRemaining = Math.max(0, BRAND.freeShippingThreshold - subtotal);
-  const freeShippingProgress = Math.min(100, (subtotal / BRAND.freeShippingThreshold) * 100);
+  const threshold = BRAND.freeShippingThreshold || 1499;
+  const isFreeShipping = subtotal >= threshold;
+  const freeShippingRemaining = Math.max(0, threshold - subtotal);
+  const freeShippingProgress = threshold > 0 ? Math.min(100, Math.max(0, (subtotal / threshold) * 100)) : 100;
 
   return (
     <CartContext.Provider

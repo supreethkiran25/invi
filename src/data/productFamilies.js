@@ -94,8 +94,20 @@ rawProducts.forEach((p) => {
 export function getProductWithColorways(idOrSlug) {
   if (!idOrSlug) return null;
 
+  const needle = String(idOrSlug).toLowerCase().trim();
+  let decodedNeedle = needle;
+  try {
+    decodedNeedle = decodeURIComponent(needle);
+  } catch {}
+
   const raw = rawProducts.find(
-    (p) => String(p.id) === String(idOrSlug) || p.slug === String(idOrSlug)
+    (p) =>
+      String(p.id) === needle ||
+      p.slug.toLowerCase() === needle ||
+      p.slug.toLowerCase() === decodedNeedle ||
+      p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === needle ||
+      p.slug.toLowerCase().includes(needle) ||
+      needle.includes(p.slug.toLowerCase())
   );
 
   if (!raw) return null;

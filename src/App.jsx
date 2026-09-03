@@ -60,30 +60,41 @@ function parsePath(pathname) {
 
     if (!first || first === '') return { page: 'home' };
 
-    if (first === 'shop' || first === 'collections') {
+    // Shop and Collections
+    if (first === 'shop' || first === 'collections' || first === 'collection') {
       const rawCat = second || 'all';
       const category = CATEGORY_MAP[rawCat] || rawCat;
       return { page: 'shop', category };
     }
 
+    // Single Products
     if (first === 'product' || first === 'products') {
-      return { page: 'product', slug: parts[1] || '' };
+      if (!parts[1]) return { page: 'shop', category: 'all' };
+      return { page: 'product', slug: parts[1] };
     }
 
-    if (first === 'cart') return { page: 'cart' };
-    if (first === 'wishlist') return { page: 'wishlist' };
-    if (first === 'account') return { page: 'account' };
-    if (first === 'about' || first === 'about-us') return { page: 'about' };
-    if (first === 'contact' || first === 'contact-us') return { page: 'contact' };
-    if (first === 'shipping') return { page: 'policy', type: 'shipping' };
-    if (first === 'returns') return { page: 'policy', type: 'returns' };
-    if (first === 'privacy') return { page: 'policy', type: 'privacy' };
-    if (first === 'terms') return { page: 'policy', type: 'terms' };
+    // Direct Static Pages
+    if (first === 'cart' || first === 'checkout' || first === 'bag') return { page: 'cart' };
+    if (first === 'wishlist' || first === 'saved') return { page: 'wishlist' };
+    if (first === 'account' || first === 'profile' || first === 'orders' || first === 'track' || first === 'tracking' || first === 'returns-portal') return { page: 'account' };
+    if (first === 'about' || first === 'about-us' || first === 'story' || first === 'faq') return { page: 'about' };
+    if (first === 'contact' || first === 'contact-us' || first === 'help' || first === 'concierge') return { page: 'contact' };
+
+    // Policies
+    if (first === 'shipping' || first === 'delivery') return { page: 'policy', type: 'shipping' };
+    if (first === 'returns' || first === 'refund' || first === 'refunds' || first === 'exchange') return { page: 'policy', type: 'returns' };
+    if (first === 'privacy' || first === 'privacy-policy') return { page: 'policy', type: 'privacy' };
+    if (first === 'terms' || first === 'terms-of-service' || first === 'tos') return { page: 'policy', type: 'terms' };
     if (first === 'policies' || first === 'policy') {
-      const policyKey = second === 'shipping-policy' ? 'shipping' : second === 'refund-policy' ? 'returns' : second === 'privacy-policy' ? 'privacy' : second === 'terms-of-service' ? 'terms' : (second || 'shipping');
+      let policyKey = 'shipping';
+      if (second.includes('ship') || second.includes('deliv')) policyKey = 'shipping';
+      else if (second.includes('refund') || second.includes('return')) policyKey = 'returns';
+      else if (second.includes('priva')) policyKey = 'privacy';
+      else if (second.includes('term')) policyKey = 'terms';
       return { page: 'policy', type: policyKey };
     }
 
+    // Direct Category URLs like /t-shirts, /shirts, /polos, etc.
     if (CATEGORY_MAP[first]) {
       return { page: 'shop', category: CATEGORY_MAP[first] };
     }
