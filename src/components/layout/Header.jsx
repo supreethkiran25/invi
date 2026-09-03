@@ -9,7 +9,7 @@ import { Search, Heart, ShoppingBag, Menu, User, ChevronDown, Sparkles, ArrowRig
 export default function Header({ currentRoute, navigate }) {
   const { cartCount, openCart } = useCart();
   const { wishlistCount } = useWishlist();
-  const { openSearch, openMobileNav } = useUI();
+  const { openSearch, openMobileNav, cartBump } = useUI();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownTimeoutRef = useRef(null);
@@ -18,26 +18,49 @@ export default function Header({ currentRoute, navigate }) {
   const isTransparent = isHome && !isScrolled;
 
   useEffect(() => {
+    if (!isHome) {
+      setIsScrolled(true);
+      return;
+    }
+
     const handleScroll = () => {
       const top =
         window.pageYOffset ||
+        window.scrollY ||
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
-        window.scrollY ||
         0;
-      setIsScrolled(top > 25);
+      setIsScrolled(top > 40);
     };
 
     handleScroll();
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    document.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+    document.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+
+    // Also observe the hero sentinel if available
+    let observer;
+    const sentinel = document.getElementById('hero-sentinel');
+    if (sentinel && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.boundingClientRect.top <= 80) {
+            setIsScrolled(true);
+          } else {
+            handleScroll();
+          }
+        },
+        { threshold: [0, 1] }
+      );
+      observer.observe(sentinel);
+    }
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll, true);
+      document.removeEventListener('scroll', handleScroll, true);
+      if (observer) observer.disconnect();
     };
-  }, [currentRoute]);
+  }, [isHome, currentRoute]);
 
   const handleMouseEnter = (menuName) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
@@ -292,10 +315,11 @@ export default function Header({ currentRoute, navigate }) {
 
           {/* Shopping Bag */}
           <button
-            className="header-action-btn header-cart-btn"
+            className={`header-action-btn header-cart-btn ${cartBump ? 'cart-bump' : ''}`}
             onClick={openCart}
             aria-label={`Shopping bag (${cartCount} items)`}
             title="Shopping Bag"
+            data-cart-btn="true"
           >
             <ShoppingBag size={21} strokeWidth={2} />
             {cartCount > 0 && (

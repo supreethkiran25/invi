@@ -14,6 +14,9 @@ export default function CartPage({ navigate }) {
     promoCode,
     applyPromo,
     removePromo,
+    isFreeShipping,
+    freeShippingRemaining,
+    freeShippingProgress,
     proceedToShopifyCheckout
   } = useCart();
 

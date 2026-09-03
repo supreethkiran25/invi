@@ -9,6 +9,7 @@ import ErrorBoundary from './components/ui/ErrorBoundary';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ToastContainer from './components/ui/ToastContainer';
+import FlyingCartAnimation from './components/cart/FlyingCartAnimation';
 import HomePage from './pages/HomePage';
 
 // Code-split all non-homepage views and modals to slash initial JS payload & eliminate TBT
@@ -146,6 +147,7 @@ export default function App() {
                 <SizeGuideModal />
               </Suspense>
               <ToastContainer />
+              <FlyingCartAnimation />
 
               {/* Persistent Header */}
               <Header currentRoute={currentRoute} navigate={navigate} />

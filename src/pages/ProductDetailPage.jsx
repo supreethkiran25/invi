@@ -38,7 +38,7 @@ export default function ProductDetailPage({ routeParams, navigate }) {
 
   const { addToCart, proceedToShopifyCheckout } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
-  const { openSizeGuide, addToast } = useUI();
+  const { openSizeGuide, addToast, flyToCart } = useUI();
 
   const isSizeAvailable = (size) => {
     if (!product.variants || product.variants.length === 0) return true;
@@ -67,10 +67,16 @@ export default function ProductDetailPage({ routeParams, navigate }) {
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
     if (!isCurrentSizeAvailable) return;
     addToCart(product, selectedSize, quantity);
     addToast(`Added "${product.name}" (${selectedSize}) to your bag`, 'cart');
+
+    const source =
+      e?.currentTarget ||
+      document.querySelector('.pdp-gallery-main img') ||
+      document.querySelector('.pdp-gallery-column');
+    flyToCart(source, product.images?.[0]);
   };
 
   const handleBuyNow = () => {

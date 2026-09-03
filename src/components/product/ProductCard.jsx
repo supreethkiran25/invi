@@ -17,7 +17,7 @@ function ProductCard({ product, navigate }) {
 
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const { addToast } = useUI();
+  const { addToast, flyToCart } = useUI();
 
   const currentItem = activeColorway || product;
   const isFavorited = isInWishlist(currentItem.id);
@@ -58,6 +58,9 @@ function ProductCard({ product, navigate }) {
       navigate('cart', { autoCheckout: true });
     } else {
       addToast(`Added "${currentItem.name}" (${size}) to bag`, 'cart');
+      if (e?.currentTarget) {
+        flyToCart(e.currentTarget, currentItem.images?.[0] || currentItem.thumbnail);
+      }
     }
   };
 

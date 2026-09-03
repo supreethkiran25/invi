@@ -35,6 +35,7 @@ export default function HomePage({ navigate }) {
     <div className="home-page">
       {/* 1. Cinematic 3D Fashion Hero */}
       <EditorialHero navigate={navigate} />
+      <div id="hero-sentinel" style={{ height: '1px', width: '100%', pointerEvents: 'none' }} />
 
       {/* 2. Clean Typographic Assurance Strip (Strictly Responsive) */}
       <div className="home-trust-strip">
