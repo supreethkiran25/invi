@@ -51,13 +51,16 @@ function ProductCard({ product, navigate }) {
 
   const handleSelectSize = (e, size) => {
     e.stopPropagation();
+    // Capture the product card media element BEFORE unmounting the picker
+    const cardEl = e?.currentTarget?.closest('.editorial-product-card');
+    const mediaStage = cardEl?.querySelector('.product-media-stage') || cardEl;
+    const flyingSource = mediaStage || e?.currentTarget;
+
     addToCart(currentItem, size, 1);
     setShowSizePicker(false);
     addToast(`Added "${currentItem.name}" (${size}) to bag`, 'cart');
 
-    if (e?.currentTarget) {
-      flyToCart(e.currentTarget, primaryImg);
-    }
+    flyToCart(flyingSource, primaryImg);
   };
 
   return (

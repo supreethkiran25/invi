@@ -73,10 +73,12 @@ export default function ProductDetailPage({ routeParams, navigate }) {
     addToast(`Added "${product.name}" (${selectedSize}) to your bag`, 'cart');
 
     const source =
-      e?.currentTarget ||
-      document.querySelector('.pdp-gallery-main img') ||
-      document.querySelector('.pdp-gallery-column');
-    flyToCart(source, product.images?.[0]);
+      document.querySelector('.pdp-main-img') ||
+      document.querySelector('.pdp-main-frame') ||
+      document.querySelector('.pdp-gallery-column') ||
+      e?.currentTarget;
+    const imgUrl = product.images?.[0] || product.thumbnail;
+    flyToCart(source, imgUrl);
   };
 
   const handleBuyNow = () => {

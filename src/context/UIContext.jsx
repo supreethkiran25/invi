@@ -41,6 +41,7 @@ export function UIProvider({ children }) {
     // Target the shopping bag icon in the fixed header
     const bagBtn =
       document.querySelector('.header-cart-btn') ||
+      document.querySelector('[data-cart-btn="true"]') ||
       document.querySelector('[aria-label*="Shopping bag"]') ||
       document.querySelector('.header-actions button:last-child');
     const endRect = bagBtn
@@ -49,17 +50,34 @@ export function UIProvider({ children }) {
     const endX = endRect.left + endRect.width / 2;
     const endY = endRect.top + endRect.height / 2;
 
+    // High parabolic trajectory calculation
+    const midX = startX + (endX - startX) * 0.45;
+    const midY = Math.min(startY, endY) - 75;
+    const lateX = startX + (endX - startX) * 0.82;
+    const lateY = Math.min(startY, endY) - 20;
+
     const id = Date.now() + Math.random();
-    const newItem = { id, startX, startY, endX, endY, imageUrl };
+    const newItem = {
+      id,
+      startX,
+      startY,
+      midX,
+      midY,
+      lateX,
+      lateY,
+      endX,
+      endY,
+      imageUrl: imageUrl || '/images/hero_campaign_1.webp'
+    };
 
     setFlyingItems((prev) => [...prev, newItem]);
 
     // When the item arrives at the shopping bag:
     setTimeout(() => {
       setCartBump(true);
-      setTimeout(() => setCartBump(false), 500);
+      setTimeout(() => setCartBump(false), 600);
       setFlyingItems((prev) => prev.filter((item) => item.id !== id));
-    }, 720);
+    }, 850);
   };
 
   const addToast = (message, type = 'info', duration = 3500) => {
